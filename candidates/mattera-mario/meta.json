@@ -1,0 +1,26 @@
+{
+  "name": "Mario Mattera",
+  "party": "R",
+  "lines": "R, C",
+  "race": "SD2",
+  "status": "reviewed",
+  "depth": "core",
+  "site": "https://www.matteraforsenate.com/",
+  "site_label": "Home, More About Mario and Issues pages",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "where_label": "Pages",
+  "bottom_line": "The labor and board biography checks out, but the site is largely unrevised since 2020, and its count of union years conflicts with earlier reporting.",
+  "findings": [
+    "The site still describes him as seeking \"to replace Senator John Flanagan\" and gives the 2024 election date, while the header says \"Re-elect.\"",
+    "\"Member and leader of Local 200 for over 39 years\" conflicts with 2020 reporting (TBR and the Suffolk GOP announcement) that he had been a member for about 25 years; his Senate bio now says over 43.",
+    "The $250 million in benefit funds and his Suffolk County Water Authority board service are confirmed by SCWA releases."
+  ],
+  "page_issues": [
+    "Mixed 2020, 2024 and 2026 text: \"replace Senator John Flanagan,\" \"Tuesday, November 5th,\" and \"Mattera 2026.\"",
+    "No votes, bills or legislative record are cited anywhere on the site."
+  ]
+}

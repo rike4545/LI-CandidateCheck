@@ -1,0 +1,6 @@
+id,category,pages,claim,rating,finding,sources
+B1,Biography,Meet Harjot,"Practicing attorney who runs his own law firm (business, real estate, immigration, general litigation)",✅,"The Law Offices of Harjot Singh PC is listed with immigration, real estate and business law practices. The office is in Hicksville (Nassau), outside SD2.",https://lib.www.bbb.org/us/ny/category/attorneys-lawyers-real-estate|https://phoenix-0af34b1.aws.mapquest.com/us/new-york/law-offices-of-harjot-singh-pc-426525581
+B2,Biography,Meet Harjot,Graduate of Boston University School of Law,⚪,No public record found either way.,
+B3,Biography,Meet Harjot,"Lives in Huntington with his wife and two daughters, who attend Half Hollow Hills schools",⚪,Personal details; no public record found either way.,
+B4,Biography,Meet Harjot,Leads grassroots civic-engagement groups and hosts a podcast on Long Island issues,🔵,Activity claim; the groups and podcast aren't named.,
+P1,Policy facts,Priorities,Nitrate levels in local water are increasing,✅,"USGS found statistically significant increases in nitrate in Suffolk County Water Authority supply wells (1982–2008), with no regional decreasing trends.",https://www.usgs.gov/centers/new-york-water-science-center/science/trends-nitrate-concentrations-public-water-supply

@@ -19,9 +19,9 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | Race | County | Candidate | Status | Claims | ✅ | 🟡 | 🟠 | ⚪ | 🔵 | ❌ |
 |---|---|---|---|---|---|---|---|---|---|---|
 | SD1 | Suffolk | [Chris Murray](candidates/murray-chris/) (D) ★ | reviewed | 25 | 13 | 6 | 1 | 4 | 1 | 0 |
-| SD1 | Suffolk | Anthony Palumbo (R) (i) | queued |  |  |  |  |  |  |  |
-| SD2 | Suffolk | Harjot Singh (D) | queued |  |  |  |  |  |  |  |
-| SD2 | Suffolk | Mario Mattera (R) (i) ★ | queued |  |  |  |  |  |  |  |
+| SD1 | Suffolk | [Anthony Palumbo](candidates/palumbo-anthony/) (R) (i) | reviewed | 12 | 5 | 4 | 0 | 2 | 1 | 0 |
+| SD2 | Suffolk | [Harjot Singh](candidates/singh-harjot/) (D) | reviewed | 5 | 2 | 0 | 0 | 2 | 1 | 0 |
+| SD2 | Suffolk | [Mario Mattera](candidates/mattera-mario/) (R) (i) ★ | reviewed | 9 | 3 | 2 | 0 | 4 | 0 | 0 |
 | SD3 | Suffolk | Antonio Vargas-Ayala (D) | queued |  |  |  |  |  |  |  |
 | SD3 | Suffolk | Dean Murray (R) (i) ★ | queued |  |  |  |  |  |  |  |
 | SD4 | Suffolk | Monica Martinez (D) (i) ★ | queued |  |  |  |  |  |  |  |
