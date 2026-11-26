@@ -1,0 +1,21 @@
+{
+  "name": "Matthew J. Capp",
+  "party": "R",
+  "race": "SD6",
+  "status": "reviewed",
+  "site": "https://www.cappforsenate.com/",
+  "site_label": "campaign home page (single page)",
+  "bottom_line": "A placeholder page with a slogan and four priority words. It contains no biography or factual claims to check.",
+  "findings": [
+    "The only content is a list of priorities: lower taxes, public safety, affordable living and quality education."
+  ],
+  "page_issues": [
+    "No biography, issue detail or contact information beyond a slogan."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

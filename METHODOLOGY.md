@@ -39,6 +39,11 @@ Winners appear only where a cited source names them, and results are unofficial 
 - Legislative-initiative grants and pro bono or volunteer roles often have no public record, which is why ⚪ is common.
 - A candidate's own releases or employer profile confirm that something was *announced* or *claimed*, not that it was independently verified.
 - The site's district view is a grid grouped by county, not a geographic map.
+- Only campaign websites are reviewed. Candidates whose only presence is social media or an official legislative page are marked "no site"; so are sites that block automated retrieval, which can be captured by hand later.
+
+## Disclosure
+
+The maintainer, Bryan Carroll, interviewed in November 2026 for a staff position in the office of Senator-elect Chris Murray (SD1, D). Both SD1 candidates were reviewed with the same method and every rating links its sources, but readers should weigh the SD1 reviews with this in mind.
 
 ## Reproducing / updating
 

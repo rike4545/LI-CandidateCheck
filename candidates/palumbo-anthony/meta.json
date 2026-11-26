@@ -1,0 +1,28 @@
+{
+  "name": "Anthony Palumbo",
+  "party": "R",
+  "lines": "R, C",
+  "race": "SD1",
+  "status": "reviewed",
+  "depth": "core",
+  "site": "https://www.palumboforsenate.com/",
+  "site_label": "Home, About and Issues pages",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "where_label": "Pages",
+  "bottom_line": "The core biography and the bail-reform record check out. Most record claims are undated or unnamed, so several can't be pinned down, and one origin claim conflicts with press reporting.",
+  "findings": [
+    "The site is largely unchanged since 2022 (© 2022 footer, \"this year alone\" votes), so its record claims are undated and some describe the 2022 session.",
+    "\"Lifelong resident of Suffolk County\" conflicts with a Riverhead News-Review profile saying he was born in Brooklyn and grew up in Patchogue; Wikipedia lists Brookhaven as his birthplace.",
+    "The first-time homebuyer law is real (the Southold Community Preservation Fund exemption he sponsored with Sen. LaValle), but it passed in June 2014, not 2013.",
+    "\"Passed more bills than any other Republican Senator\" and a first bill saving \"over $2,500 annually\" give no year or bill, and no record of either was found."
+  ],
+  "page_issues": [
+    "Footer reads \"© 2022 Palumbo for Senate\"; issue text refers to votes \"this year alone\" with no year.",
+    "Two different campaign email addresses appear on the home page.",
+    "No bill numbers, dates or sources anywhere on the site."
+  ]
+}

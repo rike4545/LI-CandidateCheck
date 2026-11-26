@@ -1,0 +1,25 @@
+{
+  "name": "Harjot Singh",
+  "party": "D",
+  "race": "SD2",
+  "status": "reviewed",
+  "depth": "core",
+  "site": "https://harjotfornewyork.com/",
+  "site_label": "campaign home page (About and Priorities sections)",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Policy facts"
+  ],
+  "where_label": "Section",
+  "bottom_line": "A short, biography-led page with few checkable claims. His law practice is documented; the personal details have no public record, and the one factual premise (rising nitrate) is supported.",
+  "findings": [
+    "His firm, the Law Offices of Harjot Singh PC, is listed with the practice areas the page names, though its office is in Hicksville rather than the district.",
+    "Education, residence and family details rest on the campaign's word; no public record was found either way.",
+    "The page's statement that nitrate in local water is increasing matches USGS trend data for Suffolk public-supply wells."
+  ],
+  "page_issues": [
+    "Single page with no sources, dates or endorsements.",
+    "Priorities are stated as goals without specifics or bill references."
+  ]
+}

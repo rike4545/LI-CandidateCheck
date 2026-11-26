@@ -1,0 +1,23 @@
+{
+  "name": "Siela A. Bynoe",
+  "party": "D",
+  "race": "SD6",
+  "status": "reviewed",
+  "site": "https://www.sielaforsenate.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "Her career history checks out against county, Senate and press records. But the page is out of date: it says she is in her fifth term in the County Legislature, when she has been a State Senator since January 2025. Dollar figures for her housing work are unsourced.",
+  "findings": [
+    "Housing authority roles, school board service and the 2014 special election are all confirmed.",
+    "The \"now in her fifth term\" line describes a seat she left; it never mentions she is the incumbent senator."
+  ],
+  "page_issues": [
+    "Reads as a 2024 page that was never updated for her Senate term."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

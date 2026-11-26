@@ -1,0 +1,22 @@
+{
+  "name": "DawnMarie Kuhn",
+  "party": "R",
+  "race": "AD7",
+  "status": "reviewed",
+  "site": "https://votedawnmarie.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A biography of a first-term Islip councilwoman. Her council seat checks out; the awards and degrees were not independently confirmed.",
+  "findings": [
+    "She won the open Council District 2 seat in November 2025.",
+    "The page lists three master's degrees but not which school granted which."
+  ],
+  "page_issues": [
+    "Broken disclaimer link (\"http://smithdm\")."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

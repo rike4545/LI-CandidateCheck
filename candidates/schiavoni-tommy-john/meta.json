@@ -1,0 +1,23 @@
+{
+  "name": "Tommy John Schiavoni",
+  "party": "D",
+  "race": "AD1",
+  "status": "reviewed",
+  "site": "https://www.tommyjohnschiavoni.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A light incumbent page made up mostly of endorsement excerpts. The basic facts check out. Its record claims come from editorials and carry no bill numbers or amounts.",
+  "findings": [
+    "First Assembly term from January 2025 is confirmed; he succeeded Fred Thiele.",
+    "Funding and legislation claims are quoted from endorsing papers, not documented."
+  ],
+  "page_issues": [
+    "No bill numbers or dollar figures for \"key funding\"."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

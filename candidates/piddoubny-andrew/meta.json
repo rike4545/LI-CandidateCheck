@@ -1,0 +1,23 @@
+{
+  "name": "Andrew Piddoubny",
+  "party": "D",
+  "race": "SD5",
+  "status": "reviewed",
+  "site": "https://www.andrewfornysenate.com/",
+  "site_label": "campaign home page (single page)",
+  "bottom_line": "A one-page site with a short biography and issue statements. None of the biographical details could be confirmed from public records; the issue section makes general points without figures.",
+  "findings": [
+    "No public record was found of his law clerkship or Ukrainian American Bar Association presidency.",
+    "The issue section contains no numbers to test."
+  ],
+  "page_issues": [
+    "Footer social links to X and TikTok have no account handle."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

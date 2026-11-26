@@ -1,0 +1,24 @@
+{
+  "name": "Steven D. Rhoads",
+  "party": "R",
+  "race": "SD5",
+  "status": "reviewed",
+  "site": "https://www.steverhoads.com/meet-steve-rhoads",
+  "site_label": "Meet Steve page",
+  "bottom_line": "The incumbent's biography page. His offices and the 2016 anti-BDS law check out; the $100 million tax-cut figure and the no-tax-increase record are his own characterizations with no breakdown.",
+  "findings": [
+    "County Legislature service from 2015 and his Senate term are on the public record.",
+    "Nassau's 2016 anti-BDS law exists, but the \"first county in the nation\" claim was not confirmed."
+  ],
+  "page_issues": [
+    "The home page lists issue headings with no detail.",
+    "No bill numbers, votes or sources for any record claim."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Dean Murray",
+  "party": "R",
+  "lines": "R, C",
+  "race": "SD3",
+  "status": "reviewed",
+  "depth": "core",
+  "site": "https://www.murrayfornysenate.com/",
+  "site_label": "campaign home page",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record",
+    "Policy facts"
+  ],
+  "where_label": "Pages",
+  "bottom_line": "His biography checks out, but the site claims he \"passed\" the Suffolk County Water Restoration Act, which was sponsored by Sen. Monica Martinez and Assemblyman Fred Thiele. Other record claims are broad and unquantified.",
+  "findings": [
+    "The Suffolk County Water Restoration Act (S8473, signed May 2024) was sponsored by Sen. Monica Martinez, his Democratic Senate colleague, and authored by Assemblyman Thiele. It passed the Senate 57-1; voting for it is not passing it.",
+    "\"New York leads the nation\" in residents leaving holds on one measure: the largest percentage loss to domestic migration. In raw numbers it ranked second, behind California.",
+    "\"Billions\" in school aid and \"Billions\" to illegal immigrants are given with no figures."
+  ],
+  "page_issues": [
+    "A 2024 BBQ invitation is still posted.",
+    "No bill numbers, figures or sources on the site."
+  ]
+}
