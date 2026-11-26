@@ -1,0 +1,23 @@
+{
+  "name": "Lisa Malkie Vider",
+  "party": "D",
+  "race": "SD9",
+  "status": "reviewed",
+  "site": "https://lisavider.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A first-time candidate's biography plus a pitch about serving in the majority. The biography matches press profiles. Her health-spending statistic is roughly right only on one budget measure.",
+  "findings": [
+    "JNS's profile matches her Brooklyn upbringing, family and healthcare work.",
+    "Health care's share of the state budget depends on the measure: Medicaid is about 27–29% of state operating funds, while the Health Department's all-funds appropriation is about 43% of the budget."
+  ],
+  "page_issues": [
+    "\"Over 44%\" is stated without a source or a definition."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

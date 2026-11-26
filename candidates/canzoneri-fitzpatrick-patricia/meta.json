@@ -1,0 +1,25 @@
+{
+  "name": "Patricia Canzoneri-Fitzpatrick",
+  "party": "R",
+  "race": "SD9",
+  "status": "reviewed",
+  "site": "https://www.patriciaforsenate.com/",
+  "site_label": "campaign home page and Meet Patricia",
+  "bottom_line": "This is her 2022 first-run site, never updated. It still says she will fight \"bail laws written by our current Senator\", though she has been the senator since 2023, and it has a footer link to her 2020 Assembly campaign. The biography itself checks out.",
+  "findings": [
+    "Malverne trustee, police commissioner and deputy mayor roles are confirmed.",
+    "The page's copyright reads 2022 and it never mentions that she is the incumbent."
+  ],
+  "page_issues": [
+    "Stale 2022 content presented as the current campaign site.",
+    "Footer link labeled \"for Assembly\"."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record",
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

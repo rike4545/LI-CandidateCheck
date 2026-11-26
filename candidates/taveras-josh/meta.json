@@ -1,0 +1,23 @@
+{
+  "name": "Josh Taveras",
+  "party": "D",
+  "race": "SD8",
+  "status": "reviewed",
+  "site": "https://www.joshtaveras.com/meet-candidate/",
+  "site_label": "Meet the Candidate page",
+  "bottom_line": "A personal biography and a list of endorsements. Most of it is personal history that public records cannot confirm. His education is described differently across sources.",
+  "findings": [
+    "Political science degree from Stony Brook is consistent with Ballotpedia.",
+    "Branch also lists an engineering degree from NYIT; his own page says he only began in engineering."
+  ],
+  "page_issues": [
+    "The SMS consent notice names a different campaign (\"Lincoln for Council\")."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Endorsements"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

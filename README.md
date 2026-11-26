@@ -26,16 +26,16 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | SD3 | Suffolk | [Dean Murray](candidates/murray-dean/) (R) (i) ★ | reviewed | 7 | 3 | 2 | 1 | 0 | 1 | 0 |
 | SD4 | Suffolk | [Monica Martinez](candidates/martinez-monica/) (D) (i) ★ | reviewed | 11 | 3 | 6 | 0 | 2 | 0 | 0 |
 | SD4 | Suffolk | [Brianne Wakefield](candidates/wakefield-brianne/) (R) | reviewed | 5 | 0 | 1 | 0 | 3 | 1 | 0 |
-| SD5 | Nassau/Suffolk | Andrew Piddoubny (D) | queued |  |  |  |  |  |  |  |
-| SD5 | Nassau/Suffolk | Steven Rhoads (R) (i) ★ | queued |  |  |  |  |  |  |  |
-| SD6 | Nassau | Siela Bynoe (D) (i) ★ | queued |  |  |  |  |  |  |  |
-| SD6 | Nassau | Matthew Capp (R) | queued |  |  |  |  |  |  |  |
-| SD7 | Nassau | Rory Lancman (D) | queued |  |  |  |  |  |  |  |
-| SD7 | Nassau | Jake Blumencranz (R) | queued |  |  |  |  |  |  |  |
-| SD8 | Nassau/Suffolk | Josh Taveras (D) | queued |  |  |  |  |  |  |  |
-| SD8 | Nassau/Suffolk | Jarett Gandolfo (R) ★ | queued |  |  |  |  |  |  |  |
-| SD9 | Nassau | Lisa Vider (D) ★ | queued |  |  |  |  |  |  |  |
-| SD9 | Nassau | Patricia Canzoneri-Fitzpatrick (R) (i) | queued |  |  |  |  |  |  |  |
+| SD5 | Nassau/Suffolk | [Andrew Piddoubny](candidates/piddoubny-andrew/) (D) | reviewed | 4 | 0 | 0 | 0 | 2 | 2 | 0 |
+| SD5 | Nassau/Suffolk | [Steven D. Rhoads](candidates/rhoads-steven/) (R) (i) ★ | reviewed | 6 | 1 | 3 | 0 | 2 | 0 | 0 |
+| SD6 | Nassau | [Siela A. Bynoe](candidates/bynoe-siela/) (D) (i) ★ | reviewed | 8 | 3 | 3 | 1 | 1 | 0 | 0 |
+| SD6 | Nassau | [Matthew J. Capp](candidates/capp-matthew/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
+| SD7 | Nassau | [Rory Lancman](candidates/lancman-rory/) (D) | reviewed | 8 | 3 | 2 | 0 | 2 | 1 | 0 |
+| SD7 | Nassau | [Jake Blumencranz](candidates/blumencranz-jake/) (R) | site-unavailable |  |  |  |  |  |  |  |
+| SD8 | Nassau/Suffolk | [Josh Taveras](candidates/taveras-josh/) (D) | reviewed | 4 | 1 | 3 | 0 | 0 | 0 | 0 |
+| SD8 | Nassau/Suffolk | [Jarett Gandolfo](candidates/gandolfo-jarett/) (R) ★ | reviewed | 4 | 2 | 1 | 0 | 1 | 0 | 0 |
+| SD9 | Nassau | [Lisa Malkie Vider](candidates/vider-lisa/) (D) ★ | reviewed | 5 | 2 | 2 | 0 | 1 | 0 | 0 |
+| SD9 | Nassau | [Patricia Canzoneri-Fitzpatrick](candidates/canzoneri-fitzpatrick-patricia/) (R) (i) | reviewed | 4 | 2 | 0 | 1 | 1 | 0 | 0 |
 | AD1 | Suffolk | Tommy John Schiavoni (D) (i) ★ | queued |  |  |  |  |  |  |  |
 | AD1 | Suffolk | Stephen Kiely (R) | queued |  |  |  |  |  |  |  |
 | AD2 | Suffolk | Michael Szika (D) | queued |  |  |  |  |  |  |  |
