@@ -5,123 +5,241 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LI-CandidateCheck: fact checks of Long Island campaign websites</title>
 <meta name="description" content="Source-by-source fact checks of the claims on Long Island state legislative candidates' campaign websites, using the same method and rating scale for every candidate.">
+<meta name="color-scheme" content="light dark">
+<link rel="preload" href="fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  @font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url("fonts/public-sans-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url("fonts/public-sans-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
   :root {
-    --bg: #f7f6f2; --fg: #1c1c1a; --muted: #62615a; --line: #dfddd5; --card: #fff; --chip: #eeede7;
-    --accent: #1f4e79; --accent-fg: #fff; --hover: #f1f0ea;
-    --r-ok: #2e7d4f; --r-cav: #c9a227; --r-over: #d9731c; --r-unv: #b9b8b1; --r-act: #3c78c8; --r-false: #c0392b;
-    --p-d: #2a5ea8; --p-r: #b8382f; --queued: #e9e8e2;
+    --bg: #f6f5f1; --fg: #1b1c1e; --muted: #5d5f63; --faint: #8b8d91; --line: #dedcd5; --card: #fff; --chip: #edece6;
+    --hover: #f0efe9; --accent: #1d4f80; --accent-fg: #fff; --accent-soft: #e3ecf5;
+    --r-ok: #2c7a4b; --r-cav: #b98d12; --r-over: #cf6a17; --r-unv: #9fa1a5; --r-act: #3b72bf; --r-false: #b8332a;
+    --p-d: #2a5ea8; --p-r: #b23a30; --queued: #e8e7e1;
+    --shadow: 0 1px 2px rgb(20 20 25 / .05), 0 4px 14px -6px rgb(20 20 25 / .12);
+    --shadow-lift: 0 2px 4px rgb(20 20 25 / .06), 0 12px 28px -10px rgb(20 20 25 / .22);
+    --radius: 12px; --ease: cubic-bezier(.16, 1, .3, 1);
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #141413; --fg: #ebeae5; --muted: #a5a49d; --line: #33322e; --card: #1d1d1b; --chip: #292926;
-            --accent: #8db6df; --accent-fg: #10161d; --hover: #252523; --r-unv: #6e6d67; --queued: #2a2a27;
-            --p-d: #6f9be0; --p-r: #e07a72; }
+    :root { --bg: #121315; --fg: #e9e8e4; --muted: #a6a7a9; --faint: #7d7f83; --line: #2f3034; --card: #1b1c1f; --chip: #26272b;
+            --hover: #222327; --accent: #8fb7e2; --accent-fg: #0f1720; --accent-soft: #1d2a38;
+            --r-unv: #6c6e72; --queued: #26272b; --p-d: #6f9be0; --p-r: #e07a72;
+            --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 4px 14px -6px rgb(0 0 0 / .5); --shadow-lift: 0 2px 4px rgb(0 0 0 / .35), 0 14px 30px -10px rgb(0 0 0 / .6); }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  a { color: var(--accent); }
+  html { scroll-behavior: smooth; scrollbar-color: var(--faint) transparent; }
+  body { margin: 0; background: var(--bg); color: var(--fg); caret-color: var(--accent);
+         font: 16px/1.55 "Public Sans", system-ui, sans-serif; font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-fg); }
+  a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
   button { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 72px; }
-  header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
-               backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
-  header.top .wrap { display: flex; align-items: center; gap: 18px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
-  .brand { font-weight: 700; font-size: 1.15rem; text-decoration: none; color: var(--fg); letter-spacing: -0.01em; }
-  nav { display: flex; gap: 4px; flex-wrap: wrap; }
-  nav a { text-decoration: none; color: var(--muted); padding: 6px 11px; border-radius: 8px; font-size: .95rem; }
-  nav a[aria-current="page"] { background: var(--card); color: var(--fg); box-shadow: 0 0 0 1px var(--line) inset; }
-  h1 { font-size: 1.75rem; margin: 28px 0 6px; letter-spacing: -0.015em; }
-  h2 { font-size: 1.2rem; margin: 30px 0 10px; }
-  h3 { font-size: .82rem; margin: 22px 0 8px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-  .lede { color: var(--muted); max-width: 72ch; margin: 0 0 8px; }
-  .note { margin: 16px 0; padding: 11px 15px; border-left: 3px solid var(--accent); background: var(--card); color: var(--muted); font-size: .92rem; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .num, .tnum { font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  main.wrap { padding-bottom: 72px; min-height: 70vh; }
+
+  /* header */
+  header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
+               backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; gap: 20px; padding-top: 10px; padding-bottom: 10px; }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 750; font-size: 1.05rem; text-decoration: none; color: var(--fg); letter-spacing: -0.015em; white-space: nowrap; }
+  .brand svg { flex: none; }
+  nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  nav a { text-decoration: none; color: var(--muted); padding: 7px 12px; border-radius: 8px; font-size: .93rem; font-weight: 500; white-space: nowrap; transition: color .2s, background .2s; }
+  nav a:hover { color: var(--fg); background: var(--hover); }
+  nav a[aria-current="page"] { color: var(--fg); background: var(--card); box-shadow: inset 0 0 0 1px var(--line); }
+  .kbd { margin-left: auto; font-size: .8rem; color: var(--faint); white-space: nowrap; }
+  .kbd kbd { font: inherit; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; color: var(--muted); background: var(--card); }
+  @media (max-width: 720px) { .kbd { display: none; } header.top .wrap { gap: 10px; } }
+  @media (max-width: 520px) { .brand .bt { display: none; } }
+  main:focus { outline: none; }
+
+  /* type */
+  h1 { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.15rem); line-height: 1.15; margin: 34px 0 8px; letter-spacing: -0.025em; font-weight: 750; text-wrap: balance; }
+  h2 { font-size: 1.2rem; margin: 40px 0 12px; letter-spacing: -0.01em; font-weight: 700; }
+  h3 { font-size: .8rem; margin: 26px 0 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 650; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 0 0 8px; font-size: 1.04rem; text-wrap: pretty; }
+  .muted { color: var(--muted); } .small { font-size: .88rem; }
+  .note { margin: 18px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--accent-soft); color: var(--fg); font-size: .92rem; max-width: 80ch; }
+
+  /* surfaces */
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0; }
-  .kpi .v { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; }
-  .kpi .l { color: var(--muted); font-size: .88rem; }
-  .muted { color: var(--muted); }
-  .small { font-size: .88rem; }
-  .chip { display: inline-block; background: var(--chip); border-radius: 999px; padding: 1px 9px; font-size: .85rem; margin: 0 4px 4px 0; }
-  .party { display: inline-block; min-width: 1.6em; text-align: center; border-radius: 5px; font-size: .78rem; font-weight: 700; padding: 0 5px; color: #fff; }
+
+  /* rating glyphs */
+  .ri { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -.17em; flex: none; }
+  .party { display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 5px; font-size: .74rem; font-weight: 750; color: #fff; vertical-align: .05em; }
   .party.D { background: var(--p-d); } .party.R { background: var(--p-r); }
-  .pill { font-size: .75rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
-  .pill.win { border-color: var(--r-ok); color: var(--r-ok); }
-  /* stacked rating bar */
-  .bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--queued); min-width: 80px; }
-  .bar span { display: block; height: 100%; }
+  .pill { font-size: .72rem; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; color: var(--muted); margin-left: 7px; white-space: nowrap; vertical-align: .1em; }
+  .pill.win { border-color: color-mix(in srgb, var(--r-ok) 45%, transparent); color: var(--r-ok); background: color-mix(in srgb, var(--r-ok) 9%, transparent); }
+
+  /* stacked bar */
+  .bar { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--queued); min-width: 60px; gap: 2px; }
+  .bar.big { height: 22px; border-radius: 8px; }
+  .bar.none { background: repeating-linear-gradient(-45deg, var(--queued) 0 6px, transparent 6px 10px); box-shadow: inset 0 0 0 1px var(--line); }
+  .bar > * { display: block; height: 100%; border: 0; padding: 0; transform-origin: left; }
+  .bar > button { cursor: pointer; transition: filter .2s, transform .25s var(--ease); }
+  .bar > button:hover, .bar > button:focus-visible { filter: brightness(1.12) saturate(1.1); }
+  .bar.big > button:hover { transform: scaleY(1.12); }
   .s-✅ { background: var(--r-ok); } .s-🟡 { background: var(--r-cav); } .s-🟠 { background: var(--r-over); }
   .s-⚪ { background: var(--r-unv); } .s-🔵 { background: var(--r-act); } .s-❌ { background: var(--r-false); }
-  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: .85rem; color: var(--muted); margin: 8px 0 4px; }
-  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .grow > * { animation: grow .7s var(--ease) both; }
+    @keyframes grow { from { transform: scaleX(.6); opacity: .35; } }
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .84rem; color: var(--muted); margin: 10px 0 2px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
   /* filters */
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
-  .filters select, .filters input { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: .93rem; }
-  .filters input[type=search] { flex: 1 1 240px; }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--card); }
-  .seg button { border: 0; background: none; padding: 6px 11px; cursor: pointer; font-size: .9rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+  .filters select, .filters input { height: 38px; padding: 0 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: .93rem; transition: border-color .2s, box-shadow .2s; }
+  .filters select:hover, .filters input:hover { border-color: var(--faint); }
+  .filters input:focus, .filters select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .filters input[type=search] { flex: 1 1 260px; min-width: 0; }
+  .seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; background: var(--card); }
+  .seg button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 5px 11px; border-radius: 7px; cursor: pointer; font-size: .88rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
+  .seg button:hover { background: var(--hover); color: var(--fg); }
   .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
-  /* district grid */
-  .county { margin-bottom: 18px; }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
-  .tile { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 9px 10px 10px; cursor: pointer; position: relative; }
-  .tile:hover { background: var(--hover); }
-  .tile .id { font-weight: 700; }
-  .tile .who { font-size: .78rem; color: var(--muted); line-height: 1.3; margin: 3px 0 7px; min-height: 2.6em; }
-  .tile .flag { position: absolute; top: 9px; right: 9px; width: 10px; height: 10px; border-radius: 50%; }
-  .tile .flag.D { background: var(--p-d); } .tile .flag.R { background: var(--p-r); } .tile .flag.none { background: var(--line); }
-  .tile .mini { display: flex; gap: 3px; }
-  .tile .mini .bar { height: 6px; flex: 1; min-width: 0; }
-  /* candidate rows / chart */
+  .seg button .ct { font-variant-numeric: tabular-nums; opacity: .75; }
+
+  /* district board */
+  .board { display: grid; gap: 26px; margin-top: 8px; }
+  .county h3 { display: flex; align-items: baseline; gap: 10px; margin-top: 0; }
+  .county h3 .ct { color: var(--faint); font-weight: 500; letter-spacing: 0; text-transform: none; font-size: .82rem; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .tile { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 11px; padding: 11px 12px 12px; cursor: pointer; position: relative;
+          box-shadow: var(--shadow); transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .2s; display: flex; flex-direction: column; gap: 8px; }
+  .tile:hover, .tile:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .tile .id { font-weight: 750; letter-spacing: -0.01em; display: flex; align-items: center; justify-content: space-between; }
+  .tile .chamber { font-size: .68rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  .tile .row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 7px; font-size: .8rem; }
+  .tile .row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .row .nm.won { font-weight: 650; }
+  .tile .row .bar { grid-column: 2; height: 5px; min-width: 0; }
+  .tile.dim { opacity: .38; }
+  .board-tools { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin: 18px 0 4px; }
+
+  /* tables */
+  .tablewrap { overflow-x: auto; }
   table.rank { width: 100%; border-collapse: collapse; font-size: .93rem; }
-  table.rank th { text-align: left; color: var(--muted); font-weight: 500; font-size: .82rem; padding: 6px 8px; border-bottom: 1px solid var(--line); cursor: pointer; user-select: none; white-space: nowrap; }
-  table.rank td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  table.rank tr:hover td { background: var(--hover); }
-  table.rank td.barcell { width: 38%; }
+  table.rank th { text-align: left; color: var(--muted); font-weight: 600; font-size: .8rem; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.rank th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+  table.rank th button:hover { color: var(--fg); }
+  table.rank th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  table.rank td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.rank tbody tr { transition: background .15s; }
+  table.rank tbody tr:hover td { background: var(--hover); }
+  table.rank tr:last-child td { border-bottom: 0; }
+  table.rank td.barcell { width: 36%; min-width: 160px; }
   table.rank td:first-child { white-space: nowrap; }
-  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .num { text-align: right; }
+
+  /* butterfly (head to head) */
+  .fly { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px 12px; align-items: center; font-size: .9rem; }
+  .fly .lab { display: flex; align-items: center; gap: 7px; justify-content: center; color: var(--muted); font-size: .84rem; min-width: 9.5em; }
+  .fly .side { display: flex; align-items: center; gap: 8px; }
+  .fly .side.l { flex-direction: row-reverse; }
+  .fly .track { flex: 1; height: 14px; display: flex; }
+  .fly .side.l .track { justify-content: flex-end; }
+  .fly .fill { height: 100%; border-radius: 4px; min-width: 2px; transform-origin: inherit; }
+  .fly .side.l .fill { transform-origin: right; } .fly .side.r .fill { transform-origin: left; }
+  .fly .v { width: 4.6em; font-variant-numeric: tabular-nums; color: var(--muted); font-size: .84rem; }
+  .fly .side.l .v { text-align: right; }
+  .fly .who { font-weight: 650; display: flex; gap: 8px; align-items: center; }
+  .fly .who.l { justify-content: flex-end; }
+  @media (prefers-reduced-motion: no-preference) { .fly .fill { animation: grow .8s var(--ease) both; } }
+  @media (max-width: 620px) { .fly .lab { min-width: 0; } .fly .lab span { display: none; } }
+
+  /* candidate panels */
+  .panel { display: flex; flex-direction: column; gap: 12px; }
+  .panel .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .panel .name { font-size: 1.1rem; font-weight: 700; }
+  .counts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .counts a, .counts span { display: inline-flex; align-items: center; gap: 5px; background: var(--chip); border-radius: 999px; padding: 2px 10px 2px 7px; font-size: .84rem; text-decoration: none; color: var(--fg); font-variant-numeric: tabular-nums; transition: background .2s; }
+  .counts a:hover { background: var(--accent-soft); }
+  .queued { border: 1px dashed var(--line); border-radius: var(--radius); padding: 20px; color: var(--muted); background: color-mix(in srgb, var(--card) 60%, transparent); }
+  ul.find { padding-left: 1.2em; margin: 10px 0 0; max-width: 78ch; } ul.find li { margin-bottom: 8px; }
+  ul.find li::marker { color: var(--faint); }
+
   /* claims */
-  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 9px;
-           display: grid; grid-template-columns: 1.9rem 1fr; gap: 3px 10px; }
-  .claim:target { box-shadow: 0 0 0 2px var(--accent); }
-  .claim .r { font-size: 1.25rem; line-height: 1.25; grid-row: span 3; }
-  .claim .c { font-weight: 600; }
-  .claim .c small { font-weight: 400; color: var(--muted); margin-left: 6px; }
-  .claim .s { font-size: .84rem; color: var(--muted); }
-  .claim .s a { margin-right: 10px; }
-  .claim .who { font-size: .82rem; color: var(--muted); }
-  .empty { color: var(--muted); padding: 18px 0; }
-  .head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; justify-content: space-between; }
-  .btn { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 11px; cursor: pointer; font-size: .9rem; text-decoration: none; color: var(--fg); display: inline-block; }
+  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 13px 15px; margin-bottom: 10px;
+           display: grid; grid-template-columns: 1.4rem 1fr auto; gap: 4px 12px; box-shadow: var(--shadow); transition: box-shadow .3s var(--ease), border-color .3s; }
+  .claim.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
+  .claim .r { grid-row: span 3; padding-top: 2px; }
+  .claim .r .ri { width: 1.25rem; height: 1.25rem; }
+  .claim .c { font-weight: 650; text-wrap: pretty; }
+  .claim .meta { font-size: .8rem; color: var(--faint); grid-column: 2; }
+  .claim .f { grid-column: 2; max-width: 80ch; text-wrap: pretty; }
+  .claim .s { grid-column: 2; font-size: .84rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+  .claim .acts { grid-row: 1; grid-column: 3; }
+  .iconbtn { border: 0; background: none; color: var(--faint); width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s; }
+  .iconbtn:hover { background: var(--hover); color: var(--fg); }
+  .who-line { grid-column: 2; font-size: .82rem; color: var(--muted); }
+  .empty { color: var(--muted); padding: 26px 0; text-align: center; }
+  .head { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+  .head h1 { margin-bottom: 4px; }
+  .crumb { margin: 22px 0 -18px; font-size: .9rem; }
+  .crumb a { text-decoration: none; color: var(--muted); } .crumb a:hover { color: var(--fg); }
+  .btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--card); border-radius: 9px; padding: 8px 14px; cursor: pointer; font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--fg); box-shadow: var(--shadow); transition: transform .2s var(--ease), box-shadow .2s, background .2s; }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
   .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-  .side { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-  @media (max-width: 760px) { .side { grid-template-columns: 1fr; } }
-  .queued { background: var(--card); border: 1px dashed var(--line); border-radius: 12px; padding: 18px; color: var(--muted); }
-  ul.find { padding-left: 1.2em; margin: 8px 0; } ul.find li { margin-bottom: 6px; }
-  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+
+  /* summary strip (dashboard) */
+  .summary { display: grid; gap: 14px; }
+  .summary .sentence { font-size: 1.12rem; max-width: 70ch; margin: 0; text-wrap: pretty; }
+  .summary .sentence b { font-variant-numeric: tabular-nums; }
+  .segs-labels { display: flex; font-size: .8rem; color: var(--muted); gap: 2px; }
+  .segs-labels span { overflow: hidden; white-space: nowrap; text-overflow: clip; padding-top: 4px; font-variant-numeric: tabular-nums; }
+
+  /* tooltip + toast */
+  #tip { position: fixed; z-index: 30; pointer-events: none; background: var(--fg); color: var(--bg); font-size: .8rem; font-weight: 500; padding: 5px 9px; border-radius: 7px;
+         box-shadow: var(--shadow-lift); opacity: 0; transform: translateY(4px); transition: opacity .15s, transform .2s var(--ease); white-space: nowrap; }
+  #tip.on { opacity: 1; transform: none; }
+  #toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; translate: -50% 0; background: var(--fg); color: var(--bg); padding: 9px 16px; border-radius: 10px; font-size: .9rem; font-weight: 600;
+           box-shadow: var(--shadow-lift); opacity: 0; transform: translateY(12px); transition: opacity .25s, transform .4s var(--ease); pointer-events: none; }
+  #toast.on { opacity: 1; transform: none; }
+
+  ::view-transition-old(main), ::view-transition-new(main) { animation-duration: .28s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+  main { view-transition-name: main; }
+  @media (prefers-reduced-motion: reduce) { *, ::view-transition-group(*) { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }
+
+  footer { margin: 0 auto; max-width: 1120px; padding: 18px 20px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#/">LI-CandidateCheck</a>
+  <a class="brand" href="#/" aria-label="LI-CandidateCheck home">
+    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="var(--accent)"/><path d="M7 12.4l3.2 3.1L17 8.6" fill="none" stroke="var(--accent-fg)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="bt">LI-CandidateCheck</span></a>
   <nav aria-label="Main">
-    <a href="#/">Races</a><a href="#/dashboard">Dashboard</a><a href="#/compare">Compare</a><a href="#/claims">Search claims</a><a href="#/about">Method</a>
+    <a href="#/">Races</a><a href="#/dashboard">Dashboard</a><a href="#/compare">Compare</a><a href="#/claims">Search</a><a href="#/about">Method</a>
   </nav>
+  <span class="kbd">Press <kbd>/</kbd> to search</span>
 </div></header>
 <main class="wrap" id="app" tabindex="-1"></main>
-<div class="wrap"><footer>
+<footer>
   Data, method and corrections: <a href="https://github.com/rike4545/LI-CandidateCheck">github.com/rike4545/LI-CandidateCheck</a>. Open an issue with a source.
   These reviews test claims on candidates' own sites. They do not rate candidates or endorse anyone. Text and data licensed CC BY 4.0.
-</footer></div>
+</footer>
+<div id="tip" role="tooltip"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <script>
 const D = /*__DATA__*/null;
 const R = D.ratings, RN = D.rating_names;
 const C = D.candidates, RACES = D.races, RACE = Object.fromEntries(RACES.map(r => [r.id, r]));
 const SHORT = {"✅": "Verified", "🟡": "Caveat", "🟠": "Overstated", "⚪": "Unverified", "🔵": "Activity", "❌": "False"};
+const VAR = {"✅": "--r-ok", "🟡": "--r-cav", "🟠": "--r-over", "⚪": "--r-unv", "🔵": "--r-act", "❌": "--r-false"};
 const $app = document.getElementById("app");
+const NS = "http://www.w3.org/2000/svg";
 
 /* ---------- helpers ---------- */
 function h(tag, props, ...kids) {
@@ -133,44 +251,101 @@ function h(tag, props, ...kids) {
     else if (k === "text") e.textContent = v;
     else e.setAttribute(k, v === true ? "" : v);
   }
-  for (const kid of kids.flat()) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : String(kid));
+  for (const kid of kids.flat(9)) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : String(kid));
   return e;
 }
+function svg(markup, cls, label) {
+  const t = document.createElement("template");
+  t.innerHTML = `<svg xmlns="${NS}" viewBox="0 0 20 20" class="${cls || ""}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${markup}</svg>`;
+  return t.content.firstChild;
+}
+/* One drawn glyph per rating: shape and color both carry the meaning. */
+function ri(k, withLabel) {
+  const c = `var(${VAR[k]})`;
+  const g = {
+    "✅": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M5.8 10.3l2.8 2.7 5.6-5.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    "🟡": `<circle cx="10" cy="10" r="8.1" fill="none" stroke="${c}" stroke-width="1.8"/><path d="M10 1.9a8.1 8.1 0 0 1 0 16.2z" fill="${c}"/>`,
+    "🟠": `<path d="M10 1.8l8.6 15.4H1.4z" fill="${c}" stroke="${c}" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 7.3v4.6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14.4" r="1.15" fill="#fff"/>`,
+    "⚪": `<circle cx="10" cy="10" r="8.1" fill="none" stroke="${c}" stroke-width="1.8" stroke-dasharray="3.2 2.2"/><circle cx="10" cy="10" r="1.7" fill="${c}"/>`,
+    "🔵": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M4.6 10.5h2.6l1.6-3.6 2.4 7 1.6-3.4h2.6" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>`,
+    "❌": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M6.7 6.7l6.6 6.6M13.3 6.7l-6.6 6.6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>`
+  }[k];
+  return svg(g, "ri", withLabel === false ? null : RN[k]);
+}
+const ICON = {
+  link: `<path d="M8.5 11.5a3.2 3.2 0 0 0 4.5 0l2.6-2.6a3.2 3.2 0 0 0-4.5-4.5l-.9.9M11.5 8.5a3.2 3.2 0 0 0-4.5 0l-2.6 2.6a3.2 3.2 0 0 0 4.5 4.5l.9-.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
+  ext: `<path d="M11 4h5v5M16 4l-7 7M14 11.5V15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
+  back: `<path d="M12 4.5L6.5 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  arrow: `<path d="M4 10h11M10.5 5.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  vs: `<path d="M3 6h6M3 10h6M3 14h6M11 6h6M11 10h6M11 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`
+};
+const icon = (n, size = 16) => { const s = svg(ICON[n]); s.setAttribute("width", size); s.setAttribute("height", size); return s; };
+
+const winMark = () => { const m = svg(`<path d="M5 10.5l3.2 3L15 6.5" fill="none" stroke="var(--r-ok)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`, "", "won"); m.setAttribute("width", 13); m.setAttribute("height", 13); m.style.cssText = "vertical-align:-1px;margin-left:4px"; return m; };
 const tally = cl => Object.fromEntries(R.map(k => [k, cl.filter(c => c.rating === k).length]));
 const party = p => h("span", {class: `party ${p}`, title: p === "D" ? "Democrat" : "Republican"}, p);
 const link = (href, text, cls) => h("a", {href, class: cls}, text);
-function bar(cl, big) {
+const raceName = r => `${r.chamber} District ${r.district}`;
+const pct = (n, d) => d ? Math.round(100 * n / d) : 0;
+const verifiedShare = cl => cl.length ? cl.filter(c => c.rating === "✅" || c.rating === "🟡").length / cl.length : -1;
+
+/* tooltip */
+const tip = document.getElementById("tip");
+function attachTip(el, text) {
+  el.addEventListener("pointerenter", () => { tip.textContent = text; tip.classList.add("on"); });
+  el.addEventListener("pointermove", e => { tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (e.clientY - 36) + "px"; });
+  el.addEventListener("pointerleave", () => tip.classList.remove("on"));
+}
+const toastEl = document.getElementById("toast");
+let toastT;
+function toast(msg) { toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove("on"), 1800); }
+async function copyLink(hash) {
+  const url = location.href.split("#")[0] + hash;
+  try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch { prompt("Copy this link:", url); }
+}
+
+/* stacked bar: segments are buttons that jump to those claims */
+function bar(cl, opts = {}) {
   const t = tally(cl), n = cl.length;
-  const b = h("div", {class: "bar", role: "img", style: big ? "height:16px" : null,
-    "aria-label": n ? R.filter(k => t[k]).map(k => `${t[k]} ${RN[k]}`).join(", ") : "Not yet reviewed"});
-  if (n) R.forEach(k => t[k] && b.append(h("span", {class: `s-${k}`, style: `width:${100 * t[k] / n}%`, title: `${RN[k]}: ${t[k]}`})));
+  if (!n) return h("div", {class: `bar none${opts.big ? " big" : ""}`, role: "img", "aria-label": opts.emptyLabel || "Not yet reviewed"});
+  const b = h("div", {class: `bar grow${opts.big ? " big" : ""}`, role: opts.href ? "group" : "img",
+    "aria-label": R.filter(k => t[k]).map(k => `${t[k]} ${RN[k]}`).join(", ")});
+  R.forEach(k => {
+    if (!t[k]) return;
+    const label = `${RN[k]}: ${t[k]} of ${n} (${pct(t[k], n)}%)`;
+    const seg = opts.href ? h("button", {class: `s-${k}`, style: `flex:${t[k]}`, "aria-label": label, onclick: e => { e.stopPropagation(); location.hash = opts.href(k); }})
+      : h("span", {class: `s-${k}`, style: `flex:${t[k]}`});
+    attachTip(seg, opts.href ? `${label} · click to see them` : label);
+    b.append(seg);
+  });
   return b;
 }
-function legend() {
-  return h("div", {class: "legend"}, R.map(k => h("span", {}, h("i", {class: `s-${k}`}), RN[k])),
-    h("span", {}, h("i", {style: "background:var(--queued);border:1px solid var(--line)"}), "Not yet reviewed"));
+function legend(withQueued = true) {
+  return h("div", {class: "legend"}, R.map(k => h("span", {}, ri(k, false), RN[k])),
+    withQueued ? h("span", {}, h("span", {class: "bar none", style: "width:18px;min-width:18px;height:10px"}), "Not yet reviewed") : null);
 }
 function candLabel(c, opts = {}) {
   const race = RACE[c.race];
   return h("span", {}, party(c.party), " ", opts.noLink ? c.name : link(`#/c/${c.slug}`, c.name),
-    c.incumbent ? h("span", {class: "pill"}, "incumbent") : null,
-    race.winner === c.slug ? h("span", {class: "pill win"}, "won") : null);
+    c.incumbent ? h("span", {class: "pill"}, "Incumbent") : null,
+    race.winner === c.slug ? h("span", {class: "pill win"}, "Won") : null);
 }
-const raceName = r => `${r.chamber === "Senate" ? "Senate" : "Assembly"} District ${r.district}`;
-function verifiedShare(cl) { return cl.length ? cl.filter(c => c.rating === "✅" || c.rating === "🟡").length / cl.length : -1; }
 
 function claimCard(cl, c, opts = {}) {
-  return h("article", {class: "claim", id: opts.anchor ? `${c.slug}-${cl.id}` : null},
-    h("div", {class: "r", title: RN[cl.rating]}, cl.rating),
-    h("div", {class: "c"}, cl.claim, h("small", {}, `${cl.id} · ${cl.category}${cl.pages ? " · " + cl.pages : ""}`)),
-    h("div", {}, cl.finding,
-      opts.who ? h("div", {class: "who"}, candLabel(c), ` · ${RACE[c.race].id}`) : null),
-    h("div", {class: "s"}, cl.sources.length ? cl.sources.map((u, i) => h("a", {href: u, rel: "noopener", target: "_blank"}, `Source ${i + 1}`))
-      : "No public source found",
-      " ", h("a", {href: `#/c/${c.slug}/${cl.id}`, title: "Link to this claim"}, "🔗")));
+  const hash = `#/c/${c.slug}/${cl.id}`;
+  return h("article", {class: "claim", id: `${c.slug}-${cl.id}`},
+    h("div", {class: "r"}, ri(cl.rating)),
+    h("div", {class: "c"}, cl.claim),
+    h("div", {class: "acts"}, h("button", {class: "iconbtn", "aria-label": `Copy link to claim ${cl.id}`, title: "Copy link to this claim", onclick: () => copyLink(hash)}, icon("link"))),
+    h("div", {class: "meta"}, `${RN[cl.rating]} · ${cl.id} · ${cl.category}${cl.pages ? " · " + cl.pages : ""}`),
+    h("div", {class: "f"}, cl.finding),
+    opts.who ? h("div", {class: "who-line"}, candLabel(c), ` · ${raceName(RACE[c.race])}`) : null,
+    h("div", {class: "s"}, cl.sources.length
+      ? cl.sources.map((u, i) => h("a", {href: u, rel: "noopener", target: "_blank"}, `Source ${i + 1}`, " ", icon("ext", 12)))
+      : h("span", {}, "No public source found")));
 }
 
-/* ---------- state from URL ---------- */
+/* ---------- routing ---------- */
 function parse() {
   const raw = location.hash.replace(/^#\/?/, "");
   const [path, qs] = raw.split("?");
@@ -183,124 +358,151 @@ function setQuery(view, params) {
 
 /* ---------- views ---------- */
 function viewRaces(q) {
-  const ch = q.get("chamber") || "All";
+  const ch = q.get("chamber") || "All", show = q.get("show") || "all";
   const reviewed = Object.values(C).filter(c => c.status === "reviewed");
-  const out = [
-    h("h1", {}, "2026 Long Island state legislative races"),
-    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. ${reviewed.length} of ${Object.keys(C).length} candidates reviewed so far.`),
-  ];
-  const seg = h("div", {class: "seg", role: "group", "aria-label": "Chamber"},
-    ["All", "Senate", "Assembly"].map(v => h("button", {"aria-pressed": String(ch === v),
-      onclick: () => { setQuery("", {chamber: v === "All" ? "" : v}); render(); }}, v)));
-  out.push(h("div", {class: "filters"}, seg, h("span", {class: "small muted"},
-    "Tiles are grouped by county and are not drawn to scale. The dot shows the winner's party where a cited source names one.")), legend());
+  const out = [h("h1", {}, "2026 Long Island state legislative races"),
+    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. `,
+      h("b", {}, `${reviewed.length} of ${Object.keys(C).length}`), " candidates reviewed so far.")];
+  const go = (k, v) => { setQuery("", {chamber: k === "chamber" ? (v === "All" ? "" : v) : (ch === "All" ? "" : ch), show: k === "show" ? (v === "all" ? "" : v) : (show === "all" ? "" : show)}); render(); };
+  out.push(h("div", {class: "board-tools"},
+    h("div", {class: "filters", style: "margin:0"},
+      h("div", {class: "seg", role: "group", "aria-label": "Chamber"}, ["All", "Senate", "Assembly"].map(v => h("button", {"aria-pressed": String(ch === v), onclick: () => go("chamber", v)}, v))),
+      h("div", {class: "seg", role: "group", "aria-label": "Highlight"}, [["all", "All races"], ["reviewed", "With reviews"], ["open", "Open seats"], ["flipped", "Changed party"]].map(([v, l]) =>
+        h("button", {"aria-pressed": String(show === v), onclick: () => go("show", v)}, l)))),
+    legend()));
+  const flipped = r => r.winner && r.incumbent && C[r.incumbent] && C[r.winner].party !== C[r.incumbent].party;
+  const lit = r => show === "all" || (show === "reviewed" && r.candidates.some(x => C[x.slug].status === "reviewed")) || (show === "open" && r.open_seat) || (show === "flipped" && flipped(r));
   const groups = [["Suffolk", r => r.county === "Suffolk"], ["Straddles Nassau and Suffolk", r => r.county === "Nassau/Suffolk"], ["Nassau", r => r.county === "Nassau"]];
+  const board = h("div", {class: "board"});
   groups.forEach(([label, fn]) => {
     const rs = RACES.filter(fn).filter(r => ch === "All" || r.chamber === ch);
     if (!rs.length) return;
-    out.push(h("section", {class: "county"}, h("h3", {}, label), h("div", {class: "tiles"}, rs.map(r => {
-      const win = r.winner ? C[r.winner].party : "none";
-      return h("button", {class: "tile", onclick: () => location.hash = `#/race/${r.id}`, "aria-label": `${raceName(r)}: ${r.candidates.map(x => x.name).join(" vs. ")}`},
-        h("span", {class: `flag ${win}`, title: r.winner ? `Won by ${C[r.winner].name}` : "Winner not yet named by a cited source"}),
-        h("div", {class: "id"}, r.id),
-        h("div", {class: "who"}, r.candidates.map(x => x.name.split(" ").slice(-1)[0]).join(" vs. ")),
-        h("div", {class: "mini"}, r.candidates.map(x => bar(C[x.slug].claims))));
-    }))));
+    board.append(h("section", {class: "county", "aria-label": label}, h("h3", {}, label, h("span", {class: "ct"}, `${rs.length} race${rs.length > 1 ? "s" : ""}`)),
+      h("div", {class: "tiles"}, rs.map(r => {
+        const cs = r.candidates.map(x => C[x.slug]);
+        return h("button", {class: `tile${lit(r) ? "" : " dim"}`, onclick: () => location.hash = `#/race/${r.id}`,
+            "aria-label": `${raceName(r)}: ${cs.map(c => `${c.name} (${c.party})${r.winner === c.slug ? ", won" : ""}`).join(" versus ")}`},
+          h("div", {class: "id"}, r.id, h("span", {class: "chamber"}, r.open_seat ? "Open seat" : r.chamber)),
+          cs.map(c => h("div", {class: "row"}, party(c.party), h("span", {class: `nm${r.winner === c.slug ? " won" : ""}`}, c.name.split(" ").slice(-1)[0], r.winner === c.slug ? winMark() : null), bar(c.claims))));
+      }))));
   });
+  out.push(board, h("p", {class: "small muted", style: "margin-top:18px"}, "Tiles are grouped by county, not drawn as a map. A check mark marks the winner where a cited source names one; results are unofficial."));
   return out;
+}
+
+function butterfly(a, b) {
+  const ta = tally(a.claims), tb = tally(b.claims), max = Math.max(...R.map(k => Math.max(pct(ta[k], a.claims.length), pct(tb[k], b.claims.length))), 1);
+  const g = h("div", {class: "fly", role: "table", "aria-label": `Share of claims by rating: ${a.name} versus ${b.name}`},
+    h("div", {class: "who l"}, candLabel(a)), h("div"), h("div", {class: "who"}, candLabel(b)));
+  R.forEach(k => {
+    const side = (c, t, s) => {
+      const p = pct(t[k], c.claims.length), fill = h("span", {class: `fill s-${k}`, style: `width:${100 * p / max}%`});
+      attachTip(fill, `${c.name}: ${t[k]} ${RN[k]} (${p}%)`);
+      return h("div", {class: `side ${s}`, role: "cell"}, h("span", {class: "track"}, fill), h("span", {class: "v"}, `${t[k]} · ${p}%`));
+    };
+    g.append(side(a, ta, "l"), h("div", {class: "lab", role: "rowheader"}, ri(k, false), h("span", {}, RN[k])), side(b, tb, "r"));
+  });
+  g.append(h("div", {class: "v", style: "text-align:right;width:auto;color:var(--muted);font-size:.84rem"}, `${a.claims.length} claims`), h("div"),
+           h("div", {style: "color:var(--muted);font-size:.84rem"}, `${b.claims.length} claims`));
+  return h("div", {class: "card"}, g);
 }
 
 function viewRace(id) {
   const r = RACE[id];
   if (!r) return [h("h1", {}, "Race not found"), link("#/", "Back to all races")];
   const cs = r.candidates.map(x => C[x.slug]);
-  const out = [h("p", {class: "small"}, link("#/", "← All races")),
-    h("div", {class: "head"}, h("h1", {}, `${raceName(r)} (${r.id})`),
-      cs.every(c => c.status === "reviewed") ? link(`#/compare/${cs[0].slug}/${cs[1].slug}`, "Compare head to head →", "btn primary") : null),
-    h("p", {class: "lede"}, `${r.county} County${r.county.includes("/") ? " (both)" : ""} · ${r.open_seat ? "Open seat" : "Incumbent ran"}` +
-      (r.winner ? ` · Won by ${C[r.winner].name} (unofficial)` : " · Result: see the county board of elections"),
-      r.result_source ? [" · ", h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "result source")] : null)];
-  out.push(h("div", {class: "grid2"}, cs.map(c => candidatePanel(c))));
+  const both = cs.every(c => c.status === "reviewed");
+  const out = [h("p", {class: "crumb"}, h("a", {href: "#/"}, icon("back", 14), " All races")),
+    h("div", {class: "head"}, h("h1", {}, `${raceName(r)}`),
+      both ? h("a", {class: "btn primary", href: `#/compare/${cs[0].slug}/${cs[1].slug}`}, "Compare claims side by side", icon("arrow", 15)) : null),
+    h("p", {class: "lede"}, `${r.id} · ${r.county === "Nassau/Suffolk" ? "Nassau and Suffolk counties" : r.county + " County"} · ${r.open_seat ? "Open seat" : "Incumbent ran"} · ` ,
+      r.winner ? [`Won by ${C[r.winner].name} (unofficial; `, h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "source"), ")"] : "Result not yet named by a cited source")];
+  if (both) out.push(butterfly(cs[0], cs[1]));
+  out.push(h("div", {class: "grid2", style: both ? "margin-top:18px" : null}, cs.map(c => candidatePanel(c))));
   return out;
 }
 
 function candidatePanel(c) {
-  if (c.status === "queued") return h("div", {class: "queued"}, h("div", {}, candLabel(c, {noLink: true})), h("p", {}, "Not yet reviewed."));
-  if (c.status === "site-unavailable") return h("div", {class: "queued"}, h("div", {}, candLabel(c)), h("p", {}, c.bottom_line || "No campaign site could be found or archived."));
+  if (c.status === "queued") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c, {noLink: true})),
+    bar([], {big: true}), h("p", {style: "margin:0"}, "Review in progress. This panel will show the rating breakdown and bottom line once the campaign site has been checked."));
+  if (c.status === "site-unavailable") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c)), bar([], {big: true, emptyLabel: "No campaign site found"}),
+    h("p", {style: "margin:0"}, c.bottom_line || "No campaign site could be found or archived."));
   const t = tally(c.claims);
-  return h("div", {class: "card"}, h("div", {class: "head"}, h("strong", {}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
-    h("div", {style: "margin:10px 0"}, bar(c.claims, true)),
-    h("div", {}, R.filter(k => t[k]).map(k => h("span", {class: "chip"}, `${k} ${t[k]}`))),
-    h("p", {}, c.bottom_line), link(`#/c/${c.slug}`, "Full review and every claim →"));
+  return h("div", {class: "card panel"},
+    h("div", {class: "top"}, h("span", {class: "name"}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
+    bar(c.claims, {big: true, href: k => `#/c/${c.slug}?rating=${encodeURIComponent(k)}`}),
+    h("div", {class: "counts"}, R.filter(k => t[k]).map(k => h("a", {href: `#/c/${c.slug}?rating=${encodeURIComponent(k)}`, title: `See the ${RN[k].toLowerCase()} claims`}, ri(k, false), `${t[k]} ${SHORT[k]}`))),
+    h("p", {style: "margin:0"}, c.bottom_line),
+    h("a", {href: `#/c/${c.slug}`, style: "font-weight:600"}, "Full review and every claim ", icon("arrow", 14)));
 }
 
-function viewCandidate(slug, claimId) {
+function viewCandidate(slug, claimId, q) {
   const c = C[slug];
   if (!c) return [h("h1", {}, "Candidate not found"), link("#/", "Back to all races")];
   const r = RACE[c.race], opp = r.candidates.map(x => C[x.slug]).find(x => x.slug !== slug);
-  const out = [h("p", {class: "small"}, link(`#/race/${r.id}`, `← ${raceName(r)}`)),
+  const out = [h("p", {class: "crumb"}, h("a", {href: `#/race/${r.id}`}, icon("back", 14), ` ${raceName(r)}`)),
     h("div", {class: "head"}, h("h1", {}, candLabel(c, {noLink: true})),
-      opp.status === "reviewed" && c.status === "reviewed" ? link(`#/compare/${slug}/${opp.slug}`, `Compare with ${opp.name} →`, "btn") : null)];
+      opp.status === "reviewed" && c.status === "reviewed" ? h("a", {class: "btn", href: `#/compare/${slug}/${opp.slug}`}, icon("vs", 15), `Compare with ${opp.name}`) : null)];
   if (c.status !== "reviewed") return out.concat(candidatePanel(c));
-  out.push(h("p", {class: "lede"}, "Reviewed: ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label), ` · captured ${c.captured}`),
-    h("div", {class: "card"}, h("strong", {}, "Bottom line. "), c.bottom_line,
+  out.push(h("p", {class: "lede"}, "Reviewed ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label, " ", icon("ext", 12)),
+      ` · captured ${new Date(c.captured + "T12:00").toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"})}${c.depth ? ` · ${c.depth} review` : ""}`),
+    h("div", {class: "card"}, bar(c.claims, {big: true, href: k => `#/c/${slug}?rating=${encodeURIComponent(k)}`}), legend(false),
+      h("p", {style: "margin:16px 0 0"}, h("strong", {}, "Bottom line. "), c.bottom_line),
       c.findings && c.findings.length ? h("ul", {class: "find"}, c.findings.map(f => h("li", {}, f))) : null));
   if (c.page_issues && c.page_issues.length) out.push(h("h2", {}, "Page-level issues"), h("ul", {class: "find"}, c.page_issues.map(f => h("li", {}, f))));
-  out.push(h("h2", {}, "Claims"));
+  out.push(h("h2", {id: "claims"}, "Every claim"));
   const box = h("div", {});
-  const state = {rating: null, q: ""};
-  const chips = h("div", {class: "seg", role: "group", "aria-label": "Filter by rating"});
+  const state = {rating: (q && q.get("rating")) || null, q: ""};
   const t = tally(c.claims);
-  const drawChips = () => chips.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = null; draw(); }}, "All"),
-    R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? null : k; draw(); }}, `${k} ${t[k]}`)));
-  const search = h("input", {type: "search", placeholder: "Search this review…", "aria-label": "Search this review", oninput: e => { state.q = e.target.value.toLowerCase(); draw(); }});
+  const chips = h("div", {class: "seg", role: "group", "aria-label": "Filter by rating"});
+  const drawChips = () => chips.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = null; draw(); }}, "All ", h("span", {class: "ct"}, c.claims.length)),
+    ...R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? null : k; draw(); }}, ri(k, false), SHORT[k], " ", h("span", {class: "ct"}, t[k]))));
+  const search = h("input", {type: "search", placeholder: "Search this review", "aria-label": "Search this review", "data-search": "",
+    oninput: e => { state.q = e.target.value.toLowerCase(); draw(); }});
   function draw() {
     drawChips();
+    setQuery(`c/${slug}${claimId ? "/" + claimId : ""}`, {rating: state.rating});
     const rows = c.claims.filter(x => (!state.rating || x.rating === state.rating) &&
       (!state.q || [x.claim, x.finding, x.pages, x.category].join(" ").toLowerCase().includes(state.q)));
     const parts = [];
     c.categories.forEach(cat => {
       const rs = rows.filter(x => x.category === cat);
-      if (rs.length) parts.push(h("h3", {}, cat), rs.map(x => claimCard(x, c, {anchor: true})));
+      if (rs.length) parts.push(h("h3", {}, cat), rs.map(x => claimCard(x, c)));
     });
-    box.replaceChildren(...(parts.length ? parts.flat() : [h("div", {class: "empty"}, "No claims match.")]));
+    box.replaceChildren(...(parts.length ? parts.flat() : [h("div", {class: "empty"}, "No claims match. ", h("button", {class: "btn", onclick: () => { state.rating = null; state.q = ""; search.value = ""; draw(); }}, "Clear filters"))]));
   }
   out.push(h("div", {class: "filters"}, search, chips), box);
   draw();
-  if (claimId) setTimeout(() => { const el = document.getElementById(`${slug}-${claimId}`); if (el) { el.scrollIntoView({block: "center"}); el.style.boxShadow = "0 0 0 2px var(--accent)"; } }, 0);
+  if (claimId) requestAnimationFrame(() => { const el = document.getElementById(`${slug}-${claimId}`); if (el) { el.classList.add("hl"); el.scrollIntoView({block: "center"}); } });
+  else if (state.rating) requestAnimationFrame(() => document.getElementById("claims").scrollIntoView());
   return out;
 }
 
 function viewCompare(a, b) {
   const reviewed = Object.values(C).filter(c => c.status === "reviewed").sort((x, y) => x.race.localeCompare(y.race, undefined, {numeric: true}));
-  a = C[a] ? a : (reviewed[0] || {}).slug; b = C[b] ? b : (reviewed.find(x => x.slug !== a) || {}).slug;
+  const out = [h("h1", {}, "Head to head"),
+    h("p", {class: "lede"}, "Pick any two reviewed candidates. Race opponents are the fairest comparison, because their pages were written for the same voters. Pages differ in length and type, so compare shares and the pattern of problems, not raw counts.")];
+  if (reviewed.length < 2) return out.concat(h("div", {class: "empty"}, "At least two reviews are needed."));
+  a = C[a] && C[a].status === "reviewed" ? a : reviewed[0].slug;
+  b = C[b] && C[b].status === "reviewed" && b !== a ? b : reviewed.find(x => x.slug !== a).slug;
   const pick = (val, other, onch) => h("select", {"aria-label": "Candidate", onchange: e => onch(e.target.value)},
     reviewed.map(c => h("option", {value: c.slug, selected: c.slug === val ? true : null, disabled: c.slug === other ? true : null}, `${c.race} · ${c.name} (${c.party})`)));
-  const out = [h("h1", {}, "Head to head"),
-    h("p", {class: "lede"}, "Pick any two reviewed candidates. Race opponents are the fairest comparison: their pages were written for the same voters. Pages differ in length and type, so compare the shares and the pattern of problems, not raw counts.")];
-  if (reviewed.length < 2) return out.concat(h("div", {class: "empty"}, "At least two reviews are needed."));
-  out.push(h("div", {class: "filters"}, pick(a, b, v => location.hash = `#/compare/${v}/${b}`), h("span", {class: "muted"}, "vs."), pick(b, a, v => location.hash = `#/compare/${a}/${v}`)));
+  out.push(h("div", {class: "filters"}, pick(a, b, v => location.hash = `#/compare/${v}/${b}`),
+    h("button", {class: "iconbtn", title: "Swap", "aria-label": "Swap candidates", onclick: () => location.hash = `#/compare/${b}/${a}`},
+      svg(`<path d="M5 7h10l-3-3M15 13H5l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>`)),
+    pick(b, a, v => location.hash = `#/compare/${a}/${v}`)));
   const ca = C[a], cb = C[b];
-  // tallies chart
-  const chart = h("div", {class: "card"}, h("table", {class: "rank"}, h("thead", {}, h("tr", {}, h("th", {}, "Rating"), h("th", {class: "num"}, ca.name), h("th", {}, ""), h("th", {class: "num"}, cb.name), h("th", {}, ""))),
-    h("tbody", {}, R.map(k => {
-      const ta = tally(ca.claims)[k], tb = tally(cb.claims)[k];
-      const pct = (n, c) => c.claims.length ? Math.round(100 * n / c.claims.length) : 0;
-      const mini = (n, c) => h("div", {class: "bar", style: "background:transparent"}, h("span", {class: `s-${k}`, style: `width:${pct(n, c)}%`}));
-      return h("tr", {}, h("td", {}, `${k} ${RN[k]}`), h("td", {class: "num"}, `${ta} (${pct(ta, ca)}%)`), h("td", {class: "barcell"}, mini(ta, ca)),
-        h("td", {class: "num"}, `${tb} (${pct(tb, cb)}%)`), h("td", {class: "barcell"}, mini(tb, cb)));
-    }), h("tr", {}, h("td", {}, h("strong", {}, "Total")), h("td", {class: "num"}, h("strong", {}, ca.claims.length)), h("td"), h("td", {class: "num"}, h("strong", {}, cb.claims.length)), h("td")))));
-  out.push(chart);
+  out.push(butterfly(ca, cb));
   const state = {rating: "flagged"};
   const seg = h("div", {class: "seg", role: "group", "aria-label": "Which claims"});
-  const cols = h("div", {class: "side"});
+  const cols = h("div", {class: "cols"});
   function draw() {
-    seg.replaceChildren(...[["flagged", "🟡🟠❌ Problems"], ["all", "All"], ...R.map(k => [k, `${k} ${SHORT[k]}`])].map(([v, l]) =>
-      h("button", {"aria-pressed": String(state.rating === v), onclick: () => { state.rating = v; draw(); }}, l)));
+    seg.replaceChildren(...[["flagged", "Problems only", null], ["all", "All", null], ...R.map(k => [k, SHORT[k], k])].map(([v, l, k]) =>
+      h("button", {"aria-pressed": String(state.rating === v), onclick: () => { state.rating = v; draw(); }}, k ? ri(k, false) : null, l)));
     const f = x => state.rating === "all" || (state.rating === "flagged" ? ["🟡", "🟠", "❌"].includes(x.rating) : x.rating === state.rating);
     cols.replaceChildren(...[ca, cb].map(c => {
       const rows = c.claims.filter(f);
-      return h("div", {}, h("h2", {}, candLabel(c)), h("p", {class: "small muted"}, c.bottom_line),
+      return h("div", {}, h("h2", {style: "margin-top:8px"}, candLabel(c)), h("p", {class: "small muted"}, c.bottom_line),
         rows.length ? rows.map(x => claimCard(x, c)) : h("div", {class: "empty"}, "None in this category."));
     }));
   }
@@ -321,90 +523,114 @@ function viewDashboard(q) {
   };
   const all = Object.values(C).filter(match), rev = all.filter(c => c.status === "reviewed");
   const claims = rev.flatMap(c => c.claims), t = tally(claims);
+  const qs = k => { const p = new URLSearchParams({rating: k}); return `#/claims?${p}`; };
   const out = [h("h1", {}, "Dashboard"),
-    h("p", {class: "lede"}, "Ratings across every completed review. Filter to a slice, sort the table, then open any candidate."),
+    h("p", {class: "lede"}, "Ratings across every completed review. Filter to a slice, click a bar segment to read those claims, or sort the table and open a candidate."),
     h("div", {class: "filters"},
       sel("chamber", "Chamber", [["Senate", "Senate"], ["Assembly", "Assembly"]]),
       sel("county", "County", [["Suffolk", "Suffolk"], ["Nassau", "Nassau"]]),
       sel("party", "Party", [["D", "Democrat"], ["R", "Republican"]]),
       sel("role", "Role", [["incumbent", "Incumbent"], ["challenger", "Challenger"], ["open", "Open-seat candidate"]]),
-      Object.values(f).some(Boolean) ? h("button", {class: "btn", onclick: () => { setQuery("dashboard", {}); render(); }}, "Clear") : null),
-    h("div", {class: "kpis"},
-      [[`${rev.length}/${all.length}`, "candidates reviewed"], [claims.length, "claims checked"],
-       [claims.length ? `${Math.round(100 * (t["✅"] + t["🟡"]) / claims.length)}%` : "—", "verified (with or without caveat)"],
-       [t["🟠"] + t["❌"], "overstated or false"], [t["⚪"], "no public record found"]]
-        .map(([v, l]) => h("div", {class: "card kpi"}, h("div", {class: "v"}, v), h("div", {class: "l"}, l)))),
-    h("div", {class: "card"}, h("strong", {}, "All claims in this slice"), h("div", {style: "margin:10px 0 4px"}, bar(claims, true)), legend())];
-  if (f.party) out.push(h("p", {class: "note"}, "Party filters show which reviews exist. With few reviews, and pages of very different kinds, a party-level total says little about either party."));
-  const cols = [["race", "Race"], ["name", "Candidate"], ["n", "Claims"], ["v", "Verified %"], ["p", "Problems"], ["u", "Unverified"]];
+      Object.values(f).some(Boolean) ? h("button", {class: "btn", onclick: () => { setQuery("dashboard", {}); render(); }}, "Clear filters") : null)];
+  const vs = pct(t["✅"] + t["🟡"], claims.length);
+  out.push(h("div", {class: "card summary"},
+    claims.length
+      ? h("p", {class: "sentence"}, h("b", {}, rev.length), ` of ${all.length} candidates in this slice reviewed, `, h("b", {}, claims.length), " claims checked. ",
+          h("b", {}, `${vs}%`), " held up (with or without a caveat), ", h("b", {}, t["🟠"] + t["❌"]), " were overstated or false, and ",
+          h("b", {}, t["⚪"]), ` had no public record either way.`)
+      : h("p", {class: "sentence"}, `None of the ${all.length} candidates in this slice has been reviewed yet.`),
+    bar(claims, {big: true, href: qs, emptyLabel: "No reviews in this slice"}),
+    claims.length ? legend(false) : null));
+  if (f.party) out.push(h("p", {class: "note"}, "Party filters show which reviews exist. With partial coverage and pages of very different kinds, a party-level total says little about either party."));
+  const cols = [["race", "Race"], ["name", "Candidate"], ["n", "Claims"], ["v", "Held up"], ["p", "Overstated / false"], ["u", "Unverified"]];
   const raceOrder = c => (c.race.startsWith("SD") ? 0 : 100) + Number(c.race.slice(2));
-  const key = {race: raceOrder, name: c => c.name, n: c => -c.claims.length, v: c => -verifiedShare(c.claims),
+  const key = {race: raceOrder, name: c => c.name.split(" ").slice(-1)[0], n: c => -c.claims.length, v: c => -verifiedShare(c.claims),
     p: c => -c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length, u: c => -c.claims.filter(x => x.rating === "⚪").length};
-  const rows = [...all].sort((x, y) => {
-    const a = key[sort](x), b = key[sort](y);
-    return a > b ? 1 : a < b ? -1 : raceOrder(x) - raceOrder(y);
-  });
-  out.push(h("h2", {}, "Candidates"), h("div", {class: "card", style: "overflow-x:auto"}, h("table", {class: "rank"},
-    h("thead", {}, h("tr", {}, cols.map(([k, l]) => h("th", {class: ["n", "v", "p", "u"].includes(k) ? "num" : null, "aria-sort": sort === k ? "descending" : null,
-      onclick: () => { setQuery("dashboard", {...f, sort: k}); render(); }}, l + (sort === k ? " ▾" : ""))), h("th", {}, "Ratings"))),
-    h("tbody", {}, rows.map(c => h("tr", {}, h("td", {}, link(`#/race/${c.race}`, c.race)), h("td", {}, candLabel(c)),
-      h("td", {class: "num"}, c.claims.length || "—"), h("td", {class: "num"}, c.claims.length ? `${Math.round(100 * verifiedShare(c.claims))}%` : "—"),
-      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length : "—"),
-      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => x.rating === "⚪").length : "—"),
-      h("td", {class: "barcell"}, c.status === "reviewed" ? bar(c.claims) : h("span", {class: "small muted"}, c.status === "queued" ? "not yet reviewed" : "no site found"))))))));
+  const rows = [...all].sort((x, y) => { const a = key[sort](x), b = key[sort](y); return a > b ? 1 : a < b ? -1 : raceOrder(x) - raceOrder(y); });
+  const dash = "—";
+  out.push(h("h2", {}, "Candidates"), h("div", {class: "card tablewrap", style: "padding:6px 10px"}, h("table", {class: "rank"},
+    h("thead", {}, h("tr", {}, cols.map(([k, l]) => h("th", {class: ["n", "v", "p", "u"].includes(k) ? "num" : null, "aria-sort": sort === k ? (k === "race" || k === "name" ? "ascending" : "descending") : null},
+      h("button", {onclick: () => { setQuery("dashboard", {...f, sort: k}); render(); }}, l, sort === k ? " ↓" : ""))), h("th", {}, "Ratings"))),
+    h("tbody", {}, rows.map(c => { const n = c.claims.length; return h("tr", {},
+      h("td", {}, link(`#/race/${c.race}`, c.race)), h("td", {}, candLabel(c)),
+      h("td", {class: "num"}, n || dash), h("td", {class: "num"}, n ? `${Math.round(100 * verifiedShare(c.claims))}%` : dash),
+      h("td", {class: "num"}, n ? c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length : dash),
+      h("td", {class: "num"}, n ? c.claims.filter(x => x.rating === "⚪").length : dash),
+      h("td", {class: "barcell"}, bar(c.claims, {href: k => `#/c/${c.slug}?rating=${encodeURIComponent(k)}`, emptyLabel: c.status === "queued" ? "Not yet reviewed" : "No campaign site found"}))); })))));
   return out;
 }
 
 function viewClaims(q) {
-  const state = {q: q.get("q") || "", rating: q.get("rating") || "", cat: q.get("cat") || ""};
+  const state = {q: q.get("q") || "", rating: q.get("rating") || ""};
   const all = Object.values(C).filter(c => c.status === "reviewed").flatMap(c => c.claims.map(x => [x, c]));
-  const box = h("div", {}), meta = h("p", {class: "small muted"});
-  const input = h("input", {type: "search", value: state.q, placeholder: "Search every claim and finding (try “school aid”, “aquifer”, “grant”)…", "aria-label": "Search all claims",
+  const box = h("div", {}), meta = h("p", {class: "small muted", "aria-live": "polite"});
+  const input = h("input", {type: "search", value: state.q, placeholder: "Search every claim and finding, e.g. school aid, aquifer, grant", "aria-label": "Search all claims", "data-search": "",
     oninput: e => { state.q = e.target.value; draw(); }});
-  const rsel = h("select", {"aria-label": "Rating", onchange: e => { state.rating = e.target.value; draw(); }},
-    h("option", {value: ""}, "Any rating"), R.map(k => h("option", {value: k, selected: state.rating === k ? true : null}, `${k} ${RN[k]}`)));
+  const rseg = h("div", {class: "seg", role: "group", "aria-label": "Rating"});
+  const t = tally(all.map(([x]) => x));
   function draw() {
     setQuery("claims", {q: state.q, rating: state.rating});
+    rseg.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = ""; draw(); }}, "Any rating"),
+      ...R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? "" : k; draw(); }}, ri(k, false), SHORT[k], " ", h("span", {class: "ct"}, t[k]))));
     const ql = state.q.trim().toLowerCase();
     const rows = all.filter(([x, c]) => (!state.rating || x.rating === state.rating) &&
       (!ql || [x.claim, x.finding, x.pages, x.category, c.name, c.race].join(" ").toLowerCase().includes(ql)));
     meta.textContent = `${rows.length} of ${all.length} claims`;
-    box.replaceChildren(...(rows.length ? rows.slice(0, 200).map(([x, c]) => claimCard(x, c, {who: true})) : [h("div", {class: "empty"}, "No claims match.")]));
+    box.replaceChildren(...(rows.length ? rows.slice(0, 200).map(([x, c]) => claimCard(x, c, {who: true}))
+      : [h("div", {class: "empty"}, "No claims match. Try a broader word, or clear the rating filter.")]));
     if (rows.length > 200) box.append(h("p", {class: "muted small"}, "Showing the first 200. Narrow the search to see the rest."));
   }
   draw();
-  return [h("h1", {}, "Search every claim"), h("div", {class: "filters"}, input, rsel), meta, box];
+  return [h("h1", {}, "Search every claim"), h("div", {class: "filters"}, input), h("div", {class: "filters", style: "margin-top:-6px"}, rseg), meta, box];
 }
 
 function viewAbout() {
   return [h("h1", {}, "Method"),
     h("p", {class: "lede"}, "Every review follows the same steps and uses the same rating scale."),
     h("ol", {class: "find"},
-      h("li", {}, "Inventory: every factual statement on the campaign pages in scope is extracted and deduplicated. Pure promises are not rated, but factual premises inside them are."),
+      h("li", {}, "Inventory: the factual statements on the campaign pages in scope are extracted and deduplicated. Pure promises are not rated, but factual premises inside them are."),
       h("li", {}, "Sources, in order of weight: official records (bills, agency decisions, budget and tax data, election results), the candidate's own official materials, independent news, then advocacy sources as weak corroboration."),
       h("li", {}, "Rating: each claim is rated on whether the evidence supports it as worded on the page.")),
-    h("h2", {}, "Ratings"), h("ul", {class: "find"}, R.map(k => h("li", {}, `${k} ${RN[k]}`))),
-    h("p", {class: "note"}, "⚪ Unverified means no public record was found either way. It is not a finding that the claim is false. Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
+    h("h2", {}, "Ratings"),
+    h("div", {class: "card", style: "display:grid;gap:10px"}, [
+      ["✅", "matches a primary or reliable secondary source."],
+      ["🟡", "accurate or plausible, but missing context would change a reader's takeaway."],
+      ["🟠", "part is supported; part is inflated, conflated, or contradicted."],
+      ["⚪", "no public record found either way. This is not a finding that the claim is false."],
+      ["🔵", "campaign or ongoing activity that public records can't confirm or refute."],
+      ["❌", "contradicted by evidence."]].map(([k, d]) => h("div", {style: "display:flex;gap:10px;align-items:flex-start"}, ri(k, false), h("span", {}, h("b", {}, RN[k]), ": ", d)))),
+    h("p", {class: "note"}, "Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
     h("p", {}, D.results_note), h("p", {}, "Full method: ", link("https://github.com/rike4545/LI-CandidateCheck/blob/main/METHODOLOGY.md", "METHODOLOGY.md"), ".")];
 }
 
-/* ---------- router ---------- */
+/* ---------- render ---------- */
 function render() {
   const {parts, q} = parse();
   const [v, a, b] = parts;
-  const view = v === "race" ? viewRace(a) : v === "c" ? viewCandidate(a, b) : v === "compare" ? viewCompare(a, b)
+  tip.classList.remove("on");
+  const view = v === "race" ? viewRace(a) : v === "c" ? viewCandidate(a, b, q) : v === "compare" ? viewCompare(a, b)
     : v === "dashboard" ? viewDashboard(q) : v === "claims" ? viewClaims(q) : v === "about" ? viewAbout() : viewRaces(q);
   $app.replaceChildren(...[view].flat(9));
   const navKey = {race: "", c: "", compare: "compare", dashboard: "dashboard", claims: "claims", about: "about"}[v] ?? "";
   document.querySelectorAll("nav a").forEach(n => n.setAttribute("aria-current", n.getAttribute("href") === `#/${navKey}` ? "page" : "false"));
-  const title = {race: a && `${a} race`, c: a && C[a] && C[a].name, compare: "Compare", dashboard: "Dashboard", claims: "Search claims", about: "Method"}[v];
+  const title = {race: a && RACE[a] && raceName(RACE[a]), c: a && C[a] && C[a].name, compare: "Compare", dashboard: "Dashboard", claims: "Search claims", about: "Method"}[v];
   document.title = `${title ? title + " · " : ""}LI-CandidateCheck`;
 }
-let lastPath = "";
+let lastPath = location.hash.split("?")[0];
 window.addEventListener("hashchange", () => {
   const p = location.hash.split("?")[0];
-  render();
-  if (p !== lastPath) { window.scrollTo(0, 0); lastPath = p; }
+  const changed = p !== lastPath; lastPath = p;
+  const go = () => { render(); if (changed && !/^#\/c\/[^/]+\/[^/]+/.test(p)) window.scrollTo({top: 0, behavior: "instant"}); };
+  if (changed && document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go);
+  else go();
+  if (changed) $app.focus({preventScroll: true});
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) {
+    e.preventDefault();
+    const s = document.querySelector("[data-search]");
+    if (s) s.focus(); else location.hash = "#/claims";
+  }
 });
 render();
 </script>

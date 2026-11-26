@@ -18,6 +18,7 @@ import csv
 import json
 import os
 import re
+import shutil
 import sys
 
 RATINGS = ["✅", "🟡", "🟠", "⚪", "🔵", "❌"]
@@ -167,6 +168,9 @@ def main():
         sys.exit("site/template.html is missing the /*__DATA__*/null placeholder")
     open("docs/index.html", "w", encoding="utf-8").write(template.replace("/*__DATA__*/null", payload))
     open("docs/.nojekyll", "w").close()
+    os.makedirs("docs/fonts", exist_ok=True)
+    for f in os.listdir("site/fonts"):
+        shutil.copyfile(f"site/fonts/{f}", f"docs/fonts/{f}")
 
     st = collections.Counter(c["status"] for c in cands.values())
     total = sum(len(c["claims"]) for c in cands.values())

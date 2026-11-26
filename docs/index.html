@@ -5,123 +5,241 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LI-CandidateCheck: fact checks of Long Island campaign websites</title>
 <meta name="description" content="Source-by-source fact checks of the claims on Long Island state legislative candidates' campaign websites, using the same method and rating scale for every candidate.">
+<meta name="color-scheme" content="light dark">
+<link rel="preload" href="fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  @font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url("fonts/public-sans-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url("fonts/public-sans-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
   :root {
-    --bg: #f7f6f2; --fg: #1c1c1a; --muted: #62615a; --line: #dfddd5; --card: #fff; --chip: #eeede7;
-    --accent: #1f4e79; --accent-fg: #fff; --hover: #f1f0ea;
-    --r-ok: #2e7d4f; --r-cav: #c9a227; --r-over: #d9731c; --r-unv: #b9b8b1; --r-act: #3c78c8; --r-false: #c0392b;
-    --p-d: #2a5ea8; --p-r: #b8382f; --queued: #e9e8e2;
+    --bg: #f6f5f1; --fg: #1b1c1e; --muted: #5d5f63; --faint: #8b8d91; --line: #dedcd5; --card: #fff; --chip: #edece6;
+    --hover: #f0efe9; --accent: #1d4f80; --accent-fg: #fff; --accent-soft: #e3ecf5;
+    --r-ok: #2c7a4b; --r-cav: #b98d12; --r-over: #cf6a17; --r-unv: #9fa1a5; --r-act: #3b72bf; --r-false: #b8332a;
+    --p-d: #2a5ea8; --p-r: #b23a30; --queued: #e8e7e1;
+    --shadow: 0 1px 2px rgb(20 20 25 / .05), 0 4px 14px -6px rgb(20 20 25 / .12);
+    --shadow-lift: 0 2px 4px rgb(20 20 25 / .06), 0 12px 28px -10px rgb(20 20 25 / .22);
+    --radius: 12px; --ease: cubic-bezier(.16, 1, .3, 1);
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #141413; --fg: #ebeae5; --muted: #a5a49d; --line: #33322e; --card: #1d1d1b; --chip: #292926;
-            --accent: #8db6df; --accent-fg: #10161d; --hover: #252523; --r-unv: #6e6d67; --queued: #2a2a27;
-            --p-d: #6f9be0; --p-r: #e07a72; }
+    :root { --bg: #121315; --fg: #e9e8e4; --muted: #a6a7a9; --faint: #7d7f83; --line: #2f3034; --card: #1b1c1f; --chip: #26272b;
+            --hover: #222327; --accent: #8fb7e2; --accent-fg: #0f1720; --accent-soft: #1d2a38;
+            --r-unv: #6c6e72; --queued: #26272b; --p-d: #6f9be0; --p-r: #e07a72;
+            --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 4px 14px -6px rgb(0 0 0 / .5); --shadow-lift: 0 2px 4px rgb(0 0 0 / .35), 0 14px 30px -10px rgb(0 0 0 / .6); }
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  a { color: var(--accent); }
+  html { scroll-behavior: smooth; scrollbar-color: var(--faint) transparent; }
+  body { margin: 0; background: var(--bg); color: var(--fg); caret-color: var(--accent);
+         font: 16px/1.55 "Public Sans", system-ui, sans-serif; font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-fg); }
+  a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
   button { font: inherit; color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 72px; }
-  header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
-               backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
-  header.top .wrap { display: flex; align-items: center; gap: 18px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
-  .brand { font-weight: 700; font-size: 1.15rem; text-decoration: none; color: var(--fg); letter-spacing: -0.01em; }
-  nav { display: flex; gap: 4px; flex-wrap: wrap; }
-  nav a { text-decoration: none; color: var(--muted); padding: 6px 11px; border-radius: 8px; font-size: .95rem; }
-  nav a[aria-current="page"] { background: var(--card); color: var(--fg); box-shadow: 0 0 0 1px var(--line) inset; }
-  h1 { font-size: 1.75rem; margin: 28px 0 6px; letter-spacing: -0.015em; }
-  h2 { font-size: 1.2rem; margin: 30px 0 10px; }
-  h3 { font-size: .82rem; margin: 22px 0 8px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
-  .lede { color: var(--muted); max-width: 72ch; margin: 0 0 8px; }
-  .note { margin: 16px 0; padding: 11px 15px; border-left: 3px solid var(--accent); background: var(--card); color: var(--muted); font-size: .92rem; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .num, .tnum { font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  main.wrap { padding-bottom: 72px; min-height: 70vh; }
+
+  /* header */
+  header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
+               backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; gap: 20px; padding-top: 10px; padding-bottom: 10px; }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 750; font-size: 1.05rem; text-decoration: none; color: var(--fg); letter-spacing: -0.015em; white-space: nowrap; }
+  .brand svg { flex: none; }
+  nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  nav a { text-decoration: none; color: var(--muted); padding: 7px 12px; border-radius: 8px; font-size: .93rem; font-weight: 500; white-space: nowrap; transition: color .2s, background .2s; }
+  nav a:hover { color: var(--fg); background: var(--hover); }
+  nav a[aria-current="page"] { color: var(--fg); background: var(--card); box-shadow: inset 0 0 0 1px var(--line); }
+  .kbd { margin-left: auto; font-size: .8rem; color: var(--faint); white-space: nowrap; }
+  .kbd kbd { font: inherit; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; color: var(--muted); background: var(--card); }
+  @media (max-width: 720px) { .kbd { display: none; } header.top .wrap { gap: 10px; } }
+  @media (max-width: 520px) { .brand .bt { display: none; } }
+  main:focus { outline: none; }
+
+  /* type */
+  h1 { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.15rem); line-height: 1.15; margin: 34px 0 8px; letter-spacing: -0.025em; font-weight: 750; text-wrap: balance; }
+  h2 { font-size: 1.2rem; margin: 40px 0 12px; letter-spacing: -0.01em; font-weight: 700; }
+  h3 { font-size: .8rem; margin: 26px 0 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 650; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 0 0 8px; font-size: 1.04rem; text-wrap: pretty; }
+  .muted { color: var(--muted); } .small { font-size: .88rem; }
+  .note { margin: 18px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--accent-soft); color: var(--fg); font-size: .92rem; max-width: 80ch; }
+
+  /* surfaces */
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0; }
-  .kpi .v { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; }
-  .kpi .l { color: var(--muted); font-size: .88rem; }
-  .muted { color: var(--muted); }
-  .small { font-size: .88rem; }
-  .chip { display: inline-block; background: var(--chip); border-radius: 999px; padding: 1px 9px; font-size: .85rem; margin: 0 4px 4px 0; }
-  .party { display: inline-block; min-width: 1.6em; text-align: center; border-radius: 5px; font-size: .78rem; font-weight: 700; padding: 0 5px; color: #fff; }
+
+  /* rating glyphs */
+  .ri { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -.17em; flex: none; }
+  .party { display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 5px; font-size: .74rem; font-weight: 750; color: #fff; vertical-align: .05em; }
   .party.D { background: var(--p-d); } .party.R { background: var(--p-r); }
-  .pill { font-size: .75rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
-  .pill.win { border-color: var(--r-ok); color: var(--r-ok); }
-  /* stacked rating bar */
-  .bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--queued); min-width: 80px; }
-  .bar span { display: block; height: 100%; }
+  .pill { font-size: .72rem; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; color: var(--muted); margin-left: 7px; white-space: nowrap; vertical-align: .1em; }
+  .pill.win { border-color: color-mix(in srgb, var(--r-ok) 45%, transparent); color: var(--r-ok); background: color-mix(in srgb, var(--r-ok) 9%, transparent); }
+
+  /* stacked bar */
+  .bar { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--queued); min-width: 60px; gap: 2px; }
+  .bar.big { height: 22px; border-radius: 8px; }
+  .bar.none { background: repeating-linear-gradient(-45deg, var(--queued) 0 6px, transparent 6px 10px); box-shadow: inset 0 0 0 1px var(--line); }
+  .bar > * { display: block; height: 100%; border: 0; padding: 0; transform-origin: left; }
+  .bar > button { cursor: pointer; transition: filter .2s, transform .25s var(--ease); }
+  .bar > button:hover, .bar > button:focus-visible { filter: brightness(1.12) saturate(1.1); }
+  .bar.big > button:hover { transform: scaleY(1.12); }
   .s-✅ { background: var(--r-ok); } .s-🟡 { background: var(--r-cav); } .s-🟠 { background: var(--r-over); }
   .s-⚪ { background: var(--r-unv); } .s-🔵 { background: var(--r-act); } .s-❌ { background: var(--r-false); }
-  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: .85rem; color: var(--muted); margin: 8px 0 4px; }
-  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .grow > * { animation: grow .7s var(--ease) both; }
+    @keyframes grow { from { transform: scaleX(.6); opacity: .35; } }
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .84rem; color: var(--muted); margin: 10px 0 2px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
   /* filters */
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
-  .filters select, .filters input { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: .93rem; }
-  .filters input[type=search] { flex: 1 1 240px; }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--card); }
-  .seg button { border: 0; background: none; padding: 6px 11px; cursor: pointer; font-size: .9rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+  .filters select, .filters input { height: 38px; padding: 0 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: .93rem; transition: border-color .2s, box-shadow .2s; }
+  .filters select:hover, .filters input:hover { border-color: var(--faint); }
+  .filters input:focus, .filters select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .filters input[type=search] { flex: 1 1 260px; min-width: 0; }
+  .seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; background: var(--card); }
+  .seg button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 5px 11px; border-radius: 7px; cursor: pointer; font-size: .88rem; font-weight: 500; color: var(--muted); transition: background .2s, color .2s; }
+  .seg button:hover { background: var(--hover); color: var(--fg); }
   .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
-  /* district grid */
-  .county { margin-bottom: 18px; }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
-  .tile { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 9px 10px 10px; cursor: pointer; position: relative; }
-  .tile:hover { background: var(--hover); }
-  .tile .id { font-weight: 700; }
-  .tile .who { font-size: .78rem; color: var(--muted); line-height: 1.3; margin: 3px 0 7px; min-height: 2.6em; }
-  .tile .flag { position: absolute; top: 9px; right: 9px; width: 10px; height: 10px; border-radius: 50%; }
-  .tile .flag.D { background: var(--p-d); } .tile .flag.R { background: var(--p-r); } .tile .flag.none { background: var(--line); }
-  .tile .mini { display: flex; gap: 3px; }
-  .tile .mini .bar { height: 6px; flex: 1; min-width: 0; }
-  /* candidate rows / chart */
+  .seg button .ct { font-variant-numeric: tabular-nums; opacity: .75; }
+
+  /* district board */
+  .board { display: grid; gap: 26px; margin-top: 8px; }
+  .county h3 { display: flex; align-items: baseline; gap: 10px; margin-top: 0; }
+  .county h3 .ct { color: var(--faint); font-weight: 500; letter-spacing: 0; text-transform: none; font-size: .82rem; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .tile { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 11px; padding: 11px 12px 12px; cursor: pointer; position: relative;
+          box-shadow: var(--shadow); transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .2s; display: flex; flex-direction: column; gap: 8px; }
+  .tile:hover, .tile:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .tile .id { font-weight: 750; letter-spacing: -0.01em; display: flex; align-items: center; justify-content: space-between; }
+  .tile .chamber { font-size: .68rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  .tile .row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 7px; font-size: .8rem; }
+  .tile .row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .row .nm.won { font-weight: 650; }
+  .tile .row .bar { grid-column: 2; height: 5px; min-width: 0; }
+  .tile.dim { opacity: .38; }
+  .board-tools { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin: 18px 0 4px; }
+
+  /* tables */
+  .tablewrap { overflow-x: auto; }
   table.rank { width: 100%; border-collapse: collapse; font-size: .93rem; }
-  table.rank th { text-align: left; color: var(--muted); font-weight: 500; font-size: .82rem; padding: 6px 8px; border-bottom: 1px solid var(--line); cursor: pointer; user-select: none; white-space: nowrap; }
-  table.rank td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  table.rank tr:hover td { background: var(--hover); }
-  table.rank td.barcell { width: 38%; }
+  table.rank th { text-align: left; color: var(--muted); font-weight: 600; font-size: .8rem; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.rank th button { all: unset; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+  table.rank th button:hover { color: var(--fg); }
+  table.rank th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  table.rank td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.rank tbody tr { transition: background .15s; }
+  table.rank tbody tr:hover td { background: var(--hover); }
+  table.rank tr:last-child td { border-bottom: 0; }
+  table.rank td.barcell { width: 36%; min-width: 160px; }
   table.rank td:first-child { white-space: nowrap; }
-  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .num { text-align: right; }
+
+  /* butterfly (head to head) */
+  .fly { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px 12px; align-items: center; font-size: .9rem; }
+  .fly .lab { display: flex; align-items: center; gap: 7px; justify-content: center; color: var(--muted); font-size: .84rem; min-width: 9.5em; }
+  .fly .side { display: flex; align-items: center; gap: 8px; }
+  .fly .side.l { flex-direction: row-reverse; }
+  .fly .track { flex: 1; height: 14px; display: flex; }
+  .fly .side.l .track { justify-content: flex-end; }
+  .fly .fill { height: 100%; border-radius: 4px; min-width: 2px; transform-origin: inherit; }
+  .fly .side.l .fill { transform-origin: right; } .fly .side.r .fill { transform-origin: left; }
+  .fly .v { width: 4.6em; font-variant-numeric: tabular-nums; color: var(--muted); font-size: .84rem; }
+  .fly .side.l .v { text-align: right; }
+  .fly .who { font-weight: 650; display: flex; gap: 8px; align-items: center; }
+  .fly .who.l { justify-content: flex-end; }
+  @media (prefers-reduced-motion: no-preference) { .fly .fill { animation: grow .8s var(--ease) both; } }
+  @media (max-width: 620px) { .fly .lab { min-width: 0; } .fly .lab span { display: none; } }
+
+  /* candidate panels */
+  .panel { display: flex; flex-direction: column; gap: 12px; }
+  .panel .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .panel .name { font-size: 1.1rem; font-weight: 700; }
+  .counts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .counts a, .counts span { display: inline-flex; align-items: center; gap: 5px; background: var(--chip); border-radius: 999px; padding: 2px 10px 2px 7px; font-size: .84rem; text-decoration: none; color: var(--fg); font-variant-numeric: tabular-nums; transition: background .2s; }
+  .counts a:hover { background: var(--accent-soft); }
+  .queued { border: 1px dashed var(--line); border-radius: var(--radius); padding: 20px; color: var(--muted); background: color-mix(in srgb, var(--card) 60%, transparent); }
+  ul.find { padding-left: 1.2em; margin: 10px 0 0; max-width: 78ch; } ul.find li { margin-bottom: 8px; }
+  ul.find li::marker { color: var(--faint); }
+
   /* claims */
-  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 9px;
-           display: grid; grid-template-columns: 1.9rem 1fr; gap: 3px 10px; }
-  .claim:target { box-shadow: 0 0 0 2px var(--accent); }
-  .claim .r { font-size: 1.25rem; line-height: 1.25; grid-row: span 3; }
-  .claim .c { font-weight: 600; }
-  .claim .c small { font-weight: 400; color: var(--muted); margin-left: 6px; }
-  .claim .s { font-size: .84rem; color: var(--muted); }
-  .claim .s a { margin-right: 10px; }
-  .claim .who { font-size: .82rem; color: var(--muted); }
-  .empty { color: var(--muted); padding: 18px 0; }
-  .head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; justify-content: space-between; }
-  .btn { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 11px; cursor: pointer; font-size: .9rem; text-decoration: none; color: var(--fg); display: inline-block; }
+  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 13px 15px; margin-bottom: 10px;
+           display: grid; grid-template-columns: 1.4rem 1fr auto; gap: 4px 12px; box-shadow: var(--shadow); transition: box-shadow .3s var(--ease), border-color .3s; }
+  .claim.hl { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
+  .claim .r { grid-row: span 3; padding-top: 2px; }
+  .claim .r .ri { width: 1.25rem; height: 1.25rem; }
+  .claim .c { font-weight: 650; text-wrap: pretty; }
+  .claim .meta { font-size: .8rem; color: var(--faint); grid-column: 2; }
+  .claim .f { grid-column: 2; max-width: 80ch; text-wrap: pretty; }
+  .claim .s { grid-column: 2; font-size: .84rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+  .claim .acts { grid-row: 1; grid-column: 3; }
+  .iconbtn { border: 0; background: none; color: var(--faint); width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; cursor: pointer; transition: background .2s, color .2s; }
+  .iconbtn:hover { background: var(--hover); color: var(--fg); }
+  .who-line { grid-column: 2; font-size: .82rem; color: var(--muted); }
+  .empty { color: var(--muted); padding: 26px 0; text-align: center; }
+  .head { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+  .head h1 { margin-bottom: 4px; }
+  .crumb { margin: 22px 0 -18px; font-size: .9rem; }
+  .crumb a { text-decoration: none; color: var(--muted); } .crumb a:hover { color: var(--fg); }
+  .btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--card); border-radius: 9px; padding: 8px 14px; cursor: pointer; font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--fg); box-shadow: var(--shadow); transition: transform .2s var(--ease), box-shadow .2s, background .2s; }
+  .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
   .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
-  .side { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-  @media (max-width: 760px) { .side { grid-template-columns: 1fr; } }
-  .queued { background: var(--card); border: 1px dashed var(--line); border-radius: 12px; padding: 18px; color: var(--muted); }
-  ul.find { padding-left: 1.2em; margin: 8px 0; } ul.find li { margin-bottom: 6px; }
-  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+
+  /* summary strip (dashboard) */
+  .summary { display: grid; gap: 14px; }
+  .summary .sentence { font-size: 1.12rem; max-width: 70ch; margin: 0; text-wrap: pretty; }
+  .summary .sentence b { font-variant-numeric: tabular-nums; }
+  .segs-labels { display: flex; font-size: .8rem; color: var(--muted); gap: 2px; }
+  .segs-labels span { overflow: hidden; white-space: nowrap; text-overflow: clip; padding-top: 4px; font-variant-numeric: tabular-nums; }
+
+  /* tooltip + toast */
+  #tip { position: fixed; z-index: 30; pointer-events: none; background: var(--fg); color: var(--bg); font-size: .8rem; font-weight: 500; padding: 5px 9px; border-radius: 7px;
+         box-shadow: var(--shadow-lift); opacity: 0; transform: translateY(4px); transition: opacity .15s, transform .2s var(--ease); white-space: nowrap; }
+  #tip.on { opacity: 1; transform: none; }
+  #toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; translate: -50% 0; background: var(--fg); color: var(--bg); padding: 9px 16px; border-radius: 10px; font-size: .9rem; font-weight: 600;
+           box-shadow: var(--shadow-lift); opacity: 0; transform: translateY(12px); transition: opacity .25s, transform .4s var(--ease); pointer-events: none; }
+  #toast.on { opacity: 1; transform: none; }
+
+  ::view-transition-old(main), ::view-transition-new(main) { animation-duration: .28s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+  main { view-transition-name: main; }
+  @media (prefers-reduced-motion: reduce) { *, ::view-transition-group(*) { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }
+
+  footer { margin: 0 auto; max-width: 1120px; padding: 18px 20px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#/">LI-CandidateCheck</a>
+  <a class="brand" href="#/" aria-label="LI-CandidateCheck home">
+    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="var(--accent)"/><path d="M7 12.4l3.2 3.1L17 8.6" fill="none" stroke="var(--accent-fg)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="bt">LI-CandidateCheck</span></a>
   <nav aria-label="Main">
-    <a href="#/">Races</a><a href="#/dashboard">Dashboard</a><a href="#/compare">Compare</a><a href="#/claims">Search claims</a><a href="#/about">Method</a>
+    <a href="#/">Races</a><a href="#/dashboard">Dashboard</a><a href="#/compare">Compare</a><a href="#/claims">Search</a><a href="#/about">Method</a>
   </nav>
+  <span class="kbd">Press <kbd>/</kbd> to search</span>
 </div></header>
 <main class="wrap" id="app" tabindex="-1"></main>
-<div class="wrap"><footer>
+<footer>
   Data, method and corrections: <a href="https://github.com/rike4545/LI-CandidateCheck">github.com/rike4545/LI-CandidateCheck</a>. Open an issue with a source.
   These reviews test claims on candidates' own sites. They do not rate candidates or endorse anyone. Text and data licensed CC BY 4.0.
-</footer></div>
+</footer>
+<div id="tip" role="tooltip"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <script>
 const D = {"election": "2026-11-03", "results_note": "Results are unofficial unless marked certified. Winners are listed only where a cited source names them.", "races": [{"id": "SD1", "chamber": "Senate", "district": 1, "county": "Suffolk", "incumbent": "palumbo-anthony", "winner": "murray-chris", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "murray-chris", "name": "Chris Murray", "party": "D"}, {"slug": "palumbo-anthony", "name": "Anthony Palumbo", "party": "R"}]}, {"id": "SD2", "chamber": "Senate", "district": 2, "county": "Suffolk", "incumbent": "mattera-mario", "winner": "mattera-mario", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "singh-harjot", "name": "Harjot Singh", "party": "D"}, {"slug": "mattera-mario", "name": "Mario Mattera", "party": "R"}]}, {"id": "SD3", "chamber": "Senate", "district": 3, "county": "Suffolk", "incumbent": "murray-dean", "winner": "murray-dean", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "vargas-ayala-antonio", "name": "Antonio Vargas-Ayala", "party": "D"}, {"slug": "murray-dean", "name": "Dean Murray", "party": "R"}]}, {"id": "SD4", "chamber": "Senate", "district": 4, "county": "Suffolk", "incumbent": "martinez-monica", "winner": "martinez-monica", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "martinez-monica", "name": "Monica Martinez", "party": "D"}, {"slug": "wakefield-brianne", "name": "Brianne Wakefield", "party": "R"}]}, {"id": "SD5", "chamber": "Senate", "district": 5, "county": "Nassau/Suffolk", "incumbent": "rhoads-steven", "winner": "rhoads-steven", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "piddoubny-andrew", "name": "Andrew Piddoubny", "party": "D"}, {"slug": "rhoads-steven", "name": "Steven Rhoads", "party": "R"}]}, {"id": "SD6", "chamber": "Senate", "district": 6, "county": "Nassau", "incumbent": "bynoe-siela", "winner": "bynoe-siela", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "bynoe-siela", "name": "Siela Bynoe", "party": "D"}, {"slug": "capp-matthew", "name": "Matthew Capp", "party": "R"}]}, {"id": "SD7", "chamber": "Senate", "district": 7, "county": "Nassau", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "lancman-rory", "name": "Rory Lancman", "party": "D"}, {"slug": "blumencranz-jake", "name": "Jake Blumencranz", "party": "R"}]}, {"id": "SD8", "chamber": "Senate", "district": 8, "county": "Nassau/Suffolk", "incumbent": null, "open_seat": true, "winner": "gandolfo-jarett", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "taveras-josh", "name": "Josh Taveras", "party": "D"}, {"slug": "gandolfo-jarett", "name": "Jarett Gandolfo", "party": "R"}]}, {"id": "SD9", "chamber": "Senate", "district": 9, "county": "Nassau", "incumbent": "canzoneri-fitzpatrick-patricia", "winner": "vider-lisa", "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election", "candidates": [{"slug": "vider-lisa", "name": "Lisa Vider", "party": "D"}, {"slug": "canzoneri-fitzpatrick-patricia", "name": "Patricia Canzoneri-Fitzpatrick", "party": "R"}]}, {"id": "AD1", "chamber": "Assembly", "district": 1, "county": "Suffolk", "incumbent": "schiavoni-tommy-john", "winner": "schiavoni-tommy-john", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "schiavoni-tommy-john", "name": "Tommy John Schiavoni", "party": "D"}, {"slug": "kiely-stephen", "name": "Stephen Kiely", "party": "R"}]}, {"id": "AD2", "chamber": "Assembly", "district": 2, "county": "Suffolk", "incumbent": "giglio-jodi", "winner": "giglio-jodi", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "szika-michael", "name": "Michael Szika", "party": "D"}, {"slug": "giglio-jodi", "name": "Jodi Giglio", "party": "R"}]}, {"id": "AD3", "chamber": "Assembly", "district": 3, "county": "Suffolk", "incumbent": "destefano-joe", "winner": null, "candidates": [{"slug": "slaughter-joshua", "name": "Joshua Slaughter", "party": "D"}, {"slug": "destefano-joe", "name": "Joe DeStefano", "party": "R"}]}, {"id": "AD4", "chamber": "Assembly", "district": 4, "county": "Suffolk", "incumbent": "kassay-rebecca", "winner": null, "candidates": [{"slug": "kassay-rebecca", "name": "Rebecca Kassay", "party": "D"}, {"slug": "sussman-william", "name": "William Sussman", "party": "R"}]}, {"id": "AD5", "chamber": "Assembly", "district": 5, "county": "Suffolk", "incumbent": "smith-douglas", "winner": null, "candidates": [{"slug": "russell-victoria", "name": "Victoria Russell", "party": "D"}, {"slug": "smith-douglas", "name": "Douglas Smith", "party": "R"}]}, {"id": "AD6", "chamber": "Assembly", "district": 6, "county": "Suffolk", "incumbent": "ramos-philip", "winner": null, "candidates": [{"slug": "ramos-philip", "name": "Philip Ramos", "party": "D"}, {"slug": "barravecchio-dennis", "name": "Dennis Barravecchio", "party": "R"}]}, {"id": "AD7", "chamber": "Assembly", "district": 7, "county": "Suffolk", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "kopp-patricia", "name": "Patricia Kopp", "party": "D"}, {"slug": "kuhn-dawn-marie", "name": "Dawn Marie Kuhn", "party": "R"}]}, {"id": "AD8", "chamber": "Assembly", "district": 8, "county": "Suffolk", "incumbent": "fitzpatrick-michael", "winner": null, "candidates": [{"slug": "trupiano-okeefe-lynn", "name": "Lynn Trupiano-O'Keefe", "party": "D"}, {"slug": "fitzpatrick-michael", "name": "Michael Fitzpatrick", "party": "R"}]}, {"id": "AD9", "chamber": "Assembly", "district": 9, "county": "Nassau/Suffolk", "incumbent": "durso-michael", "winner": "durso-michael", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "walls-chris", "name": "Chris Walls", "party": "D"}, {"slug": "durso-michael", "name": "Michael Durso", "party": "R"}]}, {"id": "AD10", "chamber": "Assembly", "district": 10, "county": "Nassau/Suffolk", "incumbent": "stern-steve", "winner": "stern-steve", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "stern-steve", "name": "Steve Stern", "party": "D"}, {"slug": "legrow-tiffany", "name": "Tiffany LeGrow", "party": "R"}]}, {"id": "AD11", "chamber": "Assembly", "district": 11, "county": "Nassau/Suffolk", "incumbent": "opharrow-kwani", "winner": "opharrow-kwani", "result_source": "https://www.cityandstateny.com/politics/2026/11/where-do-all-key-new-york-state-legislative-races-stand/417054/", "candidates": [{"slug": "opharrow-kwani", "name": "Kwani O'Pharrow", "party": "D"}, {"slug": "cardinale-joseph", "name": "Joseph Cardinale", "party": "R"}]}, {"id": "AD12", "chamber": "Assembly", "district": 12, "county": "Suffolk", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "herskowitz-craig", "name": "Craig Herskowitz", "party": "D"}, {"slug": "weber-david", "name": "David Weber", "party": "R"}]}, {"id": "AD13", "chamber": "Assembly", "district": 13, "county": "Nassau", "incumbent": "lavine-charles", "winner": "lavine-charles", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "lavine-charles", "name": "Charles Lavine", "party": "D"}, {"slug": "dunleavy-conner", "name": "Conner Dunleavy", "party": "R"}]}, {"id": "AD14", "chamber": "Assembly", "district": 14, "county": "Nassau", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "brooks-john", "name": "John Brooks", "party": "D"}, {"slug": "fredericks-shannon", "name": "Shannon Fredericks", "party": "R"}]}, {"id": "AD15", "chamber": "Assembly", "district": 15, "county": "Nassau", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "tarulli-dean", "name": "Dean Tarulli", "party": "D"}, {"slug": "pironi-paolo", "name": "Paolo Pironi", "party": "R"}]}, {"id": "AD16", "chamber": "Assembly", "district": 16, "county": "Nassau", "incumbent": null, "open_seat": true, "winner": null, "candidates": [{"slug": "keiserman-kim", "name": "Kim Keiserman", "party": "D"}, {"slug": "hassid-david", "name": "David Hassid", "party": "R"}]}, {"id": "AD17", "chamber": "Assembly", "district": 17, "county": "Nassau", "incumbent": "mikulin-john", "winner": null, "candidates": [{"slug": "lofters-sunita", "name": "Sunita Lofters", "party": "D"}, {"slug": "mikulin-john", "name": "John Mikulin", "party": "R"}]}, {"id": "AD18", "chamber": "Assembly", "district": 18, "county": "Nassau", "incumbent": "burroughs-noah", "winner": null, "candidates": [{"slug": "burroughs-noah", "name": "Noah Burroughs", "party": "D"}, {"slug": "jackson-charlene", "name": "Charlene Jackson", "party": "R"}]}, {"id": "AD19", "chamber": "Assembly", "district": 19, "county": "Nassau", "incumbent": "ra-edward", "winner": "ra-edward", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "connaughton-colleen", "name": "Colleen Connaughton", "party": "D"}, {"slug": "ra-edward", "name": "Edward Ra", "party": "R"}]}, {"id": "AD20", "chamber": "Assembly", "district": 20, "county": "Nassau", "incumbent": "brown-ari", "winner": "brown-ari", "result_source": "https://www.liherald.com/longbeach/stories/nassau-county-midterm-elections-2026,226437", "candidates": [{"slug": "fischer-meir", "name": "Meir Fischer", "party": "D"}, {"slug": "brown-ari", "name": "Ari Brown", "party": "R"}]}, {"id": "AD21", "chamber": "Assembly", "district": 21, "county": "Nassau", "incumbent": "griffin-judy", "winner": "griffin-judy", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "griffin-judy", "name": "Judy Griffin", "party": "D"}, {"slug": "villacci-irene", "name": "Irene Villacci", "party": "R"}]}, {"id": "AD22", "chamber": "Assembly", "district": 22, "county": "Nassau", "incumbent": "solages-michaelle", "winner": "solages-michaelle", "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/", "candidates": [{"slug": "solages-michaelle", "name": "Michaelle Solages", "party": "D"}, {"slug": "inzerillo-robert", "name": "Robert Inzerillo", "party": "R"}]}], "candidates": {"murray-chris": {"slug": "murray-chris", "name": "Chris Murray", "party": "D", "lines": "D, WF", "race": "SD1", "incumbent": false, "status": "reviewed", "site": "https://chrismurrayforstatesenate.com/", "site_label": "Home, About and Priorities pages", "captured": "2026-11-26", "categories": ["Biography", "Record", "Election", "Policy facts"], "where_label": "Pages", "bottom_line": "The site's core claims hold up and nothing tested was false. The problems are outdated titles and one inconsistent number.", "findings": ["Past roles read as current: \"Chair\" of the SCCC trustees and of Citizens Campaign for the Environment, and president of the Nassau Council of Chambers of Commerce, all listed without dates. SCCC now lists him as a trustee; news calls him a former CCE chair; the chambers presidency is documented for 2010.", "The tax-swap math is unclear: the site says a 1% income tax increase on the \"top 8%\" pays for the sales-tax cut, but in interviews he described that group as people earning over $600,000, under 2% of filers.", "\"$10 back on every $1,000\" holds only for taxable purchases; groceries, prescriptions and most clothing are already exempt.", "Cap-and-invest is described as underway; it was drafted but never adopted, and the 2026 budget pushed the deadline to 2028.", "Three bio roles have no public trail: Autism Legal Foundation, NYCLU volunteer work, Mental Health Association of Nassau presidency.", "The Lloyd Aquifer case is accurate: the 2007 DEC denial is real and Murray was counsel of record, though the opponents were a coalition rather than one group."], "page_issues": ["Post-election headlines sit beside a \"Four weeks to go\" banner and a request to give \"before November 3.\"", "Several items are dated \"2926\" instead of 2026.", "The Home page calls him a CCE \"board leader\"; the About page says \"Chair.\"", "The site cites no filings, decisions or reports."], "follow_ups": ["Search the NYS Charities Bureau and IRS Tax Exempt Organization Search for an \"Autism Legal Foundation.\"", "Ask the campaign for the revenue estimate behind the 8% / $600,000 figure."], "depth": "full", "claims": [{"id": "B1", "category": "Biography", "pages": "Home; About", "claim": "Has practiced law for more than 30 years", "rating": "✅", "finding": "His Rivkin Radler profile says he has over 30 years of experience. He holds degrees from SUNY Albany and Georgetown Law and moved to Long Island in the early 1990s.", "sources": ["https://www.rivkinradler.com/attorneys/e-christopher-murray", "https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/"]}, {"id": "B2", "category": "Biography", "pages": "About", "claim": "Partner at Rivkin Radler", "rating": "✅", "finding": "Listed as a partner on the firm's attorney page.", "sources": ["https://www.rivkinradler.com/attorneys/e-christopher-murray"]}, {"id": "B3", "category": "Biography", "pages": "About", "claim": "Practices environmental, civil rights, and commercial law", "rating": "✅", "finding": "His firm profile lists complex commercial work, including environmental and civil rights matters. Local press describes his practice as environmental law, real estate, and litigation.", "sources": ["https://www.rivkinradler.com/attorneys/e-christopher-murray", "https://www.27east.com/east-hampton-press/news/government/article_9200dc8f-0e48-4830-bac8-700edd1b1c44.html"]}, {"id": "B4", "category": "Biography", "pages": "Home", "claim": "Lives in Strongs Neck with his wife and four children", "rating": "✅", "finding": "RiverheadLOCAL reports he lives in Strong's Neck and has four children. 27east says Setauket; Strongs Neck is part of the Setauket area.", "sources": ["https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/", "https://www.27east.com/east-hampton-press/news/government/article_9200dc8f-0e48-4830-bac8-700edd1b1c44.html"]}, {"id": "B5", "category": "Biography", "pages": "Home; About", "claim": "Chairs the Suffolk County Community College Board of Trustees", "rating": "🟡", "finding": "True in the past, but out of date. He chaired the board for several years (SUNY quoted him as chair in 2021), and 27east reports about 10 years on the board with five as chair. The college's current trustee list shows him as a trustee and Shirley Coverdale as chair. The site presents the title as current.", "sources": ["https://www.sunysuffolk.edu/about-suffolk/contacts-and-directories/board-of-trustees-and-sponsors.jsp", "https://www.suny.edu/suny-news/press-releases/4-21/4-26-21/", "https://www.27east.com/east-hampton-press/news/government/article_9200dc8f-0e48-4830-bac8-700edd1b1c44.html"]}, {"id": "B6", "category": "Biography", "pages": "Home; About", "claim": "Chair of the Board, Citizens Campaign for the Environment", "rating": "🟡", "finding": "He did chair this board. News coverage calls him the former chair, or says he has served as chair. The About page lists the title alongside current roles, while the Home page says only \"board leader.\" CCE's own board page could not be retrieved.", "sources": ["https://www.prismnews.com/local/suffolk-ny/environmental-attorney-chris-murray-enters-race-for", "https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/"]}, {"id": "B7", "category": "Biography", "pages": "Home; About", "claim": "Founded the Autism Legal Foundation, which gives free legal help to adults on the autism spectrum", "rating": "⚪", "finding": "No registration, website, or press coverage found for an organization by this name. This is not a finding that the claim is false.", "sources": []}, {"id": "B8", "category": "Biography", "pages": "About", "claim": "Volunteer attorney for the New York Civil Liberties Union", "rating": "⚪", "finding": "No public record found either way. This kind of pro bono work is often not published.", "sources": []}, {"id": "B9", "category": "Biography", "pages": "About", "claim": "President, Nassau County Mental Health Association", "rating": "⚪", "finding": "The organization's legal name is the Mental Health Association of Nassau County. No record found of Murray as its president. The page gives no dates.", "sources": []}, {"id": "B10", "category": "Biography", "pages": "About", "claim": "President, Nassau Council of Chambers of Commerce", "rating": "🟡", "finding": "Confirmed for 2010, when he was a partner at Ruskin Moscou Faltischek. It is listed without dates next to current roles, so readers may take it as current.", "sources": ["https://www.franchising.com/news/20100302_nassau_council_of_chambers_of_commerce_hosts_nassa.html"]}, {"id": "R1", "category": "Record", "pages": "About; Priorities", "claim": "Represented an environmental group that successfully stopped a plan to drill a new well into the Lloyd Aquifer", "rating": "✅", "finding": "In October 2007 the DEC Commissioner denied the Suffolk County Water Authority's request for an exemption from the Lloyd Sands moratorium for its Middleville Road No. 3 well in Huntington. The ALJ had recommended approval. Murray, then at Reisman Peirez & Reisman, is on the decision's service list as counsel. The opposing parties were a coalition of about a dozen civic and environmental groups plus individuals, not a single group.", "sources": ["https://extapps.dec.ny.gov/docs/legal_protection_pdf/suffolk_county_decision.pdf", "https://extapps.dec.ny.gov/docs/legal_protection_pdf/suffolkcowaterir.pdf"]}, {"id": "R2", "category": "Record", "pages": "About", "claim": "Campaigned at train stations, downtown sidewalks, and front doors across the district", "rating": "🔵", "finding": "Campaign activity; can't be documented from public records.", "sources": []}, {"id": "E1", "category": "Election", "pages": "Home", "claim": "Flipped the 1st Senate District", "rating": "✅", "finding": "Unofficial election-night results had Murray ahead of incumbent Anthony Palumbo (R) by 4,064 votes with 213 of 214 election districts reporting. Palumbo congratulated him. Local press has since called him Senator-elect.", "sources": ["https://suffolktimes.timesreview.com/2026/11/electionliveblog/", "https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/", "https://www.cityandstateny.com/politics/2026/11/where-do-all-key-new-york-state-legislative-races-stand/417054/"]}, {"id": "E2", "category": "Election", "pages": "Home", "claim": "Win ended a 112-year Republican hold on the district", "rating": "✅", "finding": "Press reports say Republicans had held the seat since 1914 (2026 − 1914 = 112). District lines and numbering have changed many times over that period.", "sources": ["https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/"]}, {"id": "E3", "category": "Election", "pages": "Home; Priorities", "claim": "Democrats lead the State Senate and the district was represented by the minority party", "rating": "✅", "finding": "Democrats hold the Senate majority. Palumbo, the incumbent, is a Republican.", "sources": ["https://www.cityandstateny.com/politics/2026/11/where-do-all-key-new-york-state-legislative-races-stand/417054/"]}, {"id": "P1", "category": "Policy facts", "pages": "Priorities", "claim": "New York State's share of the sales tax is 4%", "rating": "✅", "finding": "The state rate is 4%. Counties and cities add their own rates on top of it. State sales and use tax collections were $20.27B in SFY 2025-26.", "sources": ["https://www.tax.ny.gov/research/collections/fy_collections_stat_report/2025-2026-annual-statistical-reports.htm"]}, {"id": "P2", "category": "Policy facts", "pages": "Priorities", "claim": "Cutting the state share to 3% means $10 back on every $1,000 you spend", "rating": "🟡", "finding": "The arithmetic is correct (1% of $1,000), but only for taxable purchases. Groceries, prescription drugs, and most clothing under $110 are already exempt, so a typical $1,000 of household spending returns less than $10.", "sources": []}, {"id": "P3", "category": "Policy facts", "pages": "Priorities", "claim": "New Yorkers would keep roughly $5.4 billion a year", "rating": "🟡", "finding": "Plausible, but the page shows no math. One point of a 4% tax is a quarter of collections. That is about $5.1B on SFY 2025-26 collections of $20.27B, and roughly $5.4B in SFY 2026-27 if collections keep growing about 6% a year.", "sources": ["https://www.tax.ny.gov/research/collections/fy_collections_stat_report/2025-2026-annual-statistical-reports.htm", "https://www.osc.ny.gov/press/releases/2026/04/dinapoli-state-tax-collections-exceeded-estimates-sfy-2025-26"]}, {"id": "P4", "category": "Policy facts", "pages": "Priorities", "claim": "Paid for by a 1% income tax increase on the top 8% of earners", "rating": "🟠", "finding": "The candidate's own descriptions conflict. In interviews he defined the group as people earning more than $600,000 (27east) and said the plan helps people earning under $600,000 (RiverheadLOCAL). Only about 1.7% of full-year resident filers have income of $500,000 or more (OSC, tax years 2015-19), so a $600,000 threshold covers far fewer than 8% of earners. The two versions would raise very different amounts, and no revenue estimate is published for either.", "sources": ["https://www.27east.com/east-hampton-press/news/government/article_9200dc8f-0e48-4830-bac8-700edd1b1c44.html", "https://riverheadlocal.com/2026/11/10/meet-chris-murray-democrat-who-flipped-new-yorks-1st-senate-district/", "https://www.osc.ny.gov/files/reports/pdf/taxpayer-migration.pdf"]}, {"id": "P5", "category": "Policy facts", "pages": "Priorities", "claim": "The New York Health Act is A1466 / S3425", "rating": "✅", "finding": "These are the correct 2025-26 bill numbers. Both bills were re-referred to their Health committees on January 7, 2026, and neither has passed a house.", "sources": ["https://www.nysenate.gov/legislation/bills/2025/S3425", "https://www.nysenate.gov/legislation/bills/2025/A1466"]}, {"id": "P6", "category": "Policy facts", "pages": "About; Priorities", "claim": "The Lloyd Aquifer is Long Island's deepest and oldest source of drinking water", "rating": "✅", "finding": "State law (ECL 15-1502) defines the Lloyd Sands as the deepest and oldest water-bearing layer of the Long Island aquifer system. New Lloyd wells are under a statutory moratorium (ECL 15-1528).", "sources": ["https://extapps.dec.ny.gov/docs/legal_protection_pdf/suffolk_county_decision.pdf", "https://nysenate.gov/legislation/laws/ENV/15-1528"]}, {"id": "P7", "category": "Policy facts", "pages": "Home; Priorities", "claim": "Long Island sits on a sole-source aquifer that supplies its drinking water", "rating": "✅", "finding": "EPA designated the Nassau/Suffolk aquifer system a sole source aquifer in 1978 (43 FR 26611).", "sources": ["https://webarchive.library.unt.edu/eot2008/20090511011432/http:/www.epa.gov/region2/water/aquifer"]}, {"id": "P8", "category": "Policy facts", "pages": "Priorities", "claim": "Today's data center moratoriums are temporary", "rating": "✅", "finding": "The Governor's July 2026 executive order pauses new hyperscale data centers and is lifted once state standards are final. The Legislature's bill would have imposed a one-year pause.", "sources": ["https://www.governor.ny.gov/news/long-island-governor-hochul-highlights-first-statewide-moratorium-new-hyperscale-data-centers", "https://www.nysenate.gov/newsroom/press-releases/2026/kristen-gonzalez/ny-state-senator-kristen-gonzalez-passes-data-center"]}, {"id": "P9", "category": "Policy facts", "pages": "Priorities", "claim": "Promises to keep \"implementing New York's cap-and-invest program\"", "rating": "🟡", "finding": "The wording implies a program already exists. It was drafted but never adopted. A court ordered DEC to issue emissions rules by February 6, 2026, and the 2026 budget then extended the deadline to 2028.", "sources": ["https://blogs.law.columbia.edu/climatechange/2025/11/20/to-implement-or-not-to-implement-new-york-state-climate-law-in-2025", "https://www.gtlaw.com/pl/insights/2026/5/new-york-budget-amends-the-states-climate-leadership-and-community-protection-act"]}, {"id": "P10", "category": "Policy facts", "pages": "Priorities", "claim": "ICE raids across the county and on the East End have damaged trust between residents and hurt local economies", "rating": "⚪", "finding": "A characterization; not tested against economic or survey data.", "sources": []}]}, "palumbo-anthony": {"slug": "palumbo-anthony", "name": "Anthony Palumbo", "party": "R", "status": "queued", "race": "SD1", "incumbent": true, "claims": []}, "singh-harjot": {"slug": "singh-harjot", "name": "Harjot Singh", "party": "D", "status": "queued", "race": "SD2", "incumbent": false, "claims": []}, "mattera-mario": {"slug": "mattera-mario", "name": "Mario Mattera", "party": "R", "status": "queued", "race": "SD2", "incumbent": true, "claims": []}, "vargas-ayala-antonio": {"slug": "vargas-ayala-antonio", "name": "Antonio Vargas-Ayala", "party": "D", "status": "queued", "race": "SD3", "incumbent": false, "claims": []}, "murray-dean": {"slug": "murray-dean", "name": "Dean Murray", "party": "R", "status": "queued", "race": "SD3", "incumbent": true, "claims": []}, "martinez-monica": {"slug": "martinez-monica", "name": "Monica Martinez", "party": "D", "status": "queued", "race": "SD4", "incumbent": true, "claims": []}, "wakefield-brianne": {"slug": "wakefield-brianne", "name": "Brianne Wakefield", "party": "R", "status": "queued", "race": "SD4", "incumbent": false, "claims": []}, "piddoubny-andrew": {"slug": "piddoubny-andrew", "name": "Andrew Piddoubny", "party": "D", "status": "queued", "race": "SD5", "incumbent": false, "claims": []}, "rhoads-steven": {"slug": "rhoads-steven", "name": "Steven Rhoads", "party": "R", "status": "queued", "race": "SD5", "incumbent": true, "claims": []}, "bynoe-siela": {"slug": "bynoe-siela", "name": "Siela Bynoe", "party": "D", "status": "queued", "race": "SD6", "incumbent": true, "claims": []}, "capp-matthew": {"slug": "capp-matthew", "name": "Matthew Capp", "party": "R", "status": "queued", "race": "SD6", "incumbent": false, "claims": []}, "lancman-rory": {"slug": "lancman-rory", "name": "Rory Lancman", "party": "D", "status": "queued", "race": "SD7", "incumbent": false, "claims": []}, "blumencranz-jake": {"slug": "blumencranz-jake", "name": "Jake Blumencranz", "party": "R", "status": "queued", "race": "SD7", "incumbent": false, "claims": []}, "taveras-josh": {"slug": "taveras-josh", "name": "Josh Taveras", "party": "D", "status": "queued", "race": "SD8", "incumbent": false, "claims": []}, "gandolfo-jarett": {"slug": "gandolfo-jarett", "name": "Jarett Gandolfo", "party": "R", "status": "queued", "race": "SD8", "incumbent": false, "claims": []}, "vider-lisa": {"slug": "vider-lisa", "name": "Lisa Vider", "party": "D", "status": "queued", "race": "SD9", "incumbent": false, "claims": []}, "canzoneri-fitzpatrick-patricia": {"slug": "canzoneri-fitzpatrick-patricia", "name": "Patricia Canzoneri-Fitzpatrick", "party": "R", "status": "queued", "race": "SD9", "incumbent": true, "claims": []}, "schiavoni-tommy-john": {"slug": "schiavoni-tommy-john", "name": "Tommy John Schiavoni", "party": "D", "status": "queued", "race": "AD1", "incumbent": true, "claims": []}, "kiely-stephen": {"slug": "kiely-stephen", "name": "Stephen Kiely", "party": "R", "status": "queued", "race": "AD1", "incumbent": false, "claims": []}, "szika-michael": {"slug": "szika-michael", "name": "Michael Szika", "party": "D", "status": "queued", "race": "AD2", "incumbent": false, "claims": []}, "giglio-jodi": {"slug": "giglio-jodi", "name": "Jodi Giglio", "party": "R", "status": "queued", "race": "AD2", "incumbent": true, "claims": []}, "slaughter-joshua": {"slug": "slaughter-joshua", "name": "Joshua Slaughter", "party": "D", "status": "queued", "race": "AD3", "incumbent": false, "claims": []}, "destefano-joe": {"slug": "destefano-joe", "name": "Joe DeStefano", "party": "R", "status": "queued", "race": "AD3", "incumbent": true, "claims": []}, "kassay-rebecca": {"slug": "kassay-rebecca", "name": "Rebecca Kassay", "party": "D", "race": "AD4", "incumbent": true, "status": "reviewed", "site": "https://www.kassayforassembly.com/rebecca-delivers", "site_label": "\"Rebecca Delivers\" page", "captured": "2026-10-24", "categories": ["Statewide", "Biography", "Legislation", "Funding", "State aid", "Volunteer events", "Constituent service", "Advocacy"], "where_label": "Tabs", "bottom_line": "The page is largely grounded in real, checkable events, and nothing tested was false. The problems are framing and precision, not fabrication.", "findings": ["Credit inflation on big numbers. The $6.5M Mill Pond Dam figure is the total state commitment; $2.75M was already committed by the Governor before Kassay's $3.75M budget add. Formula school aid (e.g., $282.7M for Longwood) is listed under \"Rebecca Delivers\" though it flows by statewide formula.", "One legislative claim overreaches. The cannabis bills Kassay introduced govern licensed retailers and local zoning input. The bill targeting illicit cannabis (A10698) was sponsored by another member; Kassay co-sponsored it.", "One volunteer number is higher than her own office reported: \"over 100 smoke detectors\" on the page vs. \"nearly 100\" in 74 homes in her office's release.", "Omitted outcome: the Port Jefferson–Rocky Point football advocacy is listed without noting the merger was denied and Port Jefferson fielded no varsity team in 2026.", "19 grant line items ($10K–$180K) have no public paper trail. Where one exists it sometimes shows less: Port Jefferson schools ($50K found vs. $130K claimed) and Comsewogue ($48K found vs. $96K claimed)."], "page_issues": ["Shared grants are repeated under up to six community tabs, so a reader tallying the page will double-count.", "The same grant is described differently in different tabs (Port Jefferson $130K; Three Village $150K).", "Two SCPD grants ($20K e-bike enforcement; $40K Behavioral Health Unit and e-bike enforcement) may describe the same money.", "Typo: \"CRP\" should be \"CPR\" (Three Village tab).", "None of the ~60 claims link to a bill, release, or budget document."], "follow_ups": ["FOIL the Assembly Ways and Means Committee for the AD4 legislative-initiative / SAM grant list for SFY 2025-26 and 2026-27.", "Pull NYSED enacted-budget school aid runs (BT2526, BT2627) for Longwood, Middle Country, Comsewogue, Port Jefferson and Three Village.", "Ask grant recipients to confirm receipt and amount."], "depth": "full", "claims": [{"id": "S1", "category": "Statewide", "pages": "Intro", "claim": "Helped lower middle-class income tax rates to their lowest since the 1950s", "rating": "🟡", "finding": "Supported by the state Division of the Budget: the FY2026 budget cuts middle-bracket rates (e.g. 5.5%→5.3% and 6%→5.8% by 2027 for joint filers), which DOB says are the lowest since 1959. Kassay's role is her budget vote. Cuts are 0.1–0.2 points; PolitiFact rated the Governor's related 'largest middle-class cut in 70 years' claim False.", "sources": ["https://politifact.com/factchecks/2025/jun/01/kathy-hochul/no-new-yorkers-are-not-getting-the-largest-middle/"]}, {"id": "S2", "category": "Statewide", "pages": "Intro", "claim": "Helped expand access to child care, pre-K, and free school meals", "rating": "🟡", "finding": "These were statewide budget initiatives led by the Governor; Kassay's role is her budget vote. Her office's 2025 mailer cites >$1B for universal pre-K.", "sources": ["https://assembly.ny.gov/write/upload/member_files/004/pdfs/20250626_0114512.pdf"]}, {"id": "S3", "category": "Statewide", "pages": "Intro", "claim": "Helped provide utility relief for working families", "rating": "⚪", "finding": "Statewide budget item; not independently checked against a specific program.", "sources": []}, {"id": "S4", "category": "Statewide", "pages": "Intro", "claim": "Helped address e-bikes, illegal cannabis sales, hate crimes, and auto insurance fraud", "rating": "⚪", "finding": "Statewide budget/legislative items; not individually traced. See L3 for her own cannabis bills.", "sources": []}, {"id": "S5", "category": "Biography", "pages": "Intro", "claim": "Small business owner and environmental educator", "rating": "✅", "finding": "Owner of the Fox and Owl Inn, Port Jefferson; former youth program director at Avalon Park & Preserve; environmental studies degree.", "sources": ["https://tbrnewsmedia.com/?p=171731"]}, {"id": "L1", "category": "Legislation", "pages": "Port Jefferson Village; Port Jefferson Station; Stony Brook; Strongs Neck; Terryville; Setauket; Belle Terre; Three Village", "claim": "Passed legislation to permanently preserve the Setauket–Port Jefferson Station Greenway", "rating": "✅", "finding": "A10341 (Kassay) / S10161 (Martinez, Palumbo). Signed July 6, 2026, Chapter 164. Grants a perpetual conservation easement and cleared the MTA's purchase of ~46 acres of the Lawrence Aviation site.", "sources": ["https://www.nysenate.gov/legislation/bills/2025/A10341", "https://www.assembly.ny.gov/mem/Rebecca-Kassay/story/119018"]}, {"id": "L2", "category": "Legislation", "pages": "Stony Brook; Setauket", "claim": "Passed legislation to facilitate collaboration between Stony Brook FD, Setauket FD, and Stony Brook University", "rating": "✅", "finding": "A8279 (Kassay) / S7889. Lets the two fire districts contract with SUNY Stony Brook for fire/EMS services. Passed Senate 62-0; signed Nov 21, 2025, Chapter 533.", "sources": ["https://www.nysenate.gov/legislation/bills/2025/A8279"]}, {"id": "L3", "category": "Legislation", "pages": "Coram", "claim": "Introduced illegal cannabis sale legislation to retain local government oversight and help stop illegal sales of intoxicating cannabis products", "rating": "🟠", "finding": "Partly. Kassay's own bills are A10088A (license applicants must attest to local zoning compliance — supports the 'local oversight' part) and A9282 (200-ft buffer from addiction treatment centers). Both govern LICENSED retailers and remain in committee. The bill that targets ILLICIT cannabis, A10698 (anti-inversion; passed both houses June 2026), is sponsored by Asm. Dais — Kassay is a co-sponsor, not the introducer.", "sources": ["https://www.nysenate.gov/legislation/bills/2025/A10088/amendment/A", "https://www.nysenate.gov/legislation/bills/2025/A9282", "https://www.nysenate.gov/legislation/bills/2025/A10698/amendment/original"]}, {"id": "L4", "category": "Legislation", "pages": "Port Jefferson Village; Port Jefferson Station; Stony Brook; Terryville; Setauket; Belle Terre; Three Village", "claim": "Championing efforts to electrify and modernize the Port Jefferson rail line for a one-seat ride", "rating": "🟡", "finding": "Supported as advocacy: she sponsored A8560A (2025, passed the Assembly) and the Greenway law that enabled the MTA's Sept 30, 2026 land purchase. Caveat: the state describes a rail yard as a future option only; no electrification funding or plan has been announced.", "sources": ["https://www.governor.ny.gov/news/governor-hochul-announces-mta-long-island-rail-road-acquires-portion-former-lawrence-aviation", "https://assembly.ny.gov/mem/Rebecca-Kassay/story/114525"]}, {"id": "F1", "category": "Funding", "pages": "Stony Brook; Setauket; Three Village", "claim": "$6.5 million for rebuilding the Mill Pond Dam and Harbor Road", "rating": "🟡", "finding": "$6.5M is the TOTAL state commitment. Governor had already committed $2.75M; Kassay is credited (by her own office) with adding $3.75M via the FY2026-27 budget's $20M Suffolk resiliency line. The Three Village tab phrases this accurately ('increased… to $6.5 million'); the Stony Brook and Setauket tabs imply she delivered the full amount. $2.5M federal funding also exists.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/118376"]}, {"id": "F2", "category": "Funding", "pages": "Coram; Gordon Heights", "claim": "$2.2 million for a public playground, sport court and pavilion at Coram Elementary", "rating": "✅", "finding": "Announced Aug 10, 2026 with Speaker Heastie: $2,265,000. Page rounds down.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/119278", "https://longisland.news12.com/2026/08/12/coram-elementary-school-fire-department-awarded-over-3m-in-state-funding/0qpza3J9jNCRnrTYHKGQO"]}, {"id": "F3", "category": "Funding", "pages": "Coram", "claim": "$800,000 to make Coram FD's community space ADA accessible", "rating": "✅", "finding": "Same Aug 2026 announcement: $800,000 for repairs/ADA and bathroom upgrades.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/119278"]}, {"id": "F4", "category": "Funding", "pages": "Coram; Gordon Heights", "claim": "$144,000 for Longwood SD robotics, My Brother's/Sister's Keeper, enrichment", "rating": "✅", "finding": "Same release cites $144,000 in programmatic allocations and bullet aid to Longwood across FY2025 and FY2026.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/119278"]}, {"id": "F5", "category": "Funding", "pages": "Port Jefferson Village", "claim": "$100,000 to the Village for the Caleb Brewster whaleboat boathouse", "rating": "✅", "finding": "Kassay release, May 11, 2026: $100,000 capital funding to the Village of Port Jefferson.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/118114"]}, {"id": "F6", "category": "Funding", "pages": "Port Jefferson Station; Terryville", "claim": "$96,000 to Comsewogue SD for mentoring, school store, band camp, STEAM labs, life skills lab", "rating": "🟡", "finding": "Partly verified. Comsewogue's school board accepted a $48,000 legislative grant credited to Kassay on March 2, 2026 for the school store, band camp and tutoring (per an AI-generated summary of the board meeting). The page's $96,000 is consistent with two such grants, but a second award wasn't found. A supporter's Oct 22, 2026 TBR letter also says she secured over $100,000 for Comsewogue programs.", "sources": ["https://cpo.soar.com/articles/7592007/New-York/Board-accepts-48000-legislative-grant-to-fund-band-camp-school-store-and-tutoring", "https://tbrnewsmedia.com/letters-to-the-editor-oct-22-2026/"]}, {"id": "F7", "category": "Funding", "pages": "Port Jefferson Village; Belle Terre", "claim": "$130,000 to Port Jefferson SD for STEM and enrichment/environmental education", "rating": "🟠", "finding": "Only public report found: TBR (Sept 5, 2025) on $50,000 Kassay secured for STEM purchases at Port Jefferson schools (drones, coding kits, robotics). No record of the other $80,000 or of environmental-education funding. The two tabs also describe the grant's purpose differently.", "sources": ["https://tbrnewsmedia.com/assemblywoman-kassay-secures-50k-state-funding-for-stem-at-pj-schools/"]}, {"id": "F8", "category": "Funding", "pages": "Port Jefferson Village; Belle Terre", "claim": "$65,000 to Port Jefferson Fire District for a flood mitigation study", "rating": "🟡", "finding": "Amount verified: Speaker Heastie's July 16, 2025 release with Kassay announced $65,000 for the Port Jefferson Fire District. The release describes it as a feasibility study on relocating facilities to higher ground because of repeated flooding; the page calls it a flood mitigation study.", "sources": ["https://www2.nyassembly.gov/Press/?sec=story&story=114733"]}, {"id": "F9", "category": "Funding", "pages": "Port Jefferson Village; Belle Terre", "claim": "$20,000 for SCPD e-bike education and enforcement", "rating": "⚪", "finding": "Not found. May overlap with F10.", "sources": []}, {"id": "F10", "category": "Funding", "pages": "Port Jefferson Station; Terryville; Three Village", "claim": "$40,000 for SCPD Behavioral Health Unit and e-bike enforcement", "rating": "⚪", "finding": "Not found. May include F9.", "sources": []}, {"id": "F11", "category": "Funding", "pages": "Port Jefferson Village", "claim": "$100,000 to Theatre Three for lighting and sound", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F12", "category": "Funding", "pages": "Port Jefferson Village", "claim": "$100,000 to Port Jefferson EMS for ambulance equipment", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F13", "category": "Funding", "pages": "Port Jefferson Village; Belle Terre", "claim": "$15,000 to the Long Island Explorium for mobile STEM", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F14", "category": "Funding", "pages": "Port Jefferson Station; Terryville", "claim": "$150,000 capital to Terryville FD for training infrastructure and equipment", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F15", "category": "Funding", "pages": "Port Jefferson Station; Terryville", "claim": "$100,000 to Sunshine Prevention Center for facility expansion", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F16", "category": "Funding", "pages": "Stony Brook; Strongs Neck; Old Field; Poquott; Setauket; Three Village", "claim": "$150,000 to Three Village SD for summer reading and enrichment", "rating": "⚪", "finding": "No Kassay grant found. In April 2025 the Three Village school board restored summer reading (~$70,000 estimated) from internal savings, not a state grant.", "sources": ["https://tbrnewsmedia.com/three-village-school-board-discusses-security-program-funding-and-autism-awareness/"]}, {"id": "F17", "category": "Funding", "pages": "Strongs Neck; Old Field; Poquott; Setauket; Three Village", "claim": "$100,000 to Setauket FD for a high-water rescue vehicle", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F18", "category": "Funding", "pages": "Stony Brook; Old Field; Setauket; Three Village", "claim": "$180,000 to the Three Village Historical Society", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F19", "category": "Funding", "pages": "Stony Brook; Old Field; Setauket; Three Village", "claim": "$100,000 to the Three Village Community Trust", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F20", "category": "Funding", "pages": "Old Field; Three Village", "claim": "$100,000 to restore the Old Field Lighthouse", "rating": "⚪", "finding": "No 2025-26 record found (prior state funding came via Sen. Flanagan in 2018).", "sources": ["https://www.nysenate.gov/newsroom/press-releases/2018/john-j-flanagan/senator-flanagan-secures-funding-old-field-lighthouse"]}, {"id": "F21", "category": "Funding", "pages": "Stony Brook; Three Village", "claim": "$100,000 to the Reboli Center", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F22", "category": "Funding", "pages": "Stony Brook; Three Village", "claim": "$25,000 to the Long Island Museum for fee-free events", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F23", "category": "Funding", "pages": "Strongs Neck; Old Field; Poquott; Setauket; Three Village", "claim": "$10,000 to the Setauket Harbor Task Force", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F24", "category": "Funding", "pages": "Gordon Heights", "claim": "$100,000 to Gordon Heights FD for facility upgrades", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F25", "category": "Funding", "pages": "Gordon Heights", "claim": "$10,000 to Gordon Heights Civic Association for the 100th Gordon Heights Day", "rating": "⚪", "finding": "Amount not found. Timing checks out: the 90th annual Gordon Heights Family Day was in 2017, so the 100th falls in 2027 ('next year').", "sources": ["https://nysenate.gov/legislation/resolutions/2017/2017-j2449"]}, {"id": "F26", "category": "Funding", "pages": "Selden", "claim": "$100,000 to Middle Country SD for security and auditorium tech", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "F27", "category": "Funding", "pages": "Selden", "claim": "$30,000 for Middle Country SD's Northwell mental-health partnership", "rating": "⚪", "finding": "No public record found.", "sources": []}, {"id": "A1", "category": "State aid", "pages": "Coram; Gordon Heights", "claim": "$282,732,669 total state aid to Longwood SD FY25-27", "rating": "🟡", "finding": "Exact figure not matched (NYSED run site unreachable). Magnitude is plausible for two school years. Caveat: formula aid set statewide, not 'delivered' by one member; Longwood is only partly in AD4.", "sources": []}, {"id": "A2", "category": "State aid", "pages": "Selden", "claim": "$262,298,849 total state aid to Middle Country SD FY25-27", "rating": "🟡", "finding": "Exact figure not matched. Plausible: district reported ~$120M for 2024-25, so ~$131M/yr average is consistent. Same attribution caveat; Middle Country is only partly in AD4.", "sources": ["https://tbrnewsmedia.com/?p=169719"]}, {"id": "A3", "category": "State aid", "pages": "Port Jefferson Village; Belle Terre", "claim": "$8,545,178 total state aid to Port Jefferson SD FY25-27", "rating": "⚪", "finding": "Exact figure not matched. Same attribution caveat.", "sources": []}, {"id": "A4", "category": "State aid", "pages": "Port Jefferson Station; Terryville", "claim": "$98,776,351 total state aid to Comsewogue SD FY25-27", "rating": "⚪", "finding": "Exact figure not matched. Same attribution caveat.", "sources": []}, {"id": "A5", "category": "State aid", "pages": "Stony Brook; Strongs Neck; Old Field; Poquott; Setauket; Three Village", "claim": "$87,175,726 total state aid to Three Village SD FY25-27", "rating": "⚪", "finding": "Exact figure not matched. Same attribution caveat.", "sources": []}, {"id": "E1", "category": "Volunteer events", "pages": "Selden", "claim": "December mission: trained volunteers at Middle Country Library and installed over 100 smoke detectors", "rating": "🟠", "finding": "Her own office's release and one-year Monthly Mission recap both say 'nearly 100' detectors in 74 homes with 30+ volunteers and the Red Cross; neither mentions training at Middle Country Library.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/116384", "https://www.longisland.com/news/09-01-26/assemblywoman-rebecca-kassay-celebrates-one-full-year-of-monthly-missions-bringing-hundreds-of-neighbors-together-to-serve-the-community.html"]}, {"id": "E2", "category": "Volunteer events", "pages": "Port Jefferson Station; Terryville", "claim": "October mission: 500+ PB&J sandwiches and 500+ lbs collected for Agape Meals for Kids", "rating": "✅", "finding": "Release: 500 sandwiches, 400+ jars totaling 540+ lbs; leftovers to Agape Meals for Kids.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/115759"]}, {"id": "E3", "category": "Volunteer events", "pages": "Selden", "claim": "November mission: 1,000 daffodil bulbs planted at Veterans Park", "rating": "✅", "finding": "Release title: over 1,000 daffodil bulbs at a Selden park honoring veterans.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/press/"]}, {"id": "E4", "category": "Volunteer events", "pages": "Coram; Gordon Heights; Strongs Neck; Setauket; Three Village", "claim": "September mission: American chestnut trees planted at multiple historic sites", "rating": "✅", "finding": "Release: Monthly Mission series launched with a district-wide American chestnut planting.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/press/"]}, {"id": "E5", "category": "Volunteer events", "pages": "Coram", "claim": "February mission: Valentines for healthcare workers and diabetes screenings at Coram firehouse", "rating": "✅", "finding": "Feb 12, 2026 at Coram Fire Department; free A1C diabetes screenings by Sun River Health and Cornell Cooperative Extension; ~230 cards made.", "sources": ["https://www.longisland.com/news/02-03-26/volunteers-invited-to-make-valentines-for-healthcare-workers-at-coram-fire-department-plus-free-diabetes-screenings-and-resources.html", "https://assembly.ny.gov/mem/Rebecca-Kassay/story/116981"]}, {"id": "E6", "category": "Volunteer events", "pages": "Three Village", "claim": "Handcrafted remembrance poppies at the LI State Veterans Home", "rating": "✅", "finding": "Release May 4, 2026 (event April 25).", "sources": ["https://www.assembly.ny.gov/mem/Rebecca-Kassay/newsroom"]}, {"id": "E7", "category": "Volunteer events", "pages": "Port Jefferson Village; Belle Terre", "claim": "August mission: back-to-school pajama packages with EJ's PJs", "rating": "✅", "finding": "Announced July 27, 2026.", "sources": ["https://www.longisland.com/news/07-27-26/assemblywoman-kassays-august-monthly-mission-back-to-school-pajama-packages-with-ejs-pjs.html"]}, {"id": "E8", "category": "Volunteer events", "pages": "Port Jefferson Station; Terryville; Three Village", "claim": "July mission: Greenway Trail cleanup with Friends of the Greenway", "rating": "✅", "finding": "July 18, 2026 cleanup of the 3.4-mile Greenway Trail with Friends of the Greenway and the Three Village Community Trust.", "sources": ["https://nyassembly.gov/mem/Rebecca-Kassay/story/119034"]}, {"id": "E9", "category": "Volunteer events", "pages": "Setauket", "claim": "March mission: volunteers digitized historical documents for the Three Village Historical Society", "rating": "✅", "finding": "Article 'MORE THAN A MISSION: Local historical societies unite for community archiving event'.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/articles"]}, {"id": "E10", "category": "Volunteer events", "pages": "Three Village", "claim": "CPR and Stop-the-Bleed training with SCPD at Setauket FD", "rating": "✅", "finding": "Jan 29, 2026 at the Setauket firehouse with Setauket FD, SCPD and the Sheriff's Office: Stop-the-Bleed, hands-only CPR, naloxone, choking response; ~40 residents trained. (Page misspells CPR as 'CRP'.)", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/story/116980"]}, {"id": "E11", "category": "Volunteer events", "pages": "Coram", "claim": "May mission: restored historic gravestones at Davis Town Meeting House and area cemeteries", "rating": "✅", "finding": "May 16, 2026: 50+ volunteers cleaned gravestones at Union Cemetery and Old Baptist Cemetery, starting from the Davis Town Meeting House, with the Long Island Cemetery Preservation Group and local civics.", "sources": ["https://www.longisland.com/news/04-22-26/assemblywoman-kassays-may-monthly-mission-historic-gravestone-restoration-with-community-partners.html", "https://nyassembly.gov/mem/Rebecca-Kassay/story/119034"]}, {"id": "E12", "category": "Volunteer events", "pages": "Stony Brook; Three Village", "claim": "September mission: 'Community Rock Snake' for Recovery Month at the Reboli Center", "rating": "✅", "finding": "Sept 29, 2026 'Painting Kindness Rocks' night at the Reboli Center with the Sunshine Prevention Center for Recovery Month; rocks form a 'Rock Snake' outside her Setauket office. The TBR article mentions no funding to either group.", "sources": ["https://tbrnewsmedia.com/assemblywoman-kassay-reboli-center-and-sunshine-prevention-center-team-up-for-national-recovery-month-rock-painting-night/"]}, {"id": "E13", "category": "Volunteer events", "pages": "Three Village", "claim": "Tagged horseshoe crabs at West Meadow Beach", "rating": "✅", "finding": "June 2026 with Cornell Cooperative Extension's marine program at West Meadow Beach: 85+ volunteers tagged about 200 horseshoe crabs.", "sources": ["https://nyassembly.gov/mem/Rebecca-Kassay/story/119034"]}, {"id": "E14", "category": "Constituent service", "pages": "Coram", "claim": "Hosts ongoing Coram Community Roundtable meetings", "rating": "✅", "finding": "Release on Sept 17, 2025 Coram roundtable with officials and community leaders.", "sources": ["https://assembly.ny.gov/mem/Rebecca-Kassay/press/"]}, {"id": "B1", "category": "Advocacy", "pages": "Port Jefferson Village; Belle Terre", "claim": "Advocated for Port Jefferson football players to join Rocky Point for the 2026 season", "rating": "🟡", "finding": "Advocacy itself is not documented in news coverage. Outcome omitted: Section XI's appeal committee denied the late merger request (Sept 2026) and Port Jefferson fielded no varsity team.", "sources": ["https://www.si.com/high-school/new-york/port-jefferson-school-district-denied-request-to-combine-football-team-with-nearby-program-01m1pk9ms1ak", "https://longisland.news12.com/2026/08/28/port-jefferson-drops-varsity-football-team-over-lack-of-players/3BG8M1FTECHqVI7EKc4Ok"]}, {"id": "B2", "category": "Advocacy", "pages": "All", "claim": "Attends all civic association monthly meetings (Coram, Gordon Heights, Selden, PJ Village, PJS/Terryville, Three Village, Strongs Neck)", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B3", "category": "Advocacy", "pages": "All", "claim": "Hosts Mobile Office Hours at Longwood, Middle Country, Port Jefferson, Comsewogue, and Emma Clark libraries", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B4", "category": "Advocacy", "pages": "Stony Brook; Setauket; Three Village", "claim": "Working to prevent further delays in the Mill Pond Dam restoration", "rating": "🔵", "finding": "Ongoing-effort claim; consistent with F1 release.", "sources": []}, {"id": "B5", "category": "Advocacy", "pages": "Gordon Heights", "claim": "Continual advocacy for a unique Gordon Heights ZIP code", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B6", "category": "Advocacy", "pages": "Strongs Neck; Old Field; Poquott; Setauket; Three Village", "claim": "Working with stakeholders on deer population and tick-borne illness", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B7", "category": "Advocacy", "pages": "Port Jefferson Village", "claim": "Working with Brookhaven and PJ Civic to preserve Scraggy Hill woodlands", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B8", "category": "Advocacy", "pages": "Poquott", "claim": "Collaborating with Poquott on Asphalt Supply of Long Island concerns", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}, {"id": "B9", "category": "Advocacy", "pages": "Belle Terre", "claim": "Meetings with Belle Terre officials", "rating": "🔵", "finding": "Not documentable from public sources.", "sources": []}]}, "sussman-william": {"slug": "sussman-william", "name": "William Sussman", "party": "R", "status": "queued", "race": "AD4", "incumbent": false, "claims": []}, "russell-victoria": {"slug": "russell-victoria", "name": "Victoria Russell", "party": "D", "status": "queued", "race": "AD5", "incumbent": false, "claims": []}, "smith-douglas": {"slug": "smith-douglas", "name": "Douglas Smith", "party": "R", "status": "queued", "race": "AD5", "incumbent": true, "claims": []}, "ramos-philip": {"slug": "ramos-philip", "name": "Philip Ramos", "party": "D", "status": "queued", "race": "AD6", "incumbent": true, "claims": []}, "barravecchio-dennis": {"slug": "barravecchio-dennis", "name": "Dennis Barravecchio", "party": "R", "status": "queued", "race": "AD6", "incumbent": false, "claims": []}, "kopp-patricia": {"slug": "kopp-patricia", "name": "Patricia Kopp", "party": "D", "status": "queued", "race": "AD7", "incumbent": false, "claims": []}, "kuhn-dawn-marie": {"slug": "kuhn-dawn-marie", "name": "Dawn Marie Kuhn", "party": "R", "status": "queued", "race": "AD7", "incumbent": false, "claims": []}, "trupiano-okeefe-lynn": {"slug": "trupiano-okeefe-lynn", "name": "Lynn Trupiano-O'Keefe", "party": "D", "status": "queued", "race": "AD8", "incumbent": false, "claims": []}, "fitzpatrick-michael": {"slug": "fitzpatrick-michael", "name": "Michael Fitzpatrick", "party": "R", "status": "queued", "race": "AD8", "incumbent": true, "claims": []}, "walls-chris": {"slug": "walls-chris", "name": "Chris Walls", "party": "D", "status": "queued", "race": "AD9", "incumbent": false, "claims": []}, "durso-michael": {"slug": "durso-michael", "name": "Michael Durso", "party": "R", "status": "queued", "race": "AD9", "incumbent": true, "claims": []}, "stern-steve": {"slug": "stern-steve", "name": "Steve Stern", "party": "D", "status": "queued", "race": "AD10", "incumbent": true, "claims": []}, "legrow-tiffany": {"slug": "legrow-tiffany", "name": "Tiffany LeGrow", "party": "R", "status": "queued", "race": "AD10", "incumbent": false, "claims": []}, "opharrow-kwani": {"slug": "opharrow-kwani", "name": "Kwani O'Pharrow", "party": "D", "status": "queued", "race": "AD11", "incumbent": true, "claims": []}, "cardinale-joseph": {"slug": "cardinale-joseph", "name": "Joseph Cardinale", "party": "R", "status": "queued", "race": "AD11", "incumbent": false, "claims": []}, "herskowitz-craig": {"slug": "herskowitz-craig", "name": "Craig Herskowitz", "party": "D", "status": "queued", "race": "AD12", "incumbent": false, "claims": []}, "weber-david": {"slug": "weber-david", "name": "David Weber", "party": "R", "status": "queued", "race": "AD12", "incumbent": false, "claims": []}, "lavine-charles": {"slug": "lavine-charles", "name": "Charles Lavine", "party": "D", "status": "queued", "race": "AD13", "incumbent": true, "claims": []}, "dunleavy-conner": {"slug": "dunleavy-conner", "name": "Conner Dunleavy", "party": "R", "status": "queued", "race": "AD13", "incumbent": false, "claims": []}, "brooks-john": {"slug": "brooks-john", "name": "John Brooks", "party": "D", "status": "queued", "race": "AD14", "incumbent": false, "claims": []}, "fredericks-shannon": {"slug": "fredericks-shannon", "name": "Shannon Fredericks", "party": "R", "status": "queued", "race": "AD14", "incumbent": false, "claims": []}, "tarulli-dean": {"slug": "tarulli-dean", "name": "Dean Tarulli", "party": "D", "status": "queued", "race": "AD15", "incumbent": false, "claims": []}, "pironi-paolo": {"slug": "pironi-paolo", "name": "Paolo Pironi", "party": "R", "status": "queued", "race": "AD15", "incumbent": false, "claims": []}, "keiserman-kim": {"slug": "keiserman-kim", "name": "Kim Keiserman", "party": "D", "status": "queued", "race": "AD16", "incumbent": false, "claims": []}, "hassid-david": {"slug": "hassid-david", "name": "David Hassid", "party": "R", "status": "queued", "race": "AD16", "incumbent": false, "claims": []}, "lofters-sunita": {"slug": "lofters-sunita", "name": "Sunita Lofters", "party": "D", "status": "queued", "race": "AD17", "incumbent": false, "claims": []}, "mikulin-john": {"slug": "mikulin-john", "name": "John Mikulin", "party": "R", "status": "queued", "race": "AD17", "incumbent": true, "claims": []}, "burroughs-noah": {"slug": "burroughs-noah", "name": "Noah Burroughs", "party": "D", "status": "queued", "race": "AD18", "incumbent": true, "claims": []}, "jackson-charlene": {"slug": "jackson-charlene", "name": "Charlene Jackson", "party": "R", "status": "queued", "race": "AD18", "incumbent": false, "claims": []}, "connaughton-colleen": {"slug": "connaughton-colleen", "name": "Colleen Connaughton", "party": "D", "status": "queued", "race": "AD19", "incumbent": false, "claims": []}, "ra-edward": {"slug": "ra-edward", "name": "Edward Ra", "party": "R", "status": "queued", "race": "AD19", "incumbent": true, "claims": []}, "fischer-meir": {"slug": "fischer-meir", "name": "Meir Fischer", "party": "D", "status": "queued", "race": "AD20", "incumbent": false, "claims": []}, "brown-ari": {"slug": "brown-ari", "name": "Ari Brown", "party": "R", "status": "queued", "race": "AD20", "incumbent": true, "claims": []}, "griffin-judy": {"slug": "griffin-judy", "name": "Judy Griffin", "party": "D", "status": "queued", "race": "AD21", "incumbent": true, "claims": []}, "villacci-irene": {"slug": "villacci-irene", "name": "Irene Villacci", "party": "R", "status": "queued", "race": "AD21", "incumbent": false, "claims": []}, "solages-michaelle": {"slug": "solages-michaelle", "name": "Michaelle Solages", "party": "D", "status": "queued", "race": "AD22", "incumbent": true, "claims": []}, "inzerillo-robert": {"slug": "inzerillo-robert", "name": "Robert Inzerillo", "party": "R", "status": "queued", "race": "AD22", "incumbent": false, "claims": []}}, "ratings": ["✅", "🟡", "🟠", "⚪", "🔵", "❌"], "rating_names": {"✅": "Verified", "🟡": "Verified with caveat", "🟠": "Overstated / partly accurate", "⚪": "Unverified", "🔵": "Activity claim", "❌": "False"}};
 const R = D.ratings, RN = D.rating_names;
 const C = D.candidates, RACES = D.races, RACE = Object.fromEntries(RACES.map(r => [r.id, r]));
 const SHORT = {"✅": "Verified", "🟡": "Caveat", "🟠": "Overstated", "⚪": "Unverified", "🔵": "Activity", "❌": "False"};
+const VAR = {"✅": "--r-ok", "🟡": "--r-cav", "🟠": "--r-over", "⚪": "--r-unv", "🔵": "--r-act", "❌": "--r-false"};
 const $app = document.getElementById("app");
+const NS = "http://www.w3.org/2000/svg";
 
 /* ---------- helpers ---------- */
 function h(tag, props, ...kids) {
@@ -133,44 +251,101 @@ function h(tag, props, ...kids) {
     else if (k === "text") e.textContent = v;
     else e.setAttribute(k, v === true ? "" : v);
   }
-  for (const kid of kids.flat()) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : String(kid));
+  for (const kid of kids.flat(9)) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : String(kid));
   return e;
 }
+function svg(markup, cls, label) {
+  const t = document.createElement("template");
+  t.innerHTML = `<svg xmlns="${NS}" viewBox="0 0 20 20" class="${cls || ""}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${markup}</svg>`;
+  return t.content.firstChild;
+}
+/* One drawn glyph per rating: shape and color both carry the meaning. */
+function ri(k, withLabel) {
+  const c = `var(${VAR[k]})`;
+  const g = {
+    "✅": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M5.8 10.3l2.8 2.7 5.6-5.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    "🟡": `<circle cx="10" cy="10" r="8.1" fill="none" stroke="${c}" stroke-width="1.8"/><path d="M10 1.9a8.1 8.1 0 0 1 0 16.2z" fill="${c}"/>`,
+    "🟠": `<path d="M10 1.8l8.6 15.4H1.4z" fill="${c}" stroke="${c}" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 7.3v4.6" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14.4" r="1.15" fill="#fff"/>`,
+    "⚪": `<circle cx="10" cy="10" r="8.1" fill="none" stroke="${c}" stroke-width="1.8" stroke-dasharray="3.2 2.2"/><circle cx="10" cy="10" r="1.7" fill="${c}"/>`,
+    "🔵": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M4.6 10.5h2.6l1.6-3.6 2.4 7 1.6-3.4h2.6" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>`,
+    "❌": `<circle cx="10" cy="10" r="9" fill="${c}"/><path d="M6.7 6.7l6.6 6.6M13.3 6.7l-6.6 6.6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>`
+  }[k];
+  return svg(g, "ri", withLabel === false ? null : RN[k]);
+}
+const ICON = {
+  link: `<path d="M8.5 11.5a3.2 3.2 0 0 0 4.5 0l2.6-2.6a3.2 3.2 0 0 0-4.5-4.5l-.9.9M11.5 8.5a3.2 3.2 0 0 0-4.5 0l-2.6 2.6a3.2 3.2 0 0 0 4.5 4.5l.9-.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
+  ext: `<path d="M11 4h5v5M16 4l-7 7M14 11.5V15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
+  back: `<path d="M12 4.5L6.5 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  arrow: `<path d="M4 10h11M10.5 5.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  vs: `<path d="M3 6h6M3 10h6M3 14h6M11 6h6M11 10h6M11 14h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`
+};
+const icon = (n, size = 16) => { const s = svg(ICON[n]); s.setAttribute("width", size); s.setAttribute("height", size); return s; };
+
+const winMark = () => { const m = svg(`<path d="M5 10.5l3.2 3L15 6.5" fill="none" stroke="var(--r-ok)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`, "", "won"); m.setAttribute("width", 13); m.setAttribute("height", 13); m.style.cssText = "vertical-align:-1px;margin-left:4px"; return m; };
 const tally = cl => Object.fromEntries(R.map(k => [k, cl.filter(c => c.rating === k).length]));
 const party = p => h("span", {class: `party ${p}`, title: p === "D" ? "Democrat" : "Republican"}, p);
 const link = (href, text, cls) => h("a", {href, class: cls}, text);
-function bar(cl, big) {
+const raceName = r => `${r.chamber} District ${r.district}`;
+const pct = (n, d) => d ? Math.round(100 * n / d) : 0;
+const verifiedShare = cl => cl.length ? cl.filter(c => c.rating === "✅" || c.rating === "🟡").length / cl.length : -1;
+
+/* tooltip */
+const tip = document.getElementById("tip");
+function attachTip(el, text) {
+  el.addEventListener("pointerenter", () => { tip.textContent = text; tip.classList.add("on"); });
+  el.addEventListener("pointermove", e => { tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (e.clientY - 36) + "px"; });
+  el.addEventListener("pointerleave", () => tip.classList.remove("on"));
+}
+const toastEl = document.getElementById("toast");
+let toastT;
+function toast(msg) { toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove("on"), 1800); }
+async function copyLink(hash) {
+  const url = location.href.split("#")[0] + hash;
+  try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch { prompt("Copy this link:", url); }
+}
+
+/* stacked bar: segments are buttons that jump to those claims */
+function bar(cl, opts = {}) {
   const t = tally(cl), n = cl.length;
-  const b = h("div", {class: "bar", role: "img", style: big ? "height:16px" : null,
-    "aria-label": n ? R.filter(k => t[k]).map(k => `${t[k]} ${RN[k]}`).join(", ") : "Not yet reviewed"});
-  if (n) R.forEach(k => t[k] && b.append(h("span", {class: `s-${k}`, style: `width:${100 * t[k] / n}%`, title: `${RN[k]}: ${t[k]}`})));
+  if (!n) return h("div", {class: `bar none${opts.big ? " big" : ""}`, role: "img", "aria-label": opts.emptyLabel || "Not yet reviewed"});
+  const b = h("div", {class: `bar grow${opts.big ? " big" : ""}`, role: opts.href ? "group" : "img",
+    "aria-label": R.filter(k => t[k]).map(k => `${t[k]} ${RN[k]}`).join(", ")});
+  R.forEach(k => {
+    if (!t[k]) return;
+    const label = `${RN[k]}: ${t[k]} of ${n} (${pct(t[k], n)}%)`;
+    const seg = opts.href ? h("button", {class: `s-${k}`, style: `flex:${t[k]}`, "aria-label": label, onclick: e => { e.stopPropagation(); location.hash = opts.href(k); }})
+      : h("span", {class: `s-${k}`, style: `flex:${t[k]}`});
+    attachTip(seg, opts.href ? `${label} · click to see them` : label);
+    b.append(seg);
+  });
   return b;
 }
-function legend() {
-  return h("div", {class: "legend"}, R.map(k => h("span", {}, h("i", {class: `s-${k}`}), RN[k])),
-    h("span", {}, h("i", {style: "background:var(--queued);border:1px solid var(--line)"}), "Not yet reviewed"));
+function legend(withQueued = true) {
+  return h("div", {class: "legend"}, R.map(k => h("span", {}, ri(k, false), RN[k])),
+    withQueued ? h("span", {}, h("span", {class: "bar none", style: "width:18px;min-width:18px;height:10px"}), "Not yet reviewed") : null);
 }
 function candLabel(c, opts = {}) {
   const race = RACE[c.race];
   return h("span", {}, party(c.party), " ", opts.noLink ? c.name : link(`#/c/${c.slug}`, c.name),
-    c.incumbent ? h("span", {class: "pill"}, "incumbent") : null,
-    race.winner === c.slug ? h("span", {class: "pill win"}, "won") : null);
+    c.incumbent ? h("span", {class: "pill"}, "Incumbent") : null,
+    race.winner === c.slug ? h("span", {class: "pill win"}, "Won") : null);
 }
-const raceName = r => `${r.chamber === "Senate" ? "Senate" : "Assembly"} District ${r.district}`;
-function verifiedShare(cl) { return cl.length ? cl.filter(c => c.rating === "✅" || c.rating === "🟡").length / cl.length : -1; }
 
 function claimCard(cl, c, opts = {}) {
-  return h("article", {class: "claim", id: opts.anchor ? `${c.slug}-${cl.id}` : null},
-    h("div", {class: "r", title: RN[cl.rating]}, cl.rating),
-    h("div", {class: "c"}, cl.claim, h("small", {}, `${cl.id} · ${cl.category}${cl.pages ? " · " + cl.pages : ""}`)),
-    h("div", {}, cl.finding,
-      opts.who ? h("div", {class: "who"}, candLabel(c), ` · ${RACE[c.race].id}`) : null),
-    h("div", {class: "s"}, cl.sources.length ? cl.sources.map((u, i) => h("a", {href: u, rel: "noopener", target: "_blank"}, `Source ${i + 1}`))
-      : "No public source found",
-      " ", h("a", {href: `#/c/${c.slug}/${cl.id}`, title: "Link to this claim"}, "🔗")));
+  const hash = `#/c/${c.slug}/${cl.id}`;
+  return h("article", {class: "claim", id: `${c.slug}-${cl.id}`},
+    h("div", {class: "r"}, ri(cl.rating)),
+    h("div", {class: "c"}, cl.claim),
+    h("div", {class: "acts"}, h("button", {class: "iconbtn", "aria-label": `Copy link to claim ${cl.id}`, title: "Copy link to this claim", onclick: () => copyLink(hash)}, icon("link"))),
+    h("div", {class: "meta"}, `${RN[cl.rating]} · ${cl.id} · ${cl.category}${cl.pages ? " · " + cl.pages : ""}`),
+    h("div", {class: "f"}, cl.finding),
+    opts.who ? h("div", {class: "who-line"}, candLabel(c), ` · ${raceName(RACE[c.race])}`) : null,
+    h("div", {class: "s"}, cl.sources.length
+      ? cl.sources.map((u, i) => h("a", {href: u, rel: "noopener", target: "_blank"}, `Source ${i + 1}`, " ", icon("ext", 12)))
+      : h("span", {}, "No public source found")));
 }
 
-/* ---------- state from URL ---------- */
+/* ---------- routing ---------- */
 function parse() {
   const raw = location.hash.replace(/^#\/?/, "");
   const [path, qs] = raw.split("?");
@@ -183,124 +358,151 @@ function setQuery(view, params) {
 
 /* ---------- views ---------- */
 function viewRaces(q) {
-  const ch = q.get("chamber") || "All";
+  const ch = q.get("chamber") || "All", show = q.get("show") || "all";
   const reviewed = Object.values(C).filter(c => c.status === "reviewed");
-  const out = [
-    h("h1", {}, "2026 Long Island state legislative races"),
-    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. ${reviewed.length} of ${Object.keys(C).length} candidates reviewed so far.`),
-  ];
-  const seg = h("div", {class: "seg", role: "group", "aria-label": "Chamber"},
-    ["All", "Senate", "Assembly"].map(v => h("button", {"aria-pressed": String(ch === v),
-      onclick: () => { setQuery("", {chamber: v === "All" ? "" : v}); render(); }}, v)));
-  out.push(h("div", {class: "filters"}, seg, h("span", {class: "small muted"},
-    "Tiles are grouped by county and are not drawn to scale. The dot shows the winner's party where a cited source names one.")), legend());
+  const out = [h("h1", {}, "2026 Long Island state legislative races"),
+    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. `,
+      h("b", {}, `${reviewed.length} of ${Object.keys(C).length}`), " candidates reviewed so far.")];
+  const go = (k, v) => { setQuery("", {chamber: k === "chamber" ? (v === "All" ? "" : v) : (ch === "All" ? "" : ch), show: k === "show" ? (v === "all" ? "" : v) : (show === "all" ? "" : show)}); render(); };
+  out.push(h("div", {class: "board-tools"},
+    h("div", {class: "filters", style: "margin:0"},
+      h("div", {class: "seg", role: "group", "aria-label": "Chamber"}, ["All", "Senate", "Assembly"].map(v => h("button", {"aria-pressed": String(ch === v), onclick: () => go("chamber", v)}, v))),
+      h("div", {class: "seg", role: "group", "aria-label": "Highlight"}, [["all", "All races"], ["reviewed", "With reviews"], ["open", "Open seats"], ["flipped", "Changed party"]].map(([v, l]) =>
+        h("button", {"aria-pressed": String(show === v), onclick: () => go("show", v)}, l)))),
+    legend()));
+  const flipped = r => r.winner && r.incumbent && C[r.incumbent] && C[r.winner].party !== C[r.incumbent].party;
+  const lit = r => show === "all" || (show === "reviewed" && r.candidates.some(x => C[x.slug].status === "reviewed")) || (show === "open" && r.open_seat) || (show === "flipped" && flipped(r));
   const groups = [["Suffolk", r => r.county === "Suffolk"], ["Straddles Nassau and Suffolk", r => r.county === "Nassau/Suffolk"], ["Nassau", r => r.county === "Nassau"]];
+  const board = h("div", {class: "board"});
   groups.forEach(([label, fn]) => {
     const rs = RACES.filter(fn).filter(r => ch === "All" || r.chamber === ch);
     if (!rs.length) return;
-    out.push(h("section", {class: "county"}, h("h3", {}, label), h("div", {class: "tiles"}, rs.map(r => {
-      const win = r.winner ? C[r.winner].party : "none";
-      return h("button", {class: "tile", onclick: () => location.hash = `#/race/${r.id}`, "aria-label": `${raceName(r)}: ${r.candidates.map(x => x.name).join(" vs. ")}`},
-        h("span", {class: `flag ${win}`, title: r.winner ? `Won by ${C[r.winner].name}` : "Winner not yet named by a cited source"}),
-        h("div", {class: "id"}, r.id),
-        h("div", {class: "who"}, r.candidates.map(x => x.name.split(" ").slice(-1)[0]).join(" vs. ")),
-        h("div", {class: "mini"}, r.candidates.map(x => bar(C[x.slug].claims))));
-    }))));
+    board.append(h("section", {class: "county", "aria-label": label}, h("h3", {}, label, h("span", {class: "ct"}, `${rs.length} race${rs.length > 1 ? "s" : ""}`)),
+      h("div", {class: "tiles"}, rs.map(r => {
+        const cs = r.candidates.map(x => C[x.slug]);
+        return h("button", {class: `tile${lit(r) ? "" : " dim"}`, onclick: () => location.hash = `#/race/${r.id}`,
+            "aria-label": `${raceName(r)}: ${cs.map(c => `${c.name} (${c.party})${r.winner === c.slug ? ", won" : ""}`).join(" versus ")}`},
+          h("div", {class: "id"}, r.id, h("span", {class: "chamber"}, r.open_seat ? "Open seat" : r.chamber)),
+          cs.map(c => h("div", {class: "row"}, party(c.party), h("span", {class: `nm${r.winner === c.slug ? " won" : ""}`}, c.name.split(" ").slice(-1)[0], r.winner === c.slug ? winMark() : null), bar(c.claims))));
+      }))));
   });
+  out.push(board, h("p", {class: "small muted", style: "margin-top:18px"}, "Tiles are grouped by county, not drawn as a map. A check mark marks the winner where a cited source names one; results are unofficial."));
   return out;
+}
+
+function butterfly(a, b) {
+  const ta = tally(a.claims), tb = tally(b.claims), max = Math.max(...R.map(k => Math.max(pct(ta[k], a.claims.length), pct(tb[k], b.claims.length))), 1);
+  const g = h("div", {class: "fly", role: "table", "aria-label": `Share of claims by rating: ${a.name} versus ${b.name}`},
+    h("div", {class: "who l"}, candLabel(a)), h("div"), h("div", {class: "who"}, candLabel(b)));
+  R.forEach(k => {
+    const side = (c, t, s) => {
+      const p = pct(t[k], c.claims.length), fill = h("span", {class: `fill s-${k}`, style: `width:${100 * p / max}%`});
+      attachTip(fill, `${c.name}: ${t[k]} ${RN[k]} (${p}%)`);
+      return h("div", {class: `side ${s}`, role: "cell"}, h("span", {class: "track"}, fill), h("span", {class: "v"}, `${t[k]} · ${p}%`));
+    };
+    g.append(side(a, ta, "l"), h("div", {class: "lab", role: "rowheader"}, ri(k, false), h("span", {}, RN[k])), side(b, tb, "r"));
+  });
+  g.append(h("div", {class: "v", style: "text-align:right;width:auto;color:var(--muted);font-size:.84rem"}, `${a.claims.length} claims`), h("div"),
+           h("div", {style: "color:var(--muted);font-size:.84rem"}, `${b.claims.length} claims`));
+  return h("div", {class: "card"}, g);
 }
 
 function viewRace(id) {
   const r = RACE[id];
   if (!r) return [h("h1", {}, "Race not found"), link("#/", "Back to all races")];
   const cs = r.candidates.map(x => C[x.slug]);
-  const out = [h("p", {class: "small"}, link("#/", "← All races")),
-    h("div", {class: "head"}, h("h1", {}, `${raceName(r)} (${r.id})`),
-      cs.every(c => c.status === "reviewed") ? link(`#/compare/${cs[0].slug}/${cs[1].slug}`, "Compare head to head →", "btn primary") : null),
-    h("p", {class: "lede"}, `${r.county} County${r.county.includes("/") ? " (both)" : ""} · ${r.open_seat ? "Open seat" : "Incumbent ran"}` +
-      (r.winner ? ` · Won by ${C[r.winner].name} (unofficial)` : " · Result: see the county board of elections"),
-      r.result_source ? [" · ", h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "result source")] : null)];
-  out.push(h("div", {class: "grid2"}, cs.map(c => candidatePanel(c))));
+  const both = cs.every(c => c.status === "reviewed");
+  const out = [h("p", {class: "crumb"}, h("a", {href: "#/"}, icon("back", 14), " All races")),
+    h("div", {class: "head"}, h("h1", {}, `${raceName(r)}`),
+      both ? h("a", {class: "btn primary", href: `#/compare/${cs[0].slug}/${cs[1].slug}`}, "Compare claims side by side", icon("arrow", 15)) : null),
+    h("p", {class: "lede"}, `${r.id} · ${r.county === "Nassau/Suffolk" ? "Nassau and Suffolk counties" : r.county + " County"} · ${r.open_seat ? "Open seat" : "Incumbent ran"} · ` ,
+      r.winner ? [`Won by ${C[r.winner].name} (unofficial; `, h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "source"), ")"] : "Result not yet named by a cited source")];
+  if (both) out.push(butterfly(cs[0], cs[1]));
+  out.push(h("div", {class: "grid2", style: both ? "margin-top:18px" : null}, cs.map(c => candidatePanel(c))));
   return out;
 }
 
 function candidatePanel(c) {
-  if (c.status === "queued") return h("div", {class: "queued"}, h("div", {}, candLabel(c, {noLink: true})), h("p", {}, "Not yet reviewed."));
-  if (c.status === "site-unavailable") return h("div", {class: "queued"}, h("div", {}, candLabel(c)), h("p", {}, c.bottom_line || "No campaign site could be found or archived."));
+  if (c.status === "queued") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c, {noLink: true})),
+    bar([], {big: true}), h("p", {style: "margin:0"}, "Review in progress. This panel will show the rating breakdown and bottom line once the campaign site has been checked."));
+  if (c.status === "site-unavailable") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c)), bar([], {big: true, emptyLabel: "No campaign site found"}),
+    h("p", {style: "margin:0"}, c.bottom_line || "No campaign site could be found or archived."));
   const t = tally(c.claims);
-  return h("div", {class: "card"}, h("div", {class: "head"}, h("strong", {}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
-    h("div", {style: "margin:10px 0"}, bar(c.claims, true)),
-    h("div", {}, R.filter(k => t[k]).map(k => h("span", {class: "chip"}, `${k} ${t[k]}`))),
-    h("p", {}, c.bottom_line), link(`#/c/${c.slug}`, "Full review and every claim →"));
+  return h("div", {class: "card panel"},
+    h("div", {class: "top"}, h("span", {class: "name"}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
+    bar(c.claims, {big: true, href: k => `#/c/${c.slug}?rating=${encodeURIComponent(k)}`}),
+    h("div", {class: "counts"}, R.filter(k => t[k]).map(k => h("a", {href: `#/c/${c.slug}?rating=${encodeURIComponent(k)}`, title: `See the ${RN[k].toLowerCase()} claims`}, ri(k, false), `${t[k]} ${SHORT[k]}`))),
+    h("p", {style: "margin:0"}, c.bottom_line),
+    h("a", {href: `#/c/${c.slug}`, style: "font-weight:600"}, "Full review and every claim ", icon("arrow", 14)));
 }
 
-function viewCandidate(slug, claimId) {
+function viewCandidate(slug, claimId, q) {
   const c = C[slug];
   if (!c) return [h("h1", {}, "Candidate not found"), link("#/", "Back to all races")];
   const r = RACE[c.race], opp = r.candidates.map(x => C[x.slug]).find(x => x.slug !== slug);
-  const out = [h("p", {class: "small"}, link(`#/race/${r.id}`, `← ${raceName(r)}`)),
+  const out = [h("p", {class: "crumb"}, h("a", {href: `#/race/${r.id}`}, icon("back", 14), ` ${raceName(r)}`)),
     h("div", {class: "head"}, h("h1", {}, candLabel(c, {noLink: true})),
-      opp.status === "reviewed" && c.status === "reviewed" ? link(`#/compare/${slug}/${opp.slug}`, `Compare with ${opp.name} →`, "btn") : null)];
+      opp.status === "reviewed" && c.status === "reviewed" ? h("a", {class: "btn", href: `#/compare/${slug}/${opp.slug}`}, icon("vs", 15), `Compare with ${opp.name}`) : null)];
   if (c.status !== "reviewed") return out.concat(candidatePanel(c));
-  out.push(h("p", {class: "lede"}, "Reviewed: ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label), ` · captured ${c.captured}`),
-    h("div", {class: "card"}, h("strong", {}, "Bottom line. "), c.bottom_line,
+  out.push(h("p", {class: "lede"}, "Reviewed ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label, " ", icon("ext", 12)),
+      ` · captured ${new Date(c.captured + "T12:00").toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"})}${c.depth ? ` · ${c.depth} review` : ""}`),
+    h("div", {class: "card"}, bar(c.claims, {big: true, href: k => `#/c/${slug}?rating=${encodeURIComponent(k)}`}), legend(false),
+      h("p", {style: "margin:16px 0 0"}, h("strong", {}, "Bottom line. "), c.bottom_line),
       c.findings && c.findings.length ? h("ul", {class: "find"}, c.findings.map(f => h("li", {}, f))) : null));
   if (c.page_issues && c.page_issues.length) out.push(h("h2", {}, "Page-level issues"), h("ul", {class: "find"}, c.page_issues.map(f => h("li", {}, f))));
-  out.push(h("h2", {}, "Claims"));
+  out.push(h("h2", {id: "claims"}, "Every claim"));
   const box = h("div", {});
-  const state = {rating: null, q: ""};
-  const chips = h("div", {class: "seg", role: "group", "aria-label": "Filter by rating"});
+  const state = {rating: (q && q.get("rating")) || null, q: ""};
   const t = tally(c.claims);
-  const drawChips = () => chips.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = null; draw(); }}, "All"),
-    R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? null : k; draw(); }}, `${k} ${t[k]}`)));
-  const search = h("input", {type: "search", placeholder: "Search this review…", "aria-label": "Search this review", oninput: e => { state.q = e.target.value.toLowerCase(); draw(); }});
+  const chips = h("div", {class: "seg", role: "group", "aria-label": "Filter by rating"});
+  const drawChips = () => chips.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = null; draw(); }}, "All ", h("span", {class: "ct"}, c.claims.length)),
+    ...R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? null : k; draw(); }}, ri(k, false), SHORT[k], " ", h("span", {class: "ct"}, t[k]))));
+  const search = h("input", {type: "search", placeholder: "Search this review", "aria-label": "Search this review", "data-search": "",
+    oninput: e => { state.q = e.target.value.toLowerCase(); draw(); }});
   function draw() {
     drawChips();
+    setQuery(`c/${slug}${claimId ? "/" + claimId : ""}`, {rating: state.rating});
     const rows = c.claims.filter(x => (!state.rating || x.rating === state.rating) &&
       (!state.q || [x.claim, x.finding, x.pages, x.category].join(" ").toLowerCase().includes(state.q)));
     const parts = [];
     c.categories.forEach(cat => {
       const rs = rows.filter(x => x.category === cat);
-      if (rs.length) parts.push(h("h3", {}, cat), rs.map(x => claimCard(x, c, {anchor: true})));
+      if (rs.length) parts.push(h("h3", {}, cat), rs.map(x => claimCard(x, c)));
     });
-    box.replaceChildren(...(parts.length ? parts.flat() : [h("div", {class: "empty"}, "No claims match.")]));
+    box.replaceChildren(...(parts.length ? parts.flat() : [h("div", {class: "empty"}, "No claims match. ", h("button", {class: "btn", onclick: () => { state.rating = null; state.q = ""; search.value = ""; draw(); }}, "Clear filters"))]));
   }
   out.push(h("div", {class: "filters"}, search, chips), box);
   draw();
-  if (claimId) setTimeout(() => { const el = document.getElementById(`${slug}-${claimId}`); if (el) { el.scrollIntoView({block: "center"}); el.style.boxShadow = "0 0 0 2px var(--accent)"; } }, 0);
+  if (claimId) requestAnimationFrame(() => { const el = document.getElementById(`${slug}-${claimId}`); if (el) { el.classList.add("hl"); el.scrollIntoView({block: "center"}); } });
+  else if (state.rating) requestAnimationFrame(() => document.getElementById("claims").scrollIntoView());
   return out;
 }
 
 function viewCompare(a, b) {
   const reviewed = Object.values(C).filter(c => c.status === "reviewed").sort((x, y) => x.race.localeCompare(y.race, undefined, {numeric: true}));
-  a = C[a] ? a : (reviewed[0] || {}).slug; b = C[b] ? b : (reviewed.find(x => x.slug !== a) || {}).slug;
+  const out = [h("h1", {}, "Head to head"),
+    h("p", {class: "lede"}, "Pick any two reviewed candidates. Race opponents are the fairest comparison, because their pages were written for the same voters. Pages differ in length and type, so compare shares and the pattern of problems, not raw counts.")];
+  if (reviewed.length < 2) return out.concat(h("div", {class: "empty"}, "At least two reviews are needed."));
+  a = C[a] && C[a].status === "reviewed" ? a : reviewed[0].slug;
+  b = C[b] && C[b].status === "reviewed" && b !== a ? b : reviewed.find(x => x.slug !== a).slug;
   const pick = (val, other, onch) => h("select", {"aria-label": "Candidate", onchange: e => onch(e.target.value)},
     reviewed.map(c => h("option", {value: c.slug, selected: c.slug === val ? true : null, disabled: c.slug === other ? true : null}, `${c.race} · ${c.name} (${c.party})`)));
-  const out = [h("h1", {}, "Head to head"),
-    h("p", {class: "lede"}, "Pick any two reviewed candidates. Race opponents are the fairest comparison: their pages were written for the same voters. Pages differ in length and type, so compare the shares and the pattern of problems, not raw counts.")];
-  if (reviewed.length < 2) return out.concat(h("div", {class: "empty"}, "At least two reviews are needed."));
-  out.push(h("div", {class: "filters"}, pick(a, b, v => location.hash = `#/compare/${v}/${b}`), h("span", {class: "muted"}, "vs."), pick(b, a, v => location.hash = `#/compare/${a}/${v}`)));
+  out.push(h("div", {class: "filters"}, pick(a, b, v => location.hash = `#/compare/${v}/${b}`),
+    h("button", {class: "iconbtn", title: "Swap", "aria-label": "Swap candidates", onclick: () => location.hash = `#/compare/${b}/${a}`},
+      svg(`<path d="M5 7h10l-3-3M15 13H5l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>`)),
+    pick(b, a, v => location.hash = `#/compare/${a}/${v}`)));
   const ca = C[a], cb = C[b];
-  // tallies chart
-  const chart = h("div", {class: "card"}, h("table", {class: "rank"}, h("thead", {}, h("tr", {}, h("th", {}, "Rating"), h("th", {class: "num"}, ca.name), h("th", {}, ""), h("th", {class: "num"}, cb.name), h("th", {}, ""))),
-    h("tbody", {}, R.map(k => {
-      const ta = tally(ca.claims)[k], tb = tally(cb.claims)[k];
-      const pct = (n, c) => c.claims.length ? Math.round(100 * n / c.claims.length) : 0;
-      const mini = (n, c) => h("div", {class: "bar", style: "background:transparent"}, h("span", {class: `s-${k}`, style: `width:${pct(n, c)}%`}));
-      return h("tr", {}, h("td", {}, `${k} ${RN[k]}`), h("td", {class: "num"}, `${ta} (${pct(ta, ca)}%)`), h("td", {class: "barcell"}, mini(ta, ca)),
-        h("td", {class: "num"}, `${tb} (${pct(tb, cb)}%)`), h("td", {class: "barcell"}, mini(tb, cb)));
-    }), h("tr", {}, h("td", {}, h("strong", {}, "Total")), h("td", {class: "num"}, h("strong", {}, ca.claims.length)), h("td"), h("td", {class: "num"}, h("strong", {}, cb.claims.length)), h("td")))));
-  out.push(chart);
+  out.push(butterfly(ca, cb));
   const state = {rating: "flagged"};
   const seg = h("div", {class: "seg", role: "group", "aria-label": "Which claims"});
-  const cols = h("div", {class: "side"});
+  const cols = h("div", {class: "cols"});
   function draw() {
-    seg.replaceChildren(...[["flagged", "🟡🟠❌ Problems"], ["all", "All"], ...R.map(k => [k, `${k} ${SHORT[k]}`])].map(([v, l]) =>
-      h("button", {"aria-pressed": String(state.rating === v), onclick: () => { state.rating = v; draw(); }}, l)));
+    seg.replaceChildren(...[["flagged", "Problems only", null], ["all", "All", null], ...R.map(k => [k, SHORT[k], k])].map(([v, l, k]) =>
+      h("button", {"aria-pressed": String(state.rating === v), onclick: () => { state.rating = v; draw(); }}, k ? ri(k, false) : null, l)));
     const f = x => state.rating === "all" || (state.rating === "flagged" ? ["🟡", "🟠", "❌"].includes(x.rating) : x.rating === state.rating);
     cols.replaceChildren(...[ca, cb].map(c => {
       const rows = c.claims.filter(f);
-      return h("div", {}, h("h2", {}, candLabel(c)), h("p", {class: "small muted"}, c.bottom_line),
+      return h("div", {}, h("h2", {style: "margin-top:8px"}, candLabel(c)), h("p", {class: "small muted"}, c.bottom_line),
         rows.length ? rows.map(x => claimCard(x, c)) : h("div", {class: "empty"}, "None in this category."));
     }));
   }
@@ -321,90 +523,114 @@ function viewDashboard(q) {
   };
   const all = Object.values(C).filter(match), rev = all.filter(c => c.status === "reviewed");
   const claims = rev.flatMap(c => c.claims), t = tally(claims);
+  const qs = k => { const p = new URLSearchParams({rating: k}); return `#/claims?${p}`; };
   const out = [h("h1", {}, "Dashboard"),
-    h("p", {class: "lede"}, "Ratings across every completed review. Filter to a slice, sort the table, then open any candidate."),
+    h("p", {class: "lede"}, "Ratings across every completed review. Filter to a slice, click a bar segment to read those claims, or sort the table and open a candidate."),
     h("div", {class: "filters"},
       sel("chamber", "Chamber", [["Senate", "Senate"], ["Assembly", "Assembly"]]),
       sel("county", "County", [["Suffolk", "Suffolk"], ["Nassau", "Nassau"]]),
       sel("party", "Party", [["D", "Democrat"], ["R", "Republican"]]),
       sel("role", "Role", [["incumbent", "Incumbent"], ["challenger", "Challenger"], ["open", "Open-seat candidate"]]),
-      Object.values(f).some(Boolean) ? h("button", {class: "btn", onclick: () => { setQuery("dashboard", {}); render(); }}, "Clear") : null),
-    h("div", {class: "kpis"},
-      [[`${rev.length}/${all.length}`, "candidates reviewed"], [claims.length, "claims checked"],
-       [claims.length ? `${Math.round(100 * (t["✅"] + t["🟡"]) / claims.length)}%` : "—", "verified (with or without caveat)"],
-       [t["🟠"] + t["❌"], "overstated or false"], [t["⚪"], "no public record found"]]
-        .map(([v, l]) => h("div", {class: "card kpi"}, h("div", {class: "v"}, v), h("div", {class: "l"}, l)))),
-    h("div", {class: "card"}, h("strong", {}, "All claims in this slice"), h("div", {style: "margin:10px 0 4px"}, bar(claims, true)), legend())];
-  if (f.party) out.push(h("p", {class: "note"}, "Party filters show which reviews exist. With few reviews, and pages of very different kinds, a party-level total says little about either party."));
-  const cols = [["race", "Race"], ["name", "Candidate"], ["n", "Claims"], ["v", "Verified %"], ["p", "Problems"], ["u", "Unverified"]];
+      Object.values(f).some(Boolean) ? h("button", {class: "btn", onclick: () => { setQuery("dashboard", {}); render(); }}, "Clear filters") : null)];
+  const vs = pct(t["✅"] + t["🟡"], claims.length);
+  out.push(h("div", {class: "card summary"},
+    claims.length
+      ? h("p", {class: "sentence"}, h("b", {}, rev.length), ` of ${all.length} candidates in this slice reviewed, `, h("b", {}, claims.length), " claims checked. ",
+          h("b", {}, `${vs}%`), " held up (with or without a caveat), ", h("b", {}, t["🟠"] + t["❌"]), " were overstated or false, and ",
+          h("b", {}, t["⚪"]), ` had no public record either way.`)
+      : h("p", {class: "sentence"}, `None of the ${all.length} candidates in this slice has been reviewed yet.`),
+    bar(claims, {big: true, href: qs, emptyLabel: "No reviews in this slice"}),
+    claims.length ? legend(false) : null));
+  if (f.party) out.push(h("p", {class: "note"}, "Party filters show which reviews exist. With partial coverage and pages of very different kinds, a party-level total says little about either party."));
+  const cols = [["race", "Race"], ["name", "Candidate"], ["n", "Claims"], ["v", "Held up"], ["p", "Overstated / false"], ["u", "Unverified"]];
   const raceOrder = c => (c.race.startsWith("SD") ? 0 : 100) + Number(c.race.slice(2));
-  const key = {race: raceOrder, name: c => c.name, n: c => -c.claims.length, v: c => -verifiedShare(c.claims),
+  const key = {race: raceOrder, name: c => c.name.split(" ").slice(-1)[0], n: c => -c.claims.length, v: c => -verifiedShare(c.claims),
     p: c => -c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length, u: c => -c.claims.filter(x => x.rating === "⚪").length};
-  const rows = [...all].sort((x, y) => {
-    const a = key[sort](x), b = key[sort](y);
-    return a > b ? 1 : a < b ? -1 : raceOrder(x) - raceOrder(y);
-  });
-  out.push(h("h2", {}, "Candidates"), h("div", {class: "card", style: "overflow-x:auto"}, h("table", {class: "rank"},
-    h("thead", {}, h("tr", {}, cols.map(([k, l]) => h("th", {class: ["n", "v", "p", "u"].includes(k) ? "num" : null, "aria-sort": sort === k ? "descending" : null,
-      onclick: () => { setQuery("dashboard", {...f, sort: k}); render(); }}, l + (sort === k ? " ▾" : ""))), h("th", {}, "Ratings"))),
-    h("tbody", {}, rows.map(c => h("tr", {}, h("td", {}, link(`#/race/${c.race}`, c.race)), h("td", {}, candLabel(c)),
-      h("td", {class: "num"}, c.claims.length || "—"), h("td", {class: "num"}, c.claims.length ? `${Math.round(100 * verifiedShare(c.claims))}%` : "—"),
-      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length : "—"),
-      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => x.rating === "⚪").length : "—"),
-      h("td", {class: "barcell"}, c.status === "reviewed" ? bar(c.claims) : h("span", {class: "small muted"}, c.status === "queued" ? "not yet reviewed" : "no site found"))))))));
+  const rows = [...all].sort((x, y) => { const a = key[sort](x), b = key[sort](y); return a > b ? 1 : a < b ? -1 : raceOrder(x) - raceOrder(y); });
+  const dash = "—";
+  out.push(h("h2", {}, "Candidates"), h("div", {class: "card tablewrap", style: "padding:6px 10px"}, h("table", {class: "rank"},
+    h("thead", {}, h("tr", {}, cols.map(([k, l]) => h("th", {class: ["n", "v", "p", "u"].includes(k) ? "num" : null, "aria-sort": sort === k ? (k === "race" || k === "name" ? "ascending" : "descending") : null},
+      h("button", {onclick: () => { setQuery("dashboard", {...f, sort: k}); render(); }}, l, sort === k ? " ↓" : ""))), h("th", {}, "Ratings"))),
+    h("tbody", {}, rows.map(c => { const n = c.claims.length; return h("tr", {},
+      h("td", {}, link(`#/race/${c.race}`, c.race)), h("td", {}, candLabel(c)),
+      h("td", {class: "num"}, n || dash), h("td", {class: "num"}, n ? `${Math.round(100 * verifiedShare(c.claims))}%` : dash),
+      h("td", {class: "num"}, n ? c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length : dash),
+      h("td", {class: "num"}, n ? c.claims.filter(x => x.rating === "⚪").length : dash),
+      h("td", {class: "barcell"}, bar(c.claims, {href: k => `#/c/${c.slug}?rating=${encodeURIComponent(k)}`, emptyLabel: c.status === "queued" ? "Not yet reviewed" : "No campaign site found"}))); })))));
   return out;
 }
 
 function viewClaims(q) {
-  const state = {q: q.get("q") || "", rating: q.get("rating") || "", cat: q.get("cat") || ""};
+  const state = {q: q.get("q") || "", rating: q.get("rating") || ""};
   const all = Object.values(C).filter(c => c.status === "reviewed").flatMap(c => c.claims.map(x => [x, c]));
-  const box = h("div", {}), meta = h("p", {class: "small muted"});
-  const input = h("input", {type: "search", value: state.q, placeholder: "Search every claim and finding (try “school aid”, “aquifer”, “grant”)…", "aria-label": "Search all claims",
+  const box = h("div", {}), meta = h("p", {class: "small muted", "aria-live": "polite"});
+  const input = h("input", {type: "search", value: state.q, placeholder: "Search every claim and finding, e.g. school aid, aquifer, grant", "aria-label": "Search all claims", "data-search": "",
     oninput: e => { state.q = e.target.value; draw(); }});
-  const rsel = h("select", {"aria-label": "Rating", onchange: e => { state.rating = e.target.value; draw(); }},
-    h("option", {value: ""}, "Any rating"), R.map(k => h("option", {value: k, selected: state.rating === k ? true : null}, `${k} ${RN[k]}`)));
+  const rseg = h("div", {class: "seg", role: "group", "aria-label": "Rating"});
+  const t = tally(all.map(([x]) => x));
   function draw() {
     setQuery("claims", {q: state.q, rating: state.rating});
+    rseg.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = ""; draw(); }}, "Any rating"),
+      ...R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? "" : k; draw(); }}, ri(k, false), SHORT[k], " ", h("span", {class: "ct"}, t[k]))));
     const ql = state.q.trim().toLowerCase();
     const rows = all.filter(([x, c]) => (!state.rating || x.rating === state.rating) &&
       (!ql || [x.claim, x.finding, x.pages, x.category, c.name, c.race].join(" ").toLowerCase().includes(ql)));
     meta.textContent = `${rows.length} of ${all.length} claims`;
-    box.replaceChildren(...(rows.length ? rows.slice(0, 200).map(([x, c]) => claimCard(x, c, {who: true})) : [h("div", {class: "empty"}, "No claims match.")]));
+    box.replaceChildren(...(rows.length ? rows.slice(0, 200).map(([x, c]) => claimCard(x, c, {who: true}))
+      : [h("div", {class: "empty"}, "No claims match. Try a broader word, or clear the rating filter.")]));
     if (rows.length > 200) box.append(h("p", {class: "muted small"}, "Showing the first 200. Narrow the search to see the rest."));
   }
   draw();
-  return [h("h1", {}, "Search every claim"), h("div", {class: "filters"}, input, rsel), meta, box];
+  return [h("h1", {}, "Search every claim"), h("div", {class: "filters"}, input), h("div", {class: "filters", style: "margin-top:-6px"}, rseg), meta, box];
 }
 
 function viewAbout() {
   return [h("h1", {}, "Method"),
     h("p", {class: "lede"}, "Every review follows the same steps and uses the same rating scale."),
     h("ol", {class: "find"},
-      h("li", {}, "Inventory: every factual statement on the campaign pages in scope is extracted and deduplicated. Pure promises are not rated, but factual premises inside them are."),
+      h("li", {}, "Inventory: the factual statements on the campaign pages in scope are extracted and deduplicated. Pure promises are not rated, but factual premises inside them are."),
       h("li", {}, "Sources, in order of weight: official records (bills, agency decisions, budget and tax data, election results), the candidate's own official materials, independent news, then advocacy sources as weak corroboration."),
       h("li", {}, "Rating: each claim is rated on whether the evidence supports it as worded on the page.")),
-    h("h2", {}, "Ratings"), h("ul", {class: "find"}, R.map(k => h("li", {}, `${k} ${RN[k]}`))),
-    h("p", {class: "note"}, "⚪ Unverified means no public record was found either way. It is not a finding that the claim is false. Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
+    h("h2", {}, "Ratings"),
+    h("div", {class: "card", style: "display:grid;gap:10px"}, [
+      ["✅", "matches a primary or reliable secondary source."],
+      ["🟡", "accurate or plausible, but missing context would change a reader's takeaway."],
+      ["🟠", "part is supported; part is inflated, conflated, or contradicted."],
+      ["⚪", "no public record found either way. This is not a finding that the claim is false."],
+      ["🔵", "campaign or ongoing activity that public records can't confirm or refute."],
+      ["❌", "contradicted by evidence."]].map(([k, d]) => h("div", {style: "display:flex;gap:10px;align-items:flex-start"}, ri(k, false), h("span", {}, h("b", {}, RN[k]), ": ", d)))),
+    h("p", {class: "note"}, "Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
     h("p", {}, D.results_note), h("p", {}, "Full method: ", link("https://github.com/rike4545/LI-CandidateCheck/blob/main/METHODOLOGY.md", "METHODOLOGY.md"), ".")];
 }
 
-/* ---------- router ---------- */
+/* ---------- render ---------- */
 function render() {
   const {parts, q} = parse();
   const [v, a, b] = parts;
-  const view = v === "race" ? viewRace(a) : v === "c" ? viewCandidate(a, b) : v === "compare" ? viewCompare(a, b)
+  tip.classList.remove("on");
+  const view = v === "race" ? viewRace(a) : v === "c" ? viewCandidate(a, b, q) : v === "compare" ? viewCompare(a, b)
     : v === "dashboard" ? viewDashboard(q) : v === "claims" ? viewClaims(q) : v === "about" ? viewAbout() : viewRaces(q);
   $app.replaceChildren(...[view].flat(9));
   const navKey = {race: "", c: "", compare: "compare", dashboard: "dashboard", claims: "claims", about: "about"}[v] ?? "";
   document.querySelectorAll("nav a").forEach(n => n.setAttribute("aria-current", n.getAttribute("href") === `#/${navKey}` ? "page" : "false"));
-  const title = {race: a && `${a} race`, c: a && C[a] && C[a].name, compare: "Compare", dashboard: "Dashboard", claims: "Search claims", about: "Method"}[v];
+  const title = {race: a && RACE[a] && raceName(RACE[a]), c: a && C[a] && C[a].name, compare: "Compare", dashboard: "Dashboard", claims: "Search claims", about: "Method"}[v];
   document.title = `${title ? title + " · " : ""}LI-CandidateCheck`;
 }
-let lastPath = "";
+let lastPath = location.hash.split("?")[0];
 window.addEventListener("hashchange", () => {
   const p = location.hash.split("?")[0];
-  render();
-  if (p !== lastPath) { window.scrollTo(0, 0); lastPath = p; }
+  const changed = p !== lastPath; lastPath = p;
+  const go = () => { render(); if (changed && !/^#\/c\/[^/]+\/[^/]+/.test(p)) window.scrollTo({top: 0, behavior: "instant"}); };
+  if (changed && document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go);
+  else go();
+  if (changed) $app.focus({preventScroll: true});
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) {
+    e.preventDefault();
+    const s = document.querySelector("[data-search]");
+    if (s) s.focus(); else location.hash = "#/claims";
+  }
 });
 render();
 </script>
