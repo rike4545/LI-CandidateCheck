@@ -1,0 +1,23 @@
+{
+  "name": "Joseph Cardinale",
+  "party": "R",
+  "race": "AD11",
+  "status": "reviewed",
+  "site": "https://www.cardinaleforassembly.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "His 2024 campaign site, largely unchanged: its dated posts and footer are from 2024. His NYPD background checks out. The page and his 2026 profile give different family details.",
+  "findings": [
+    "Retired NYPD lieutenant commander and owner of Blue Line Pilot Cars match press and Branch profiles.",
+    "The site says he is a father of three daughters; Branch's 2026 profile lists four children."
+  ],
+  "page_issues": [
+    "Dated posts (Oct–Nov 2024) and a 2024 footer; no 2026-specific content."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Endorsements"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

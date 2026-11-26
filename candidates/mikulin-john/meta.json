@@ -1,0 +1,22 @@
+{
+  "name": "John Mikulin",
+  "party": "R",
+  "race": "AD17",
+  "status": "reviewed",
+  "site": "https://johnmikulinforassembly.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A 2020-era page that was never updated (footer: Copyright 2020). The vote claims refer to 2019 measures passed while he was in office, but they carry no bill numbers or vote records.",
+  "findings": [
+    "He has served since an April 2018 special election, so he was in office for the 2019 congestion-pricing and bail votes."
+  ],
+  "page_issues": [
+    "Stale: 2020 copyright and COVID-era references."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

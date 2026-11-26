@@ -1,0 +1,21 @@
+{
+  "name": "Noah Burroughs",
+  "party": "D",
+  "race": "AD18",
+  "status": "reviewed",
+  "site": "https://noahburroughs.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A sparse incumbent page: committee list and issue headings, with empty sections and no record claims.",
+  "findings": [
+    "The site names no bills, votes or funding."
+  ],
+  "page_issues": [
+    "Two section headings have no content; the countdown timer shows zero."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

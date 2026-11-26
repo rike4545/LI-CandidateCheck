@@ -1,0 +1,22 @@
+{
+  "name": "David Weber Jr.",
+  "party": "R",
+  "race": "AD12",
+  "status": "reviewed",
+  "site": "https://www.daveweberjr.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A short biography of a Northport village trustee running for an open seat. The open-seat facts check out; his record claims carry no figures.",
+  "findings": [
+    "Assemblyman Keith Brown did not seek re-election, leaving the seat open."
+  ],
+  "page_issues": [
+    "\"Man of the Year\" and project claims are undated."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}
