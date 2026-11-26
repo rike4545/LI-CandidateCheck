@@ -1,4 +1,4 @@
-# KassayCheck
+# LI-CandidateCheck
 
 Independent, source-by-source reviews of the claims Long Island candidates make on their own campaign websites. Every review uses the same method and rating scale.
 
