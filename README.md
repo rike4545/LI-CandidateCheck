@@ -31,27 +31,27 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | SD6 | Nassau | [Siela A. Bynoe](candidates/bynoe-siela/) (D) (i) ★ | reviewed | 8 | 3 | 3 | 1 | 1 | 0 | 0 |
 | SD6 | Nassau | [Matthew J. Capp](candidates/capp-matthew/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
 | SD7 | Nassau | [Rory Lancman](candidates/lancman-rory/) (D) | reviewed | 8 | 3 | 2 | 0 | 2 | 1 | 0 |
-| SD7 | Nassau | [Jake Blumencranz](candidates/blumencranz-jake/) (R) | site-unavailable |  |  |  |  |  |  |  |
+| SD7 | Nassau | [Jake Blumencranz](candidates/blumencranz-jake/) (R) ★ | site-unavailable |  |  |  |  |  |  |  |
 | SD8 | Nassau/Suffolk | [Josh Taveras](candidates/taveras-josh/) (D) | reviewed | 4 | 1 | 3 | 0 | 0 | 0 | 0 |
 | SD8 | Nassau/Suffolk | [Jarett Gandolfo](candidates/gandolfo-jarett/) (R) ★ | reviewed | 4 | 2 | 1 | 0 | 1 | 0 | 0 |
 | SD9 | Nassau | [Lisa Malkie Vider](candidates/vider-lisa/) (D) ★ | reviewed | 5 | 2 | 2 | 0 | 1 | 0 | 0 |
 | SD9 | Nassau | [Patricia Canzoneri-Fitzpatrick](candidates/canzoneri-fitzpatrick-patricia/) (R) (i) | reviewed | 4 | 2 | 0 | 1 | 1 | 0 | 0 |
-| AD1 | Suffolk | Tommy John Schiavoni (D) (i) ★ | queued |  |  |  |  |  |  |  |
-| AD1 | Suffolk | Stephen Kiely (R) | queued |  |  |  |  |  |  |  |
-| AD2 | Suffolk | Michael Szika (D) | queued |  |  |  |  |  |  |  |
-| AD2 | Suffolk | Jodi Giglio (R) (i) ★ | queued |  |  |  |  |  |  |  |
-| AD3 | Suffolk | Joshua Slaughter (D) | queued |  |  |  |  |  |  |  |
-| AD3 | Suffolk | Joe DeStefano (R) (i) | queued |  |  |  |  |  |  |  |
+| AD1 | Suffolk | [Tommy John Schiavoni](candidates/schiavoni-tommy-john/) (D) (i) ★ | reviewed | 4 | 2 | 0 | 0 | 2 | 0 | 0 |
+| AD1 | Suffolk | [Stephen Kiely](candidates/kiely-stephen/) (R) | site-unavailable |  |  |  |  |  |  |  |
+| AD2 | Suffolk | [Michael Szika](candidates/szika-michael/) (D) | site-unavailable |  |  |  |  |  |  |  |
+| AD2 | Suffolk | [Jodi Giglio](candidates/giglio-jodi/) (R) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
+| AD3 | Suffolk | [Joshua Slaughter](candidates/slaughter-joshua/) (D) | reviewed | 4 | 0 | 2 | 0 | 2 | 0 | 0 |
+| AD3 | Suffolk | [Joe DeStefano](candidates/destefano-joe/) (R) (i) | site-unavailable |  |  |  |  |  |  |  |
 | AD4 | Suffolk | [Rebecca Kassay](candidates/kassay-rebecca/) (D) (i) | reviewed | 64 | 20 | 9 | 3 | 24 | 8 | 0 |
-| AD4 | Suffolk | William Sussman (R) | queued |  |  |  |  |  |  |  |
-| AD5 | Suffolk | Victoria Russell (D) | queued |  |  |  |  |  |  |  |
-| AD5 | Suffolk | Douglas Smith (R) (i) | queued |  |  |  |  |  |  |  |
-| AD6 | Suffolk | Philip Ramos (D) (i) | queued |  |  |  |  |  |  |  |
-| AD6 | Suffolk | Dennis Barravecchio (R) | queued |  |  |  |  |  |  |  |
-| AD7 | Suffolk | Patricia Kopp (D) | queued |  |  |  |  |  |  |  |
-| AD7 | Suffolk | Dawn Marie Kuhn (R) | queued |  |  |  |  |  |  |  |
-| AD8 | Suffolk | Lynn Trupiano-O'Keefe (D) | queued |  |  |  |  |  |  |  |
-| AD8 | Suffolk | Michael Fitzpatrick (R) (i) | queued |  |  |  |  |  |  |  |
+| AD4 | Suffolk | [Will Sussman](candidates/sussman-william/) (R) | reviewed | 4 | 1 | 0 | 1 | 2 | 0 | 0 |
+| AD5 | Suffolk | [Victoria Russell](candidates/russell-victoria/) (D) | site-unavailable |  |  |  |  |  |  |  |
+| AD5 | Suffolk | [Douglas M. Smith](candidates/smith-douglas/) (R) (i) | reviewed | 5 | 4 | 0 | 0 | 1 | 0 | 0 |
+| AD6 | Suffolk | [Philip Ramos](candidates/ramos-philip/) (D) (i) | site-unavailable |  |  |  |  |  |  |  |
+| AD6 | Suffolk | [Dennis Barravecchio](candidates/barravecchio-dennis/) (R) | site-unavailable |  |  |  |  |  |  |  |
+| AD7 | Suffolk | [Trish Kopp](candidates/kopp-patricia/) (D) | reviewed | 3 | 0 | 1 | 0 | 2 | 0 | 0 |
+| AD7 | Suffolk | [DawnMarie Kuhn](candidates/kuhn-dawn-marie/) (R) | reviewed | 3 | 1 | 0 | 0 | 1 | 1 | 0 |
+| AD8 | Suffolk | [Lynn Trupiano-O'Keefe](candidates/trupiano-okeefe-lynn/) (D) | site-unavailable |  |  |  |  |  |  |  |
+| AD8 | Suffolk | [Michael Fitzpatrick](candidates/fitzpatrick-michael/) (R) (i) | site-unavailable |  |  |  |  |  |  |  |
 | AD9 | Nassau/Suffolk | Chris Walls (D) | queued |  |  |  |  |  |  |  |
 | AD9 | Nassau/Suffolk | Michael Durso (R) (i) ★ | queued |  |  |  |  |  |  |  |
 | AD10 | Nassau/Suffolk | Steve Stern (D) (i) ★ | queued |  |  |  |  |  |  |  |

@@ -1,0 +1,23 @@
+{
+  "name": "Joshua Slaughter",
+  "party": "D",
+  "race": "AD3",
+  "status": "reviewed",
+  "site": "https://joshslaughter.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A labor leader's biography with big record claims from his years as a county legislative aide. The sewer district is real but cost about $224 million from federal, state and county money. He was a staffer, so \"helped secure\" is a share of a large collective effort.",
+  "findings": [
+    "The Forge River sewer district was first proposed by his former boss, Legislator Kate Browning, in 2006.",
+    "The open-space and labor-policy claims have no figures or sources on the page."
+  ],
+  "page_issues": [
+    "Says he gained Assembly experience without naming the role or dates."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

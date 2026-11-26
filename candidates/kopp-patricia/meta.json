@@ -1,0 +1,24 @@
+{
+  "name": "Trish Kopp",
+  "party": "D",
+  "race": "AD7",
+  "status": "reviewed",
+  "site": "https://trishkopp.org/",
+  "site_label": "campaign home page",
+  "bottom_line": "A first-time candidate's site. The biography matches Branch's profile. The fundraising milestones are campaign press releases, and the district statistics have no sources.",
+  "findings": [
+    "The 58%, 50% and 70% affordability statistics are given with no source.",
+    "The \"first and only\" public-matching claim was not independently confirmed."
+  ],
+  "page_issues": [
+    "Statistics are presented without sources."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Fundraising",
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

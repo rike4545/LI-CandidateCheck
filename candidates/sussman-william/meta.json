@@ -1,0 +1,23 @@
+{
+  "name": "Will Sussman",
+  "party": "R",
+  "race": "AD4",
+  "status": "reviewed",
+  "site": "https://vote.sussman4ny.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A biography plus a sharp claim about his opponent. The greenway claim misstates the bill: Kassay's A8560 would have given the MTA an easement over part of DOT land for a rail yard, and it was vetoed. Her later bill, which permanently protects the trail, was signed into law. His MIT credential is unclear: court records describe him leaving an MIT PhD program.",
+  "findings": [
+    "The greenway attack describes a vetoed bill and leaves out the law that replaced it.",
+    "He is a Yeshiva University adjunct and an antisemitism activist, per press coverage."
+  ],
+  "page_issues": [
+    "The opponent is described but never named."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Opponent",
+    "Biography"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

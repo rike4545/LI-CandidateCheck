@@ -1,0 +1,24 @@
+{
+  "name": "Douglas M. Smith",
+  "party": "R",
+  "race": "AD5",
+  "status": "reviewed",
+  "site": "https://www.smithfornewyork.com/",
+  "site_label": "campaign home page",
+  "bottom_line": "A detailed incumbent biography that checks out on the record. Some figures are leftovers from 2022.",
+  "findings": [
+    "His 2018 special election, Education Committee ranking role and 67% in 2022 are all confirmed.",
+    "The \"48% of New Yorkers and 60% of Long Islanders voted for a new direction\" line refers to the 2022 governor's race and was never updated."
+  ],
+  "page_issues": [
+    "Cites 2022 results rather than 2024."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Elections",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}
