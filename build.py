@@ -1,88 +1,177 @@
-"""Regenerate each review's CLAIMS.md from its claims.csv and print the rating tallies.
+"""Build LI-CandidateCheck from its data files.
 
-Usage: python3 build.py            # all reviews
-       python3 build.py murray     # one review
+Inputs (the only files to edit by hand):
+  races.json                       every race, its candidates, and sourced results
+  candidates/<slug>/meta.json      one reviewed candidate: page reviewed, summary, findings
+  candidates/<slug>/claims.csv     that candidate's claims ledger
+  site/template.html               the live site's HTML/JS
+
+Outputs (generated, never edit):
+  candidates/<slug>/README.md      summary + scorecard + full ledger
+  README.md                        the block between the REVIEWS markers
+  docs/index.html                  the live site, with all data embedded
+
+Usage: python3 build.py
 """
 import collections
 import csv
 import json
 import os
+import re
 import sys
 
 RATINGS = ["✅", "🟡", "🟠", "⚪", "🔵", "❌"]
+RATING_NAMES = {"✅": "Verified", "🟡": "Verified with caveat", "🟠": "Overstated / partly accurate",
+                "⚪": "Unverified", "🔵": "Activity claim", "❌": "False"}
+PARTY = {"D": "Democrat", "R": "Republican"}
+SITE_URL = "https://rike4545.github.io/LI-CandidateCheck/"
+FIELDS = ["id", "category", "pages", "claim", "rating", "finding", "sources"]
+STATUSES = {"reviewed", "site-unavailable", "queued"}
 
-REVIEWS = {
-    "kassay": {
-        "intro": "Every distinct claim on the *Rebecca Delivers* page (reviewed 2026-10-24), "
-                 "deduplicated across community tabs.",
-        "where_col": "communities",
-        "where_label": "Tabs",
-        "order": ["Statewide", "Biography", "Legislation", "Funding", "State aid",
-                  "Volunteer events", "Constituent service", "Advocacy"],
-    },
-    "murray": {
-        "intro": "Every distinct factual claim on chrismurrayforstatesenate.com "
-                 "(Home, About, Priorities; reviewed 2026-11-26), deduplicated across pages. "
-                 "Pure policy promises are not rated.",
-        "where_col": "pages",
-        "where_label": "Pages",
-        "order": ["Biography", "Record", "Election", "Policy facts"],
-    },
-}
+errors = []
 
 
-def build(name):
-    cfg = REVIEWS[name]
-    rows = list(csv.DictReader(open(f"{name}/claims.csv", encoding="utf-8")))
-    bad = [r["id"] for r in rows if None in r or r["rating"] not in RATINGS or r["category"] not in cfg["order"]]
-    if bad:
-        sys.exit(f"{name}: malformed rows {bad}")
-    tally = collections.Counter(r["rating"] for r in rows)
-    print(name, len(rows), "claims", {k: tally[k] for k in RATINGS if tally[k]})
+def fail(msg):
+    errors.append(msg)
 
-    out = ["# Claims ledger\n",
-           f"{cfg['intro']} Ratings key is in [METHODOLOGY.md](../METHODOLOGY.md#ratings).\n"]
-    for cat in cfg["order"]:
-        rs = [r for r in rows if r["category"] == cat]
-        if not rs:
+
+def load():
+    races = json.load(open("races.json", encoding="utf-8"))
+    cands = {}
+    seen = set()
+    for race in races["races"]:
+        for c in race["candidates"]:
+            slug = c["slug"]
+            if slug in seen:
+                fail(f"{slug}: listed in more than one race")
+            seen.add(slug)
+            path = f"candidates/{slug}"
+            meta = {"status": "queued"}
+            if os.path.exists(f"{path}/meta.json"):
+                meta = json.load(open(f"{path}/meta.json", encoding="utf-8"))
+                if meta.get("race") != race["id"]:
+                    fail(f"{slug}: meta race {meta.get('race')} != {race['id']}")
+            if meta["status"] not in STATUSES:
+                fail(f"{slug}: unknown status {meta['status']}")
+            claims = []
+            if os.path.exists(f"{path}/claims.csv"):
+                reader = csv.DictReader(open(f"{path}/claims.csv", encoding="utf-8"))
+                if reader.fieldnames != FIELDS:
+                    fail(f"{slug}: claims.csv header must be {FIELDS}")
+                for r in reader:
+                    if None in r or r["rating"] not in RATINGS:
+                        fail(f"{slug} {r.get('id')}: malformed row or unknown rating")
+                        continue
+                    if r["category"] not in meta.get("categories", []):
+                        fail(f"{slug} {r['id']}: category {r['category']!r} not in meta.categories")
+                    r["sources"] = [u.strip() for u in r["sources"].split("|") if u.strip()]
+                    claims.append(r)
+                ids = [r["id"] for r in claims]
+                if len(ids) != len(set(ids)):
+                    fail(f"{slug}: duplicate claim ids")
+            if meta["status"] == "reviewed" and not claims:
+                fail(f"{slug}: status reviewed but no claims")
+            cands[slug] = {**c, **meta, "slug": slug, "race": race["id"], "name": meta.get("name", c["name"]),
+                           "incumbent": race.get("incumbent") == slug, "claims": claims}
+    for slug in os.listdir("candidates"):
+        if slug not in cands:
+            fail(f"candidates/{slug}: not listed in races.json")
+    return races, cands
+
+
+def tally(claims):
+    t = collections.Counter(r["rating"] for r in claims)
+    return {k: t[k] for k in RATINGS}
+
+
+def md_escape(s):
+    return s.replace("|", "\\|").replace("\n", " ")
+
+
+def candidate_readme(c, race, cands):
+    t = tally(c["claims"])
+    opp = [x for x in race["candidates"] if x["slug"] != c["slug"]]
+    office = f"NYS {race['chamber']}, District {race['district']}"
+    lines = [f"# {c['name']} ({c.get('lines', c['party'])}): {office}\n",
+             "<!-- Generated by build.py from meta.json and claims.csv. Do not edit by hand. -->\n",
+             f"Independent, source-by-source review of the claims on **{c['name']}'s** campaign website "
+             f"([{c.get('site_label', 'site')}]({c['site']})), captured **{c['captured']}**. "
+             f"{'Incumbent. ' if c['incumbent'] else ''}"
+             f"Opponent: {', '.join((f'[{o['name']}](../{o['slug']}/)' if cands[o['slug']]['status'] != 'queued' else o['name']) + f' ({o['party']})' for o in opp)}.\n",
+             f"**Live site:** <{SITE_URL}#/c/{c['slug']}> · method: [METHODOLOGY.md](../../METHODOLOGY.md)\n",
+             "> Scope: this review tests whether each claim is **verifiable** and **accurate as stated**. "
+             "It does not rate the candidate, the opponent, or policy positions.\n"]
+    if c["status"] == "site-unavailable":
+        lines.append(f"## Status\n\n{c.get('bottom_line', 'The campaign site could not be retrieved.')}\n")
+        return "\n".join(lines)
+    lines.append(f"## Bottom line\n\n{c['bottom_line']}\n")
+    if c.get("findings"):
+        lines += [f"{i}. {f}" for i, f in enumerate(c["findings"], 1)] + [""]
+    lines += ["## Scorecard\n", "| Rating | Count |", "|---|---|"]
+    lines += [f"| {k} {RATING_NAMES[k]} | {t[k]} |" for k in RATINGS] + [f"| **Total** | **{len(c['claims'])}** |", ""]
+    for title, key in (("Page-level issues", "page_issues"), ("Follow-ups to close open items", "follow_ups")):
+        if c.get(key):
+            lines += [f"## {title}\n"] + [f"- {x}" for x in c[key]] + [""]
+    lines.append("## Claims ledger\n")
+    for cat in c["categories"]:
+        rows = [r for r in c["claims"] if r["category"] == cat]
+        if not rows:
             continue
-        out.append(f"\n## {cat}\n\n| ID | Claim (paraphrased) | {cfg['where_label']} | Rating | Finding | Sources |\n"
-                   "|---|---|---|---|---|---|")
-        for r in rs:
-            urls = [u.strip() for u in r["sources"].split("|") if u.strip()]
-            src = " ".join(f"[{i + 1}]({u})" for i, u in enumerate(urls)) or "—"
-            out.append(f"| {r['id']} | {r['claim']} | {r[cfg['where_col']]} | {r['rating']} | {r['finding']} | {src} |")
-    open(f"{name}/CLAIMS.md", "w", encoding="utf-8").write("\n".join(out) + "\n")
+        lines += [f"\n### {cat}\n", f"| ID | Claim (paraphrased) | {c.get('where_label', 'Pages')} | Rating | Finding | Sources |",
+                  "|---|---|---|---|---|---|"]
+        for r in rows:
+            src = " ".join(f"[{i}]({u})" for i, u in enumerate(r["sources"], 1)) or "—"
+            lines.append(f"| {r['id']} | {md_escape(r['claim'])} | {md_escape(r['pages'])} | {r['rating']} | "
+                         f"{md_escape(r['finding'])} | {src} |")
+    return "\n".join(lines) + "\n"
 
 
-SITE_META = {
-    "kassay": {"name": "Rebecca Kassay (D)", "office": "NYS Assembly, District 4 (incumbent)",
-               "page": "https://www.kassayforassembly.com/rebecca-delivers", "page_label": "Rebecca Delivers page",
-               "captured": "October 24, 2026"},
-    "murray": {"name": "Chris Murray (D, WF)", "office": "NYS Senate, District 1 (Senator-elect)",
-               "page": "https://chrismurrayforstatesenate.com/", "page_label": "Home, About and Priorities pages",
-               "captured": "November 26, 2026"},
-}
+def root_table(races, cands):
+    out = ["| Race | County | Candidate | Status | Claims | " + " | ".join(RATINGS) + " |",
+           "|---|---|---|---|---|" + "---|" * len(RATINGS)]
+    for race in races["races"]:
+        for c in (cands[x["slug"]] for x in race["candidates"]):
+            name = f"[{c['name']}](candidates/{c['slug']}/)" if c["status"] != "queued" else c["name"]
+            mark = " (i)" if c["incumbent"] else ""
+            mark += " ★" if race.get("winner") == c["slug"] else ""
+            t = tally(c["claims"])
+            nums = " | ".join(str(t[k]) if c["claims"] else "" for k in RATINGS)
+            out.append(f"| {race['id']} | {race['county']} | {name} ({c['party']}){mark} | {c['status']} | "
+                       f"{len(c['claims']) or ''} | {nums} |")
+    return "\n".join(out)
 
 
-def build_site():
-    """Write docs/index.html: one self-contained page with every review's claims embedded."""
-    data = {}
-    for name, cfg in REVIEWS.items():
-        rows = list(csv.DictReader(open(f"{name}/claims.csv", encoding="utf-8")))
-        data[name] = {**SITE_META[name], "order": cfg["order"], "claims": [
-            {"id": r["id"], "category": r["category"], "where": r[cfg["where_col"]], "claim": r["claim"],
-             "rating": r["rating"], "finding": r["finding"],
-             "sources": [u.strip() for u in r["sources"].split("|") if u.strip()]} for r in rows]}
-    template = open("site/template.html", encoding="utf-8").read()
+def main():
+    races, cands = load()
+    if errors:
+        sys.exit("Build failed:\n  " + "\n  ".join(errors))
+    by_race = {r["id"]: r for r in races["races"]}
+    for c in cands.values():
+        if c["status"] != "queued":
+            open(f"candidates/{c['slug']}/README.md", "w", encoding="utf-8").write(candidate_readme(c, by_race[c["race"]], cands))
+
+    readme = open("README.md", encoding="utf-8").read()
+    block = f"<!-- REVIEWS:START -->\n{root_table(races, cands)}\n<!-- REVIEWS:END -->"
+    readme, n = re.subn(r"<!-- REVIEWS:START -->.*?<!-- REVIEWS:END -->", lambda _: block, readme, flags=re.S)
+    if n != 1:
+        sys.exit("README.md must contain one <!-- REVIEWS:START --> ... <!-- REVIEWS:END --> block")
+    open("README.md", "w", encoding="utf-8").write(readme)
+
+    data = {"election": races["election"], "results_note": races["results_note"], "races": races["races"],
+            "candidates": {s: {k: v for k, v in c.items()} for s, c in cands.items()},
+            "ratings": RATINGS, "rating_names": RATING_NAMES}
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     os.makedirs("docs", exist_ok=True)
+    template = open("site/template.html", encoding="utf-8").read()
+    if "/*__DATA__*/null" not in template:
+        sys.exit("site/template.html is missing the /*__DATA__*/null placeholder")
     open("docs/index.html", "w", encoding="utf-8").write(template.replace("/*__DATA__*/null", payload))
     open("docs/.nojekyll", "w").close()
-    print("site docs/index.html")
+
+    st = collections.Counter(c["status"] for c in cands.values())
+    total = sum(len(c["claims"]) for c in cands.values())
+    print(f"{len(races['races'])} races, {len(cands)} candidates {dict(st)}, {total} claims")
 
 
-for name in sys.argv[1:] or REVIEWS:
-    build(name)
-if not sys.argv[1:]:
-    build_site()
+if __name__ == "__main__":
+    main()

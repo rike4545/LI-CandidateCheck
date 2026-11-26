@@ -1,0 +1,42 @@
+{
+  "name": "Rebecca Kassay",
+  "party": "D",
+  "race": "AD4",
+  "incumbent": true,
+  "status": "reviewed",
+  "site": "https://www.kassayforassembly.com/rebecca-delivers",
+  "site_label": "\"Rebecca Delivers\" page",
+  "captured": "2026-10-24",
+  "categories": [
+    "Statewide",
+    "Biography",
+    "Legislation",
+    "Funding",
+    "State aid",
+    "Volunteer events",
+    "Constituent service",
+    "Advocacy"
+  ],
+  "where_label": "Tabs",
+  "bottom_line": "The page is largely grounded in real, checkable events, and nothing tested was false. The problems are framing and precision, not fabrication.",
+  "findings": [
+    "Credit inflation on big numbers. The $6.5M Mill Pond Dam figure is the total state commitment; $2.75M was already committed by the Governor before Kassay's $3.75M budget add. Formula school aid (e.g., $282.7M for Longwood) is listed under \"Rebecca Delivers\" though it flows by statewide formula.",
+    "One legislative claim overreaches. The cannabis bills Kassay introduced govern licensed retailers and local zoning input. The bill targeting illicit cannabis (A10698) was sponsored by another member; Kassay co-sponsored it.",
+    "One volunteer number is higher than her own office reported: \"over 100 smoke detectors\" on the page vs. \"nearly 100\" in 74 homes in her office's release.",
+    "Omitted outcome: the Port Jefferson–Rocky Point football advocacy is listed without noting the merger was denied and Port Jefferson fielded no varsity team in 2026.",
+    "19 grant line items ($10K–$180K) have no public paper trail. Where one exists it sometimes shows less: Port Jefferson schools ($50K found vs. $130K claimed) and Comsewogue ($48K found vs. $96K claimed)."
+  ],
+  "page_issues": [
+    "Shared grants are repeated under up to six community tabs, so a reader tallying the page will double-count.",
+    "The same grant is described differently in different tabs (Port Jefferson $130K; Three Village $150K).",
+    "Two SCPD grants ($20K e-bike enforcement; $40K Behavioral Health Unit and e-bike enforcement) may describe the same money.",
+    "Typo: \"CRP\" should be \"CPR\" (Three Village tab).",
+    "None of the ~60 claims link to a bill, release, or budget document."
+  ],
+  "follow_ups": [
+    "FOIL the Assembly Ways and Means Committee for the AD4 legislative-initiative / SAM grant list for SFY 2025-26 and 2026-27.",
+    "Pull NYSED enacted-budget school aid runs (BT2526, BT2627) for Longwood, Middle Country, Comsewogue, Port Jefferson and Three Village.",
+    "Ask grant recipients to confirm receipt and amount."
+  ],
+  "depth": "full"
+}
