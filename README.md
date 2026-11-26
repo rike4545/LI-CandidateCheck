@@ -22,10 +22,10 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | SD1 | Suffolk | [Anthony Palumbo](candidates/palumbo-anthony/) (R) (i) | reviewed | 12 | 5 | 4 | 0 | 2 | 1 | 0 |
 | SD2 | Suffolk | [Harjot Singh](candidates/singh-harjot/) (D) | reviewed | 5 | 2 | 0 | 0 | 2 | 1 | 0 |
 | SD2 | Suffolk | [Mario Mattera](candidates/mattera-mario/) (R) (i) ★ | reviewed | 9 | 3 | 2 | 0 | 4 | 0 | 0 |
-| SD3 | Suffolk | Antonio Vargas-Ayala (D) | queued |  |  |  |  |  |  |  |
-| SD3 | Suffolk | Dean Murray (R) (i) ★ | queued |  |  |  |  |  |  |  |
-| SD4 | Suffolk | Monica Martinez (D) (i) ★ | queued |  |  |  |  |  |  |  |
-| SD4 | Suffolk | Brianne Wakefield (R) | queued |  |  |  |  |  |  |  |
+| SD3 | Suffolk | [Antonio Vargas-Ayala](candidates/vargas-ayala-antonio/) (D) | site-unavailable |  |  |  |  |  |  |  |
+| SD3 | Suffolk | [Dean Murray](candidates/murray-dean/) (R) (i) ★ | reviewed | 7 | 3 | 2 | 1 | 0 | 1 | 0 |
+| SD4 | Suffolk | [Monica Martinez](candidates/martinez-monica/) (D) (i) ★ | reviewed | 11 | 3 | 6 | 0 | 2 | 0 | 0 |
+| SD4 | Suffolk | [Brianne Wakefield](candidates/wakefield-brianne/) (R) | reviewed | 5 | 0 | 1 | 0 | 3 | 1 | 0 |
 | SD5 | Nassau/Suffolk | Andrew Piddoubny (D) | queued |  |  |  |  |  |  |  |
 | SD5 | Nassau/Suffolk | Steven Rhoads (R) (i) ★ | queued |  |  |  |  |  |  |  |
 | SD6 | Nassau | Siela Bynoe (D) (i) ★ | queued |  |  |  |  |  |  |  |

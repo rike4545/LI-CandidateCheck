@@ -1,0 +1,27 @@
+{
+  "name": "Monica Martinez",
+  "party": "D",
+  "lines": "D, WF",
+  "race": "SD4",
+  "status": "reviewed",
+  "depth": "core",
+  "site": "https://www.monicaforny.com/",
+  "site_label": "campaign home page",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Budget",
+    "Legislation"
+  ],
+  "where_label": "Section",
+  "bottom_line": "Her biography and the budget figures she cites check out. Most of the record is statewide budget items, presented without saying they were budget-wide, and a couple of bill claims stop short of their current status.",
+  "findings": [
+    "Child-credit, school-meal, Foundation Aid and Environmental Protection Fund figures match the FY2026 enacted budget. These were statewide budget items; her role was her vote.",
+    "The $8 billion unemployment-insurance debt figure couldn't be matched; the Fiscal Policy Institute put the federal UI debt at about $6.2 billion.",
+    "S7335 (Enhanced STAR for seniors) did pass the Senate in June 2025, but died in the Assembly and is back in committee in 2026."
+  ],
+  "page_issues": [
+    "\"Tire 1 and 2\" typo in the pension section.",
+    "Endorsements are shown only as logos."
+  ]
+}
