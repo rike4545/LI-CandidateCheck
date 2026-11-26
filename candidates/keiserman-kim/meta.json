@@ -1,0 +1,22 @@
+{
+  "name": "Kim Keiserman",
+  "party": "D",
+  "race": "AD16",
+  "status": "reviewed",
+  "site": "https://www.kimkeiserman.com/",
+  "site_label": "campaign home page (post-election)",
+  "bottom_line": "Updated after the election to thank voters and say she will take office. Her biography matches Branch's profile; no cited source naming the result was found yet.",
+  "findings": [
+    "The site declares victory; the race result is not yet recorded here."
+  ],
+  "page_issues": [
+    "Does not name the district."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Elections"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

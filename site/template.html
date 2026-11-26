@@ -708,8 +708,6 @@ function viewAbout() {
       ["❌", "contradicted by evidence."]].map(([k, d]) => h("div", {style: "display:flex;gap:10px;align-items:flex-start"}, ri(k, false), h("span", {}, h("b", {}, RN[k]), ": ", d)))),
     h("p", {class: "note"}, "Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
     h("p", {}, D.results_note),
-    h("h2", {}, "Disclosure"),
-    h("p", {}, "The maintainer, Bryan Carroll, interviewed in November 2026 for a staff position in the office of Senator-elect Chris Murray (SD1, D). Both SD1 candidates were reviewed with the same method and every rating links its sources, but weigh the SD1 reviews with this in mind."),
     h("p", {}, "Full method: ", link("https://github.com/rike4545/LI-CandidateCheck/blob/main/METHODOLOGY.md", "METHODOLOGY.md"), ".")];
 }
 

@@ -57,34 +57,30 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | AD10 | Nassau/Suffolk | [Steve Stern](candidates/stern-steve/) (D) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
 | AD10 | Nassau/Suffolk | [Tiffany LeGrow](candidates/legrow-tiffany/) (R) | site-unavailable |  |  |  |  |  |  |  |
 | AD11 | Nassau/Suffolk | [Kwani O'Pharrow](candidates/opharrow-kwani/) (D) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
-| AD11 | Nassau/Suffolk | Joseph Cardinale (R) | queued |  |  |  |  |  |  |  |
-| AD12 | Suffolk | Craig Herskowitz (D) | queued |  |  |  |  |  |  |  |
-| AD12 | Suffolk | David Weber (R) | queued |  |  |  |  |  |  |  |
+| AD11 | Nassau/Suffolk | [Joseph Cardinale](candidates/cardinale-joseph/) (R) | reviewed | 3 | 0 | 2 | 0 | 1 | 0 | 0 |
+| AD12 | Suffolk | [Craig Herskowitz](candidates/herskowitz-craig/) (D) | reviewed | 3 | 2 | 0 | 0 | 1 | 0 | 0 |
+| AD12 | Suffolk | [David Weber Jr.](candidates/weber-david/) (R) | reviewed | 3 | 1 | 1 | 0 | 1 | 0 | 0 |
 | AD13 | Nassau | [Charles Lavine](candidates/lavine-charles/) (D) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
-| AD13 | Nassau | Conner Dunleavy (R) | queued |  |  |  |  |  |  |  |
+| AD13 | Nassau | [Conner Dunleavy](candidates/dunleavy-conner/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
 | AD14 | Nassau | [John Brooks](candidates/brooks-john/) (D) | site-unavailable |  |  |  |  |  |  |  |
 | AD14 | Nassau | [Shannon Fredericks](candidates/fredericks-shannon/) (R) | site-unavailable |  |  |  |  |  |  |  |
-| AD15 | Nassau | Dean Tarulli (D) | queued |  |  |  |  |  |  |  |
-| AD15 | Nassau | Paolo Pironi (R) | queued |  |  |  |  |  |  |  |
-| AD16 | Nassau | Kim Keiserman (D) | queued |  |  |  |  |  |  |  |
-| AD16 | Nassau | David Hassid (R) | queued |  |  |  |  |  |  |  |
+| AD15 | Nassau | [Dean Tarulli](candidates/tarulli-dean/) (D) | reviewed | 4 | 1 | 1 | 0 | 2 | 0 | 0 |
+| AD15 | Nassau | [Paolo Pironi](candidates/pironi-paolo/) (R) | reviewed | 4 | 2 | 1 | 0 | 1 | 0 | 0 |
+| AD16 | Nassau | [Kim Keiserman](candidates/keiserman-kim/) (D) | reviewed | 2 | 0 | 1 | 0 | 1 | 0 | 0 |
+| AD16 | Nassau | [David Hassid](candidates/hassid-david/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
 | AD17 | Nassau | [Sunita Lofters](candidates/lofters-sunita/) (D) | site-unavailable |  |  |  |  |  |  |  |
-| AD17 | Nassau | John Mikulin (R) (i) | queued |  |  |  |  |  |  |  |
-| AD18 | Nassau | Noah Burroughs (D) (i) | queued |  |  |  |  |  |  |  |
-| AD18 | Nassau | Charlene Jackson (R) | queued |  |  |  |  |  |  |  |
-| AD19 | Nassau | Colleen Connaughton (D) | queued |  |  |  |  |  |  |  |
+| AD17 | Nassau | [John Mikulin](candidates/mikulin-john/) (R) (i) | reviewed | 3 | 1 | 0 | 0 | 2 | 0 | 0 |
+| AD18 | Nassau | [Noah Burroughs](candidates/burroughs-noah/) (D) (i) | reviewed | 2 | 1 | 0 | 0 | 1 | 0 | 0 |
+| AD18 | Nassau | [Charlene Jackson](candidates/jackson-charlene/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
+| AD19 | Nassau | [Colleen Connaughton](candidates/connaughton-colleen/) (D) | reviewed | 2 | 1 | 0 | 0 | 1 | 0 | 0 |
 | AD19 | Nassau | [Edward Ra](candidates/ra-edward/) (R) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
 | AD20 | Nassau | [Meir Fischer](candidates/fischer-meir/) (D) | site-unavailable |  |  |  |  |  |  |  |
 | AD20 | Nassau | [Ari Brown](candidates/brown-ari/) (R) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
 | AD21 | Nassau | [Judy Griffin](candidates/griffin-judy/) (D) (i) ★ | site-unavailable |  |  |  |  |  |  |  |
-| AD21 | Nassau | Irene Villacci (R) | queued |  |  |  |  |  |  |  |
-| AD22 | Nassau | Michaelle Solages (D) (i) ★ | queued |  |  |  |  |  |  |  |
+| AD21 | Nassau | [Irene Villacci](candidates/villacci-irene/) (R) | reviewed | 1 | 0 | 0 | 0 | 0 | 1 | 0 |
+| AD22 | Nassau | [Michaelle Solages](candidates/solages-michaelle/) (D) (i) ★ | reviewed | 2 | 1 | 0 | 0 | 0 | 1 | 0 |
 | AD22 | Nassau | [Robert Inzerillo](candidates/inzerillo-robert/) (R) | site-unavailable |  |  |  |  |  |  |  |
 <!-- REVIEWS:END -->
-
-## Disclosure
-
-The maintainer interviewed in November 2026 for a staff position in Senator-elect Chris Murray's office (SD1). See [METHODOLOGY.md](METHODOLOGY.md#disclosure).
 
 ## Ratings key
 

@@ -1,0 +1,23 @@
+{
+  "name": "Michaelle Solages",
+  "party": "D",
+  "race": "AD22",
+  "status": "reviewed",
+  "site": "https://www.michaellesolages.com",
+  "site_label": "campaign home page",
+  "bottom_line": "A light incumbent page with section headings and constituent testimonials but no specific record claims.",
+  "findings": [
+    "Claims \"important wins\" without naming any."
+  ],
+  "page_issues": [
+    "Headings such as \"Legislative Experience\" have no supporting text.",
+    "Testimonials reference the COVID-19 period, suggesting older content."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Irene Villacci",
+  "party": "R",
+  "race": "AD21",
+  "status": "reviewed",
+  "site": "https://www.villacciforassembly.com/",
+  "site_label": "campaign home page (single page)",
+  "bottom_line": "A one-page site with a slogan and a short platform list. It has no biography, record or figures, so there is nothing factual to check.",
+  "findings": [
+    "Every item is a policy position, not a checkable claim."
+  ],
+  "page_issues": [
+    "The captured page contains only a headline, election dates and a short platform list: no biography, record or figures."
+  ],
+  "captured": "2026-11-26",
+  "categories": [
+    "Issues"
+  ],
+  "depth": "core",
+  "where_label": "Pages"
+}
