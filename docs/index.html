@@ -6,6 +6,12 @@
 <title>LI-CandidateCheck: fact checks of Long Island campaign websites</title>
 <meta name="description" content="Source-by-source fact checks of the claims on Long Island state legislative candidates' campaign websites, using the same method and rating scale for every candidate.">
 <meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='1.5' y='1.5' width='21' height='21' rx='6' fill='%231d4f80'/%3E%3Cpath d='M7 12.4l3.2 3.1L17 8.6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:title" content="LI-CandidateCheck">
+<meta property="og:description" content="Source-by-source fact checks of Long Island state legislative candidates' campaign websites.">
+<meta property="og:image" content="https://rike4545.github.io/LI-CandidateCheck/og.png">
+<meta property="og:url" content="https://rike4545.github.io/LI-CandidateCheck/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   @font-face { font-family: "Public Sans"; font-style: normal; font-weight: 100 900; font-display: swap;
@@ -211,6 +217,50 @@
   main { view-transition-name: main; }
   @media (prefers-reduced-motion: reduce) { *, ::view-transition-group(*) { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }
 
+
+  /* hero + map */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: center; margin: 30px 0 6px; }
+  .hero h1 { margin-top: 0; }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; gap: 14px; } }
+  .limap { width: 100%; height: auto; display: block; overflow: visible; }
+  .limap .sea { fill: none; }
+  .limap .land { stroke: var(--card); stroke-width: 3; stroke-linejoin: round; cursor: pointer; transition: filter .25s, transform .4s var(--ease); }
+  .limap .land.nas { fill: color-mix(in srgb, var(--accent) 34%, var(--card)); }
+  .limap .land.suf { fill: color-mix(in srgb, var(--accent) 62%, var(--card)); }
+  .limap .land:hover, .limap .land:focus-visible { filter: brightness(1.08) saturate(1.15); outline: none; }
+  .limap .coast { fill: none; stroke: color-mix(in srgb, var(--accent) 55%, var(--line)); stroke-width: 1.2; opacity: .55; }
+  .limap .wave { fill: none; stroke: var(--line); stroke-width: 1.4; stroke-linecap: round; }
+  .limap .border { stroke: var(--card); stroke-width: 3; stroke-dasharray: 2 6; stroke-linecap: round; }
+  .limap text { font: 650 32px "Public Sans", system-ui, sans-serif; fill: var(--fg); paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round; }
+  .limap text.sub { font-weight: 500; font-size: 22px; fill: var(--muted); }
+  .limap text.water { font-style: italic; font-weight: 500; font-size: 21px; fill: var(--faint); stroke: none; letter-spacing: .06em; }
+  .mapcap { font-size: .78rem; color: var(--faint); margin: 4px 0 0; text-align: right; }
+  @media (prefers-reduced-motion: no-preference) {
+    .limap .land { animation: rise .9s var(--ease) both; } .limap .land.suf { animation-delay: .08s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+  }
+  /* coverage strip */
+  .cover { margin: 18px 0 4px; max-width: 520px; }
+  .cover .track { display: flex; height: 10px; border-radius: 99px; overflow: hidden; gap: 2px; background: var(--queued); }
+  .cover .track span { display: block; height: 100%; }
+  .cover .k { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: .84rem; color: var(--muted); }
+  .cover .k span { display: inline-flex; align-items: center; gap: 6px; }
+  .cover .k i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .c-rev { background: var(--accent); } .c-ns { background: repeating-linear-gradient(-45deg, var(--faint) 0 3px, transparent 3px 6px); box-shadow: inset 0 0 0 1px var(--faint); } .c-q { background: var(--queued); box-shadow: inset 0 0 0 1px var(--line); }
+  /* monogram */
+  .mono { display: inline-grid; place-items: center; flex: none; border-radius: 50%; font-weight: 750; letter-spacing: -0.02em; color: #fff; position: relative; }
+  .mono.D { background: linear-gradient(150deg, color-mix(in srgb, var(--p-d) 78%, #fff), var(--p-d)); }
+  .mono.R { background: linear-gradient(150deg, color-mix(in srgb, var(--p-r) 78%, #fff), var(--p-r)); }
+  .mono.off { filter: saturate(.25); opacity: .75; }
+  .mono .won { position: absolute; right: -2px; bottom: -2px; width: 42%; height: 42%; border-radius: 50%; background: var(--r-ok); box-shadow: 0 0 0 2px var(--bg); display: grid; place-items: center; }
+  .idline { display: flex; align-items: center; gap: 14px; }
+  .head .idline { margin-top: 30px; }
+  .panel .top .name { display: flex; align-items: center; gap: 10px; }
+  /* no-site illustration */
+  .nosite { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; }
+  .nosite svg { width: 96px; height: auto; }
+  @media (max-width: 420px) { .nosite { grid-template-columns: 1fr; } }
+
   footer { margin: 0 auto; max-width: 1120px; padding: 18px 20px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: .86rem; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
@@ -345,6 +395,59 @@ function claimCard(cl, c, opts = {}) {
       : h("span", {}, "No public source found")));
 }
 
+
+/* ---------- drawn graphics ---------- */
+/* Long Island coastline, simplified by hand from lon/lat. Counties only: district lines are not drawn. */
+const LI = [[-73.76,40.79],[-73.74,40.82],[-73.70,40.86],[-73.66,40.84],[-73.64,40.87],[-73.56,40.91],[-73.50,40.89],[-73.47,40.93],[-73.43,40.90],[-73.40,40.95],[-73.35,40.92],[-73.25,40.91],[-73.18,40.92],[-73.14,40.93],[-73.07,40.96],[-72.92,40.95],[-72.84,40.96],[-72.68,40.98],[-72.53,41.01],[-72.42,41.08],[-72.33,41.12],[-72.24,41.16],[-72.30,41.13],[-72.36,41.10],[-72.43,41.05],[-72.47,40.99],[-72.58,40.94],[-72.66,40.915],[-72.61,40.90],[-72.48,40.93],[-72.40,40.95],[-72.33,41.00],[-72.23,41.03],[-72.15,41.04],[-72.04,41.01],[-71.95,41.06],[-71.86,41.07],[-71.93,41.03],[-72.14,40.97],[-72.39,40.88],[-72.64,40.81],[-72.86,40.73],[-73.05,40.67],[-73.30,40.62],[-73.45,40.59],[-73.56,40.58],[-73.75,40.585],[-73.74,40.65],[-73.71,40.70],[-73.70,40.75]];
+const MX = lon => (lon + 73.80) * 757 * 0.62, MY = lat => (41.22 - lat) * 1000 * 0.62;
+function smoothPath(pts) {
+  const p = pts.map(([a, b]) => [MX(a), MY(b)]), n = p.length;
+  let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = p[(i - 1 + n) % n], p1 = p[i], p2 = p[(i + 1) % n], p3 = p[(i + 2) % n], t = .18;
+    d += `C${(p1[0] + (p2[0] - p0[0]) * t).toFixed(1)},${(p1[1] + (p2[1] - p0[1]) * t).toFixed(1)} ${(p2[0] - (p3[0] - p1[0]) * t).toFixed(1)},${(p2[1] - (p3[1] - p1[1]) * t).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+  }
+  return d + "Z";
+}
+function liMap(counts, onPick) {
+  const W = Math.round(MX(-71.80)), H = Math.round(MY(40.50)), bx = MX(-73.425).toFixed(1), d = smoothPath(LI);
+  const lab = (lon, lat, a, b) => `<text x="${MX(lon)}" y="${MY(lat)}" text-anchor="middle">${a}</text><text class="sub" x="${MX(lon)}" y="${MY(lat) + 28}" text-anchor="middle">${b}</text>`;
+  const waves = [[-73.55, 40.47], [-72.95, 40.53], [-72.35, 40.68]].map(([a, b]) => { const x = MX(a), y = MY(b); return `<path class="wave" d="M${x},${y} q14,-8 28,0 t28,0 t28,0"/>`; }).join("");
+  const t = document.createElement("template");
+  t.innerHTML = `<svg xmlns="${NS}" class="limap" viewBox="0 0 ${W} ${H}" role="group" aria-label="Map of Nassau and Suffolk counties. Select a county to jump to its races.">
+    <defs><clipPath id="cl-n"><rect x="0" y="0" width="${bx}" height="${H}"/></clipPath><clipPath id="cl-s"><rect x="${bx}" y="0" width="${W}" height="${H}"/></clipPath></defs>
+    <text class="water" x="${MX(-73.05)}" y="${MY(41.12)}" text-anchor="middle">Long Island Sound</text>
+    <text class="water" x="${MX(-73.25)}" y="${MY(40.50)}" text-anchor="middle">Atlantic Ocean</text>${waves}
+    <path class="land nas" d="${d}" clip-path="url(#cl-n)" tabindex="0" role="button" aria-label="Nassau: ${counts.Nassau} races"/>
+    <path class="land suf" d="${d}" clip-path="url(#cl-s)" tabindex="0" role="button" aria-label="Suffolk: ${counts.Suffolk} races"/>
+    <line class="border" x1="${bx}" y1="${MY(40.95)}" x2="${bx}" y2="${MY(40.62)}"/>
+    ${lab(-73.60, 40.72, "Nassau", `${counts.Nassau} races`)}${lab(-72.95, 40.83, "Suffolk", `${counts.Suffolk} races`)}
+  </svg>`;
+  const m = t.content.firstChild;
+  m.querySelectorAll(".land").forEach(el => {
+    const k = el.classList.contains("nas") ? "Nassau" : "Suffolk";
+    el.addEventListener("click", () => onPick(k));
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(k); } });
+    attachTip(el, `${k}: ${counts[k]} races · plus ${counts.Both} that straddle the line`);
+  });
+  return m;
+}
+const initials = n => n.replace(/\(.*?\)/g, "").split(/\s+/).filter(w => /^[A-Za-z]/.test(w) && !/^(Jr|Sr|II|III)\.?$/.test(w)).map(w => w[0]).filter((_, i, a) => i === 0 || i === a.length - 1).join("").toUpperCase();
+function mono(c, size = 40) {
+  const won = RACE[c.race].winner === c.slug;
+  const m = h("span", {class: `mono ${c.party}${c.status === "reviewed" ? "" : " off"}`, style: `width:${size}px;height:${size}px;font-size:${Math.round(size * .38)}px`, "aria-hidden": "true"}, initials(c.name));
+  if (won) { const w = svg(`<path d="M5.5 10.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`); w.setAttribute("width", "70%"); m.append(h("span", {class: "won"}, w)); }
+  return m;
+}
+const noSiteArt = () => svg(`<rect x="1" y="2" width="18" height="15" rx="2.2" fill="var(--card)" stroke="var(--faint)" stroke-width=".7"/><path d="M1 5.6h18" stroke="var(--faint)" stroke-width=".7"/><circle cx="3" cy="3.8" r=".55" fill="var(--faint)"/><circle cx="4.7" cy="3.8" r=".55" fill="var(--faint)"/><circle cx="6.4" cy="3.8" r=".55" fill="var(--faint)"/><path d="M4 9h8M4 11.2h11M4 13.4h6" stroke="var(--line)" stroke-width="1.1" stroke-linecap="round" stroke-dasharray="1.6 1.2"/><circle cx="15" cy="13.6" r="3.1" fill="var(--bg)" stroke="var(--faint)" stroke-width=".8"/><path d="M13.6 12.2l2.8 2.8M16.4 12.2l-2.8 2.8" stroke="var(--faint)" stroke-width=".8" stroke-linecap="round"/>`);
+function coverage() {
+  const all = Object.values(C), n = all.length, k = s => all.filter(c => c.status === s).length;
+  const rv = k("reviewed"), ns = k("site-unavailable"), q = k("queued");
+  return h("div", {class: "cover", role: "img", "aria-label": `${rv} reviewed, ${ns} with no campaign site found, ${q} in progress, of ${n} candidates`},
+    h("div", {class: "track"}, h("span", {class: "c-rev", style: `flex:${rv}`}), h("span", {class: "c-ns", style: `flex:${ns}`}), h("span", {class: "c-q", style: `flex:${q}`})),
+    h("div", {class: "k"}, h("span", {}, h("i", {class: "c-rev"}), `${rv} reviewed`), h("span", {}, h("i", {class: "c-ns"}), `${ns} no campaign site`), q ? h("span", {}, h("i", {class: "c-q"}), `${q} in progress`) : null));
+}
+
 /* ---------- routing ---------- */
 function parse() {
   const raw = location.hash.replace(/^#\/?/, "");
@@ -360,9 +463,13 @@ function setQuery(view, params) {
 function viewRaces(q) {
   const ch = q.get("chamber") || "All", show = q.get("show") || "all";
   const reviewed = Object.values(C).filter(c => c.status === "reviewed");
-  const out = [h("h1", {}, "2026 Long Island state legislative races"),
-    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. `,
-      h("b", {}, `${reviewed.length} of ${Object.keys(C).length}`), " candidates reviewed so far.")];
+  const counts = {Nassau: RACES.filter(r => r.county === "Nassau").length, Suffolk: RACES.filter(r => r.county === "Suffolk").length, Both: RACES.filter(r => r.county === "Nassau/Suffolk").length};
+  const pick = k => { const el = document.querySelector(`.county[data-county="${k}"]`); if (el) { el.scrollIntoView({behavior: "smooth", block: "start"}); el.querySelector(".tile")?.focus({preventScroll: true}); } };
+  const out = [h("section", {class: "hero"},
+    h("div", {}, h("h1", {}, "2026 Long Island state legislative races"),
+      h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each.`),
+      coverage()),
+    h("figure", {style: "margin:0"}, liMap(counts, pick), h("figcaption", {class: "mapcap"}, "Simplified outline. County lines only; district boundaries are not drawn.")))];
   const go = (k, v) => { setQuery("", {chamber: k === "chamber" ? (v === "All" ? "" : v) : (ch === "All" ? "" : ch), show: k === "show" ? (v === "all" ? "" : v) : (show === "all" ? "" : show)}); render(); };
   out.push(h("div", {class: "board-tools"},
     h("div", {class: "filters", style: "margin:0"},
@@ -377,7 +484,7 @@ function viewRaces(q) {
   groups.forEach(([label, fn]) => {
     const rs = RACES.filter(fn).filter(r => ch === "All" || r.chamber === ch);
     if (!rs.length) return;
-    board.append(h("section", {class: "county", "aria-label": label}, h("h3", {}, label, h("span", {class: "ct"}, `${rs.length} race${rs.length > 1 ? "s" : ""}`)),
+    board.append(h("section", {class: "county", "aria-label": label, "data-county": label.startsWith("Straddles") ? "Both" : label}, h("h3", {}, label, h("span", {class: "ct"}, `${rs.length} race${rs.length > 1 ? "s" : ""}`)),
       h("div", {class: "tiles"}, rs.map(r => {
         const cs = r.candidates.map(x => C[x.slug]);
         return h("button", {class: `tile${lit(r) ? "" : " dim"}`, onclick: () => location.hash = `#/race/${r.id}`,
@@ -386,7 +493,7 @@ function viewRaces(q) {
           cs.map(c => h("div", {class: "row"}, party(c.party), h("span", {class: `nm${r.winner === c.slug ? " won" : ""}`}, c.name.split(" ").slice(-1)[0], r.winner === c.slug ? winMark() : null), bar(c.claims))));
       }))));
   });
-  out.push(board, h("p", {class: "small muted", style: "margin-top:18px"}, "Tiles are grouped by county, not drawn as a map. A check mark marks the winner where a cited source names one; results are unofficial."));
+  out.push(board, h("p", {class: "small muted", style: "margin-top:18px"}, "Tiles are grouped by county. A check mark marks the winner where a cited source names one; results are unofficial."));
   return out;
 }
 
@@ -423,13 +530,13 @@ function viewRace(id) {
 }
 
 function candidatePanel(c) {
-  if (c.status === "queued") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c, {noLink: true})),
+  if (c.status === "queued") return h("div", {class: "queued panel"}, h("div", {class: "name", style: "display:flex;align-items:center;gap:10px"}, mono(c, 36), candLabel(c, {noLink: true})),
     bar([], {big: true}), h("p", {style: "margin:0"}, "Review in progress. This panel will show the rating breakdown and bottom line once the campaign site has been checked."));
-  if (c.status === "site-unavailable") return h("div", {class: "queued panel"}, h("div", {class: "name"}, candLabel(c)), bar([], {big: true, emptyLabel: "No campaign site found"}),
-    h("p", {style: "margin:0"}, c.bottom_line || "No campaign site could be found or archived."));
+  if (c.status === "site-unavailable") return h("div", {class: "queued panel"}, h("div", {class: "name", style: "display:flex;align-items:center;gap:10px"}, mono(c, 36), candLabel(c)),
+    h("div", {class: "nosite"}, noSiteArt(), h("div", {}, h("strong", {}, "No campaign website to review"), h("p", {style: "margin:4px 0 0"}, c.bottom_line || "No campaign site could be found or archived."))));
   const t = tally(c.claims);
   return h("div", {class: "card panel"},
-    h("div", {class: "top"}, h("span", {class: "name"}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
+    h("div", {class: "top"}, h("span", {class: "name"}, mono(c, 36), candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
     bar(c.claims, {big: true, href: k => `#/c/${c.slug}?rating=${encodeURIComponent(k)}`}),
     h("div", {class: "counts"}, R.filter(k => t[k]).map(k => h("a", {href: `#/c/${c.slug}?rating=${encodeURIComponent(k)}`, title: `See the ${RN[k].toLowerCase()} claims`}, ri(k, false), `${t[k]} ${SHORT[k]}`))),
     h("p", {style: "margin:0"}, c.bottom_line),
@@ -441,7 +548,7 @@ function viewCandidate(slug, claimId, q) {
   if (!c) return [h("h1", {}, "Candidate not found"), link("#/", "Back to all races")];
   const r = RACE[c.race], opp = r.candidates.map(x => C[x.slug]).find(x => x.slug !== slug);
   const out = [h("p", {class: "crumb"}, h("a", {href: `#/race/${r.id}`}, icon("back", 14), ` ${raceName(r)}`)),
-    h("div", {class: "head"}, h("h1", {}, candLabel(c, {noLink: true})),
+    h("div", {class: "head"}, h("div", {class: "idline"}, mono(c, 60), h("h1", {style: "margin:0"}, candLabel(c, {noLink: true}))),
       opp.status === "reviewed" && c.status === "reviewed" ? h("a", {class: "btn", href: `#/compare/${slug}/${opp.slug}`}, icon("vs", 15), `Compare with ${opp.name}`) : null)];
   if (c.status !== "reviewed") return out.concat(candidatePanel(c));
   out.push(h("p", {class: "lede"}, "Reviewed ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label, " ", icon("ext", 12)),

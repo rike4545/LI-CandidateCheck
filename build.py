@@ -171,6 +171,7 @@ def main():
     os.makedirs("docs/fonts", exist_ok=True)
     for f in os.listdir("site/fonts"):
         shutil.copyfile(f"site/fonts/{f}", f"docs/fonts/{f}")
+    shutil.copyfile("site/og.png", "docs/og.png")
 
     st = collections.Counter(c["status"] for c in cands.values())
     total = sum(len(c["claims"]) for c in cands.values())
