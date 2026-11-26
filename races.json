@@ -1,0 +1,651 @@
+{
+ "election": "2026-11-03",
+ "results_note": "Results are unofficial unless marked certified. Winners are listed only where a cited source names them.",
+ "races": [
+  {
+   "id": "SD1",
+   "chamber": "Senate",
+   "district": 1,
+   "county": "Suffolk",
+   "incumbent": "palumbo-anthony",
+   "winner": "murray-chris",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "murray-chris",
+     "name": "Chris Murray",
+     "party": "D"
+    },
+    {
+     "slug": "palumbo-anthony",
+     "name": "Anthony Palumbo",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD2",
+   "chamber": "Senate",
+   "district": 2,
+   "county": "Suffolk",
+   "incumbent": "mattera-mario",
+   "winner": "mattera-mario",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "singh-harjot",
+     "name": "Harjot Singh",
+     "party": "D"
+    },
+    {
+     "slug": "mattera-mario",
+     "name": "Mario Mattera",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD3",
+   "chamber": "Senate",
+   "district": 3,
+   "county": "Suffolk",
+   "incumbent": "murray-dean",
+   "winner": "murray-dean",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "vargas-ayala-antonio",
+     "name": "Antonio Vargas-Ayala",
+     "party": "D"
+    },
+    {
+     "slug": "murray-dean",
+     "name": "Dean Murray",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD4",
+   "chamber": "Senate",
+   "district": 4,
+   "county": "Suffolk",
+   "incumbent": "martinez-monica",
+   "winner": "martinez-monica",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "martinez-monica",
+     "name": "Monica Martinez",
+     "party": "D"
+    },
+    {
+     "slug": "wakefield-brianne",
+     "name": "Brianne Wakefield",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD5",
+   "chamber": "Senate",
+   "district": 5,
+   "county": "Nassau/Suffolk",
+   "incumbent": "rhoads-steven",
+   "winner": "rhoads-steven",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "piddoubny-andrew",
+     "name": "Andrew Piddoubny",
+     "party": "D"
+    },
+    {
+     "slug": "rhoads-steven",
+     "name": "Steven Rhoads",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD6",
+   "chamber": "Senate",
+   "district": 6,
+   "county": "Nassau",
+   "incumbent": "bynoe-siela",
+   "winner": "bynoe-siela",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "bynoe-siela",
+     "name": "Siela Bynoe",
+     "party": "D"
+    },
+    {
+     "slug": "capp-matthew",
+     "name": "Matthew Capp",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD7",
+   "chamber": "Senate",
+   "district": 7,
+   "county": "Nassau",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "lancman-rory",
+     "name": "Rory Lancman",
+     "party": "D"
+    },
+    {
+     "slug": "blumencranz-jake",
+     "name": "Jake Blumencranz",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD8",
+   "chamber": "Senate",
+   "district": 8,
+   "county": "Nassau/Suffolk",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": "gandolfo-jarett",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "taveras-josh",
+     "name": "Josh Taveras",
+     "party": "D"
+    },
+    {
+     "slug": "gandolfo-jarett",
+     "name": "Jarett Gandolfo",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "SD9",
+   "chamber": "Senate",
+   "district": 9,
+   "county": "Nassau",
+   "incumbent": "canzoneri-fitzpatrick-patricia",
+   "winner": "vider-lisa",
+   "result_source": "https://en.wikipedia.org/wiki/2026_New_York_State_Senate_election",
+   "candidates": [
+    {
+     "slug": "vider-lisa",
+     "name": "Lisa Vider",
+     "party": "D"
+    },
+    {
+     "slug": "canzoneri-fitzpatrick-patricia",
+     "name": "Patricia Canzoneri-Fitzpatrick",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD1",
+   "chamber": "Assembly",
+   "district": 1,
+   "county": "Suffolk",
+   "incumbent": "schiavoni-tommy-john",
+   "winner": "schiavoni-tommy-john",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "schiavoni-tommy-john",
+     "name": "Tommy John Schiavoni",
+     "party": "D"
+    },
+    {
+     "slug": "kiely-stephen",
+     "name": "Stephen Kiely",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD2",
+   "chamber": "Assembly",
+   "district": 2,
+   "county": "Suffolk",
+   "incumbent": "giglio-jodi",
+   "winner": "giglio-jodi",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "szika-michael",
+     "name": "Michael Szika",
+     "party": "D"
+    },
+    {
+     "slug": "giglio-jodi",
+     "name": "Jodi Giglio",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD3",
+   "chamber": "Assembly",
+   "district": 3,
+   "county": "Suffolk",
+   "incumbent": "destefano-joe",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "slaughter-joshua",
+     "name": "Joshua Slaughter",
+     "party": "D"
+    },
+    {
+     "slug": "destefano-joe",
+     "name": "Joe DeStefano",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD4",
+   "chamber": "Assembly",
+   "district": 4,
+   "county": "Suffolk",
+   "incumbent": "kassay-rebecca",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "kassay-rebecca",
+     "name": "Rebecca Kassay",
+     "party": "D"
+    },
+    {
+     "slug": "sussman-william",
+     "name": "William Sussman",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD5",
+   "chamber": "Assembly",
+   "district": 5,
+   "county": "Suffolk",
+   "incumbent": "smith-douglas",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "russell-victoria",
+     "name": "Victoria Russell",
+     "party": "D"
+    },
+    {
+     "slug": "smith-douglas",
+     "name": "Douglas Smith",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD6",
+   "chamber": "Assembly",
+   "district": 6,
+   "county": "Suffolk",
+   "incumbent": "ramos-philip",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "ramos-philip",
+     "name": "Philip Ramos",
+     "party": "D"
+    },
+    {
+     "slug": "barravecchio-dennis",
+     "name": "Dennis Barravecchio",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD7",
+   "chamber": "Assembly",
+   "district": 7,
+   "county": "Suffolk",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "kopp-patricia",
+     "name": "Patricia Kopp",
+     "party": "D"
+    },
+    {
+     "slug": "kuhn-dawn-marie",
+     "name": "Dawn Marie Kuhn",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD8",
+   "chamber": "Assembly",
+   "district": 8,
+   "county": "Suffolk",
+   "incumbent": "fitzpatrick-michael",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "trupiano-okeefe-lynn",
+     "name": "Lynn Trupiano-O'Keefe",
+     "party": "D"
+    },
+    {
+     "slug": "fitzpatrick-michael",
+     "name": "Michael Fitzpatrick",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD9",
+   "chamber": "Assembly",
+   "district": 9,
+   "county": "Nassau/Suffolk",
+   "incumbent": "durso-michael",
+   "winner": "durso-michael",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "walls-chris",
+     "name": "Chris Walls",
+     "party": "D"
+    },
+    {
+     "slug": "durso-michael",
+     "name": "Michael Durso",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD10",
+   "chamber": "Assembly",
+   "district": 10,
+   "county": "Nassau/Suffolk",
+   "incumbent": "stern-steve",
+   "winner": "stern-steve",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "stern-steve",
+     "name": "Steve Stern",
+     "party": "D"
+    },
+    {
+     "slug": "legrow-tiffany",
+     "name": "Tiffany LeGrow",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD11",
+   "chamber": "Assembly",
+   "district": 11,
+   "county": "Nassau/Suffolk",
+   "incumbent": "opharrow-kwani",
+   "winner": "opharrow-kwani",
+   "result_source": "https://www.cityandstateny.com/politics/2026/11/where-do-all-key-new-york-state-legislative-races-stand/417054/",
+   "candidates": [
+    {
+     "slug": "opharrow-kwani",
+     "name": "Kwani O'Pharrow",
+     "party": "D"
+    },
+    {
+     "slug": "cardinale-joseph",
+     "name": "Joseph Cardinale",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD12",
+   "chamber": "Assembly",
+   "district": 12,
+   "county": "Suffolk",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "herskowitz-craig",
+     "name": "Craig Herskowitz",
+     "party": "D"
+    },
+    {
+     "slug": "weber-david",
+     "name": "David Weber",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD13",
+   "chamber": "Assembly",
+   "district": 13,
+   "county": "Nassau",
+   "incumbent": "lavine-charles",
+   "winner": "lavine-charles",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "lavine-charles",
+     "name": "Charles Lavine",
+     "party": "D"
+    },
+    {
+     "slug": "dunleavy-conner",
+     "name": "Conner Dunleavy",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD14",
+   "chamber": "Assembly",
+   "district": 14,
+   "county": "Nassau",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "brooks-john",
+     "name": "John Brooks",
+     "party": "D"
+    },
+    {
+     "slug": "fredericks-shannon",
+     "name": "Shannon Fredericks",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD15",
+   "chamber": "Assembly",
+   "district": 15,
+   "county": "Nassau",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "tarulli-dean",
+     "name": "Dean Tarulli",
+     "party": "D"
+    },
+    {
+     "slug": "pironi-paolo",
+     "name": "Paolo Pironi",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD16",
+   "chamber": "Assembly",
+   "district": 16,
+   "county": "Nassau",
+   "incumbent": null,
+   "open_seat": true,
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "keiserman-kim",
+     "name": "Kim Keiserman",
+     "party": "D"
+    },
+    {
+     "slug": "hassid-david",
+     "name": "David Hassid",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD17",
+   "chamber": "Assembly",
+   "district": 17,
+   "county": "Nassau",
+   "incumbent": "mikulin-john",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "lofters-sunita",
+     "name": "Sunita Lofters",
+     "party": "D"
+    },
+    {
+     "slug": "mikulin-john",
+     "name": "John Mikulin",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD18",
+   "chamber": "Assembly",
+   "district": 18,
+   "county": "Nassau",
+   "incumbent": "burroughs-noah",
+   "winner": null,
+   "candidates": [
+    {
+     "slug": "burroughs-noah",
+     "name": "Noah Burroughs",
+     "party": "D"
+    },
+    {
+     "slug": "jackson-charlene",
+     "name": "Charlene Jackson",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD19",
+   "chamber": "Assembly",
+   "district": 19,
+   "county": "Nassau",
+   "incumbent": "ra-edward",
+   "winner": "ra-edward",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "connaughton-colleen",
+     "name": "Colleen Connaughton",
+     "party": "D"
+    },
+    {
+     "slug": "ra-edward",
+     "name": "Edward Ra",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD20",
+   "chamber": "Assembly",
+   "district": 20,
+   "county": "Nassau",
+   "incumbent": "brown-ari",
+   "winner": "brown-ari",
+   "result_source": "https://www.liherald.com/longbeach/stories/nassau-county-midterm-elections-2026,226437",
+   "candidates": [
+    {
+     "slug": "fischer-meir",
+     "name": "Meir Fischer",
+     "party": "D"
+    },
+    {
+     "slug": "brown-ari",
+     "name": "Ari Brown",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD21",
+   "chamber": "Assembly",
+   "district": 21,
+   "county": "Nassau",
+   "incumbent": "griffin-judy",
+   "winner": "griffin-judy",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "griffin-judy",
+     "name": "Judy Griffin",
+     "party": "D"
+    },
+    {
+     "slug": "villacci-irene",
+     "name": "Irene Villacci",
+     "party": "R"
+    }
+   ]
+  },
+  {
+   "id": "AD22",
+   "chamber": "Assembly",
+   "district": 22,
+   "county": "Nassau",
+   "incumbent": "solages-michaelle",
+   "winner": "solages-michaelle",
+   "result_source": "https://greaterlongisland.com/long-island-election-results-2026-purple-hochul-blakeman-lalota-garbarino-hempstead/",
+   "candidates": [
+    {
+     "slug": "solages-michaelle",
+     "name": "Michaelle Solages",
+     "party": "D"
+    },
+    {
+     "slug": "inzerillo-robert",
+     "name": "Robert Inzerillo",
+     "party": "R"
+    }
+   ]
+  }
+ ]
+}

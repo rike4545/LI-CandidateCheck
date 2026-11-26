@@ -4,144 +4,408 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LI-CandidateCheck: fact checks of Long Island campaign websites</title>
-<meta name="description" content="Source-by-source fact checks of the claims on Long Island candidates' campaign websites, with the same method and rating scale for every candidate.">
+<meta name="description" content="Source-by-source fact checks of the claims on Long Island state legislative candidates' campaign websites, using the same method and rating scale for every candidate.">
 <style>
   :root {
-    --bg: #fafaf7; --fg: #1d1d1b; --muted: #5e5e58; --line: #e2e1da; --card: #fff;
-    --accent: #1f4e79; --chip: #efeee8;
+    --bg: #f7f6f2; --fg: #1c1c1a; --muted: #62615a; --line: #dfddd5; --card: #fff; --chip: #eeede7;
+    --accent: #1f4e79; --accent-fg: #fff; --hover: #f1f0ea;
+    --r-ok: #2e7d4f; --r-cav: #c9a227; --r-over: #d9731c; --r-unv: #b9b8b1; --r-act: #3c78c8; --r-false: #c0392b;
+    --p-d: #2a5ea8; --p-r: #b8382f; --queued: #e9e8e2;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #161615; --fg: #ecebe6; --muted: #a3a29b; --line: #34332f; --card: #1f1f1d;
-            --accent: #8fb8e0; --chip: #2a2a27; }
+    :root { --bg: #141413; --fg: #ebeae5; --muted: #a5a49d; --line: #33322e; --card: #1d1d1b; --chip: #292926;
+            --accent: #8db6df; --accent-fg: #10161d; --hover: #252523; --r-unv: #6e6d67; --queued: #2a2a27;
+            --p-d: #6f9be0; --p-r: #e07a72; }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg);
-         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
-  header h1 { margin: 0 0 6px; font-size: 1.9rem; letter-spacing: -0.01em; }
-  header p { margin: 0; color: var(--muted); max-width: 70ch; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   a { color: var(--accent); }
-  .scope { margin: 18px 0 28px; padding: 12px 16px; border-left: 3px solid var(--accent);
-           background: var(--card); color: var(--muted); font-size: .93rem; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px;
-          cursor: pointer; text-align: left; font: inherit; color: inherit; }
-  .card[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
-  .card h2 { margin: 0; font-size: 1.1rem; }
-  .card .sub { color: var(--muted); font-size: .9rem; margin: 2px 0 10px; }
-  .tally { display: flex; flex-wrap: wrap; gap: 6px; font-size: .88rem; }
-  .tally span { background: var(--chip); border-radius: 999px; padding: 2px 9px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 28px 0 8px; }
-  .controls input { flex: 1 1 240px; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--line);
-                    background: var(--card); color: var(--fg); font: inherit; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chips button { border: 1px solid var(--line); background: var(--card); color: var(--fg);
-                  border-radius: 999px; padding: 5px 11px; font: inherit; font-size: .88rem; cursor: pointer; }
-  .chips button[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-  .meta { color: var(--muted); font-size: .9rem; margin: 4px 0 18px; }
-  h3 { margin: 26px 0 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
-           margin-bottom: 10px; display: grid; grid-template-columns: 2.2rem 1fr; gap: 4px 12px; }
-  .claim .r { font-size: 1.35rem; line-height: 1.2; grid-row: span 3; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 72px; }
+  header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
+               backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; gap: 18px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+  .brand { font-weight: 700; font-size: 1.15rem; text-decoration: none; color: var(--fg); letter-spacing: -0.01em; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav a { text-decoration: none; color: var(--muted); padding: 6px 11px; border-radius: 8px; font-size: .95rem; }
+  nav a[aria-current="page"] { background: var(--card); color: var(--fg); box-shadow: 0 0 0 1px var(--line) inset; }
+  h1 { font-size: 1.75rem; margin: 28px 0 6px; letter-spacing: -0.015em; }
+  h2 { font-size: 1.2rem; margin: 30px 0 10px; }
+  h3 { font-size: .82rem; margin: 22px 0 8px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .lede { color: var(--muted); max-width: 72ch; margin: 0 0 8px; }
+  .note { margin: 16px 0; padding: 11px 15px; border-left: 3px solid var(--accent); background: var(--card); color: var(--muted); font-size: .92rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0; }
+  .kpi .v { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; }
+  .kpi .l { color: var(--muted); font-size: .88rem; }
+  .muted { color: var(--muted); }
+  .small { font-size: .88rem; }
+  .chip { display: inline-block; background: var(--chip); border-radius: 999px; padding: 1px 9px; font-size: .85rem; margin: 0 4px 4px 0; }
+  .party { display: inline-block; min-width: 1.6em; text-align: center; border-radius: 5px; font-size: .78rem; font-weight: 700; padding: 0 5px; color: #fff; }
+  .party.D { background: var(--p-d); } .party.R { background: var(--p-r); }
+  .pill { font-size: .75rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
+  .pill.win { border-color: var(--r-ok); color: var(--r-ok); }
+  /* stacked rating bar */
+  .bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--queued); min-width: 80px; }
+  .bar span { display: block; height: 100%; }
+  .s-✅ { background: var(--r-ok); } .s-🟡 { background: var(--r-cav); } .s-🟠 { background: var(--r-over); }
+  .s-⚪ { background: var(--r-unv); } .s-🔵 { background: var(--r-act); } .s-❌ { background: var(--r-false); }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: .85rem; color: var(--muted); margin: 8px 0 4px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  /* filters */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
+  .filters select, .filters input { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); font: inherit; font-size: .93rem; }
+  .filters input[type=search] { flex: 1 1 240px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--card); }
+  .seg button { border: 0; background: none; padding: 6px 11px; cursor: pointer; font-size: .9rem; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+  /* district grid */
+  .county { margin-bottom: 18px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+  .tile { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 9px 10px 10px; cursor: pointer; position: relative; }
+  .tile:hover { background: var(--hover); }
+  .tile .id { font-weight: 700; }
+  .tile .who { font-size: .78rem; color: var(--muted); line-height: 1.3; margin: 3px 0 7px; min-height: 2.6em; }
+  .tile .flag { position: absolute; top: 9px; right: 9px; width: 10px; height: 10px; border-radius: 50%; }
+  .tile .flag.D { background: var(--p-d); } .tile .flag.R { background: var(--p-r); } .tile .flag.none { background: var(--line); }
+  .tile .mini { display: flex; gap: 3px; }
+  .tile .mini .bar { height: 6px; flex: 1; min-width: 0; }
+  /* candidate rows / chart */
+  table.rank { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  table.rank th { text-align: left; color: var(--muted); font-weight: 500; font-size: .82rem; padding: 6px 8px; border-bottom: 1px solid var(--line); cursor: pointer; user-select: none; white-space: nowrap; }
+  table.rank td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.rank tr:hover td { background: var(--hover); }
+  table.rank td.barcell { width: 38%; }
+  table.rank td:first-child { white-space: nowrap; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  /* claims */
+  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 9px;
+           display: grid; grid-template-columns: 1.9rem 1fr; gap: 3px 10px; }
+  .claim:target { box-shadow: 0 0 0 2px var(--accent); }
+  .claim .r { font-size: 1.25rem; line-height: 1.25; grid-row: span 3; }
   .claim .c { font-weight: 600; }
   .claim .c small { font-weight: 400; color: var(--muted); margin-left: 6px; }
-  .claim .f { color: var(--fg); }
-  .claim .s { font-size: .86rem; color: var(--muted); }
+  .claim .s { font-size: .84rem; color: var(--muted); }
   .claim .s a { margin-right: 10px; }
-  .empty { color: var(--muted); padding: 20px 0; }
-  .key { margin-top: 40px; font-size: .92rem; color: var(--muted); }
-  .key dt { font-weight: 600; color: var(--fg); display: inline; }
-  .key dd { display: inline; margin: 0; }
-  .key div { margin-bottom: 4px; }
-  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+  .claim .who { font-size: .82rem; color: var(--muted); }
+  .empty { color: var(--muted); padding: 18px 0; }
+  .head { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; justify-content: space-between; }
+  .btn { border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 11px; cursor: pointer; font-size: .9rem; text-decoration: none; color: var(--fg); display: inline-block; }
+  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .side { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 760px) { .side { grid-template-columns: 1fr; } }
+  .queued { background: var(--card); border: 1px dashed var(--line); border-radius: 12px; padding: 18px; color: var(--muted); }
+  ul.find { padding-left: 1.2em; margin: 8px 0; } ul.find li { margin-bottom: 6px; }
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>LI-CandidateCheck</h1>
-    <p>Source-by-source fact checks of the claims Long Island candidates make on their own campaign websites. Every review uses the same method and rating scale.</p>
-  </header>
-  <div class="scope">These reviews test whether each claim is <strong>verifiable</strong> and <strong>accurate as stated</strong>. They do not rate candidates, endorse anyone, or judge policy positions. The two pages are different kinds of documents (an incumbent's record vs. a challenger's biography and platform), so the counts are not a like-for-like score.</div>
-
-  <div class="cards" id="cards" role="group" aria-label="Choose a review"></div>
-
-  <div class="controls">
-    <input id="q" type="search" placeholder="Search claims, findings, places…" aria-label="Search claims">
-    <div class="chips" id="chips" role="group" aria-label="Filter by rating"></div>
-  </div>
-  <div class="meta" id="meta"></div>
-  <div id="list"></div>
-
-  <dl class="key">
-    <div><dt>✅ Verified</dt> <dd>— matches a primary or reliable secondary source.</dd></div>
-    <div><dt>🟡 Verified with caveat</dt> <dd>— true or plausible, but missing context would change a reader's takeaway.</dd></div>
-    <div><dt>🟠 Overstated / partly accurate</dt> <dd>— part is supported; part is inflated, conflated or contradicted.</dd></div>
-    <div><dt>⚪ Unverified</dt> <dd>— no public record found either way. Not a finding that the claim is false.</dd></div>
-    <div><dt>🔵 Activity claim</dt> <dd>— campaign or ongoing activity that public records can't confirm or refute.</dd></div>
-    <div><dt>❌ False</dt> <dd>— contradicted by evidence.</dd></div>
-  </dl>
-
-  <footer>
-    Data and full method: <a href="https://github.com/rike4545/LI-CandidateCheck">github.com/rike4545/LI-CandidateCheck</a>.
-    Corrections welcome — open an issue with a source. Text and data licensed CC BY 4.0.
-  </footer>
-</div>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#/">LI-CandidateCheck</a>
+  <nav aria-label="Main">
+    <a href="#/">Races</a><a href="#/dashboard">Dashboard</a><a href="#/compare">Compare</a><a href="#/claims">Search claims</a><a href="#/about">Method</a>
+  </nav>
+</div></header>
+<main class="wrap" id="app" tabindex="-1"></main>
+<div class="wrap"><footer>
+  Data, method and corrections: <a href="https://github.com/rike4545/LI-CandidateCheck">github.com/rike4545/LI-CandidateCheck</a>. Open an issue with a source.
+  These reviews test claims on candidates' own sites. They do not rate candidates or endorse anyone. Text and data licensed CC BY 4.0.
+</footer></div>
 <script>
-const DATA = /*__DATA__*/null;
-const RATINGS = ["✅", "🟡", "🟠", "⚪", "🔵", "❌"];
-const LABEL = {"✅": "Verified", "🟡": "Caveat", "🟠": "Overstated", "⚪": "Unverified", "🔵": "Activity", "❌": "False"};
-let current = Object.keys(DATA)[0], filter = null;
-const $ = id => document.getElementById(id);
-const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids); return e; };
+const D = /*__DATA__*/null;
+const R = D.ratings, RN = D.rating_names;
+const C = D.candidates, RACES = D.races, RACE = Object.fromEntries(RACES.map(r => [r.id, r]));
+const SHORT = {"✅": "Verified", "🟡": "Caveat", "🟠": "Overstated", "⚪": "Unverified", "🔵": "Activity", "❌": "False"};
+const $app = document.getElementById("app");
 
-function tally(claims) {
-  const t = {}; claims.forEach(c => t[c.rating] = (t[c.rating] || 0) + 1); return t;
+/* ---------- helpers ---------- */
+function h(tag, props, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (k === "text") e.textContent = v;
+    else e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : String(kid));
+  return e;
+}
+const tally = cl => Object.fromEntries(R.map(k => [k, cl.filter(c => c.rating === k).length]));
+const party = p => h("span", {class: `party ${p}`, title: p === "D" ? "Democrat" : "Republican"}, p);
+const link = (href, text, cls) => h("a", {href, class: cls}, text);
+function bar(cl, big) {
+  const t = tally(cl), n = cl.length;
+  const b = h("div", {class: "bar", role: "img", style: big ? "height:16px" : null,
+    "aria-label": n ? R.filter(k => t[k]).map(k => `${t[k]} ${RN[k]}`).join(", ") : "Not yet reviewed"});
+  if (n) R.forEach(k => t[k] && b.append(h("span", {class: `s-${k}`, style: `width:${100 * t[k] / n}%`, title: `${RN[k]}: ${t[k]}`})));
+  return b;
+}
+function legend() {
+  return h("div", {class: "legend"}, R.map(k => h("span", {}, h("i", {class: `s-${k}`}), RN[k])),
+    h("span", {}, h("i", {style: "background:var(--queued);border:1px solid var(--line)"}), "Not yet reviewed"));
+}
+function candLabel(c, opts = {}) {
+  const race = RACE[c.race];
+  return h("span", {}, party(c.party), " ", opts.noLink ? c.name : link(`#/c/${c.slug}`, c.name),
+    c.incumbent ? h("span", {class: "pill"}, "incumbent") : null,
+    race.winner === c.slug ? h("span", {class: "pill win"}, "won") : null);
+}
+const raceName = r => `${r.chamber === "Senate" ? "Senate" : "Assembly"} District ${r.district}`;
+function verifiedShare(cl) { return cl.length ? cl.filter(c => c.rating === "✅" || c.rating === "🟡").length / cl.length : -1; }
+
+function claimCard(cl, c, opts = {}) {
+  return h("article", {class: "claim", id: opts.anchor ? `${c.slug}-${cl.id}` : null},
+    h("div", {class: "r", title: RN[cl.rating]}, cl.rating),
+    h("div", {class: "c"}, cl.claim, h("small", {}, `${cl.id} · ${cl.category}${cl.pages ? " · " + cl.pages : ""}`)),
+    h("div", {}, cl.finding,
+      opts.who ? h("div", {class: "who"}, candLabel(c), ` · ${RACE[c.race].id}`) : null),
+    h("div", {class: "s"}, cl.sources.length ? cl.sources.map((u, i) => h("a", {href: u, rel: "noopener", target: "_blank"}, `Source ${i + 1}`))
+      : "No public source found",
+      " ", h("a", {href: `#/c/${c.slug}/${cl.id}`, title: "Link to this claim"}, "🔗")));
 }
 
-function renderCards() {
-  $("cards").replaceChildren(...Object.entries(DATA).map(([key, r]) => {
-    const t = tally(r.claims);
-    return el("button", {className: "card", ariaPressed: String(key === current),
-                         onclick: () => { current = key; filter = null; render(); }},
-      el("h2", {textContent: r.name}),
-      el("div", {className: "sub", textContent: `${r.office} · ${r.claims.length} claims`}),
-      el("div", {className: "tally"}, ...RATINGS.filter(k => t[k]).map(k => el("span", {textContent: `${k} ${t[k]}`}))));
-  }));
+/* ---------- state from URL ---------- */
+function parse() {
+  const raw = location.hash.replace(/^#\/?/, "");
+  const [path, qs] = raw.split("?");
+  return {parts: path.split("/").filter(Boolean).map(decodeURIComponent), q: new URLSearchParams(qs || "")};
+}
+function setQuery(view, params) {
+  const s = new URLSearchParams(Object.entries(params).filter(([, v]) => v)).toString();
+  history.replaceState(null, "", `#/${view}${s ? "?" + s : ""}`);
 }
 
-function renderChips() {
-  const t = tally(DATA[current].claims);
-  const mk = (k, text) => el("button", {textContent: text, ariaPressed: String(filter === k),
-                                        onclick: () => { filter = filter === k ? null : k; render(); }});
-  $("chips").replaceChildren(mk(null, "All"), ...RATINGS.filter(k => t[k]).map(k => mk(k, `${k} ${LABEL[k]}`)));
-  $("chips").firstChild.ariaPressed = String(filter === null);
-}
-
-function renderList() {
-  const r = DATA[current], q = $("q").value.trim().toLowerCase();
-  const shown = r.claims.filter(c => (!filter || c.rating === filter) &&
-    (!q || [c.claim, c.finding, c.where, c.category, c.id].join(" ").toLowerCase().includes(q)));
-  $("meta").replaceChildren("Reviewed: ", el("a", {href: r.page, textContent: r.page_label, rel: "noopener"}),
-    ` · captured ${r.captured} · showing ${shown.length} of ${r.claims.length}`);
-  const out = [];
-  r.order.forEach(cat => {
-    const rows = shown.filter(c => c.category === cat);
-    if (!rows.length) return;
-    out.push(el("h3", {textContent: cat}));
-    rows.forEach(c => out.push(el("article", {className: "claim"},
-      el("div", {className: "r", title: LABEL[c.rating], textContent: c.rating}),
-      el("div", {className: "c"}, c.claim, el("small", {textContent: `${c.id} · ${c.where}`})),
-      el("div", {className: "f", textContent: c.finding}),
-      el("div", {className: "s"}, ...(c.sources.length
-        ? c.sources.map((u, i) => el("a", {href: u, rel: "noopener", textContent: `Source ${i + 1}`}))
-        : ["No public source found"])))));
+/* ---------- views ---------- */
+function viewRaces(q) {
+  const ch = q.get("chamber") || "All";
+  const reviewed = Object.values(C).filter(c => c.status === "reviewed");
+  const out = [
+    h("h1", {}, "2026 Long Island state legislative races"),
+    h("p", {class: "lede"}, `Fact checks of the claims on candidates' own campaign websites. That covers all ${RACES.length} State Senate and Assembly races in Nassau and Suffolk, and both major-party candidates in each. ${reviewed.length} of ${Object.keys(C).length} candidates reviewed so far.`),
+  ];
+  const seg = h("div", {class: "seg", role: "group", "aria-label": "Chamber"},
+    ["All", "Senate", "Assembly"].map(v => h("button", {"aria-pressed": String(ch === v),
+      onclick: () => { setQuery("", {chamber: v === "All" ? "" : v}); render(); }}, v)));
+  out.push(h("div", {class: "filters"}, seg, h("span", {class: "small muted"},
+    "Tiles are grouped by county and are not drawn to scale. The dot shows the winner's party where a cited source names one.")), legend());
+  const groups = [["Suffolk", r => r.county === "Suffolk"], ["Straddles Nassau and Suffolk", r => r.county === "Nassau/Suffolk"], ["Nassau", r => r.county === "Nassau"]];
+  groups.forEach(([label, fn]) => {
+    const rs = RACES.filter(fn).filter(r => ch === "All" || r.chamber === ch);
+    if (!rs.length) return;
+    out.push(h("section", {class: "county"}, h("h3", {}, label), h("div", {class: "tiles"}, rs.map(r => {
+      const win = r.winner ? C[r.winner].party : "none";
+      return h("button", {class: "tile", onclick: () => location.hash = `#/race/${r.id}`, "aria-label": `${raceName(r)}: ${r.candidates.map(x => x.name).join(" vs. ")}`},
+        h("span", {class: `flag ${win}`, title: r.winner ? `Won by ${C[r.winner].name}` : "Winner not yet named by a cited source"}),
+        h("div", {class: "id"}, r.id),
+        h("div", {class: "who"}, r.candidates.map(x => x.name.split(" ").slice(-1)[0]).join(" vs. ")),
+        h("div", {class: "mini"}, r.candidates.map(x => bar(C[x.slug].claims))));
+    }))));
   });
-  $("list").replaceChildren(...(out.length ? out : [el("div", {className: "empty", textContent: "No claims match."})]));
+  return out;
 }
 
-function render() { renderCards(); renderChips(); renderList(); }
-$("q").addEventListener("input", renderList);
+function viewRace(id) {
+  const r = RACE[id];
+  if (!r) return [h("h1", {}, "Race not found"), link("#/", "Back to all races")];
+  const cs = r.candidates.map(x => C[x.slug]);
+  const out = [h("p", {class: "small"}, link("#/", "← All races")),
+    h("div", {class: "head"}, h("h1", {}, `${raceName(r)} (${r.id})`),
+      cs.every(c => c.status === "reviewed") ? link(`#/compare/${cs[0].slug}/${cs[1].slug}`, "Compare head to head →", "btn primary") : null),
+    h("p", {class: "lede"}, `${r.county} County${r.county.includes("/") ? " (both)" : ""} · ${r.open_seat ? "Open seat" : "Incumbent ran"}` +
+      (r.winner ? ` · Won by ${C[r.winner].name} (unofficial)` : " · Result: see the county board of elections"),
+      r.result_source ? [" · ", h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "result source")] : null)];
+  out.push(h("div", {class: "grid2"}, cs.map(c => candidatePanel(c))));
+  return out;
+}
+
+function candidatePanel(c) {
+  if (c.status === "queued") return h("div", {class: "queued"}, h("div", {}, candLabel(c, {noLink: true})), h("p", {}, "Not yet reviewed."));
+  if (c.status === "site-unavailable") return h("div", {class: "queued"}, h("div", {}, candLabel(c)), h("p", {}, c.bottom_line || "No campaign site could be found or archived."));
+  const t = tally(c.claims);
+  return h("div", {class: "card"}, h("div", {class: "head"}, h("strong", {}, candLabel(c)), h("span", {class: "small muted"}, `${c.claims.length} claims`)),
+    h("div", {style: "margin:10px 0"}, bar(c.claims, true)),
+    h("div", {}, R.filter(k => t[k]).map(k => h("span", {class: "chip"}, `${k} ${t[k]}`))),
+    h("p", {}, c.bottom_line), link(`#/c/${c.slug}`, "Full review and every claim →"));
+}
+
+function viewCandidate(slug, claimId) {
+  const c = C[slug];
+  if (!c) return [h("h1", {}, "Candidate not found"), link("#/", "Back to all races")];
+  const r = RACE[c.race], opp = r.candidates.map(x => C[x.slug]).find(x => x.slug !== slug);
+  const out = [h("p", {class: "small"}, link(`#/race/${r.id}`, `← ${raceName(r)}`)),
+    h("div", {class: "head"}, h("h1", {}, candLabel(c, {noLink: true})),
+      opp.status === "reviewed" && c.status === "reviewed" ? link(`#/compare/${slug}/${opp.slug}`, `Compare with ${opp.name} →`, "btn") : null)];
+  if (c.status !== "reviewed") return out.concat(candidatePanel(c));
+  out.push(h("p", {class: "lede"}, "Reviewed: ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label), ` · captured ${c.captured}`),
+    h("div", {class: "card"}, h("strong", {}, "Bottom line. "), c.bottom_line,
+      c.findings && c.findings.length ? h("ul", {class: "find"}, c.findings.map(f => h("li", {}, f))) : null));
+  if (c.page_issues && c.page_issues.length) out.push(h("h2", {}, "Page-level issues"), h("ul", {class: "find"}, c.page_issues.map(f => h("li", {}, f))));
+  out.push(h("h2", {}, "Claims"));
+  const box = h("div", {});
+  const state = {rating: null, q: ""};
+  const chips = h("div", {class: "seg", role: "group", "aria-label": "Filter by rating"});
+  const t = tally(c.claims);
+  const drawChips = () => chips.replaceChildren(h("button", {"aria-pressed": String(!state.rating), onclick: () => { state.rating = null; draw(); }}, "All"),
+    R.filter(k => t[k]).map(k => h("button", {"aria-pressed": String(state.rating === k), onclick: () => { state.rating = state.rating === k ? null : k; draw(); }}, `${k} ${t[k]}`)));
+  const search = h("input", {type: "search", placeholder: "Search this review…", "aria-label": "Search this review", oninput: e => { state.q = e.target.value.toLowerCase(); draw(); }});
+  function draw() {
+    drawChips();
+    const rows = c.claims.filter(x => (!state.rating || x.rating === state.rating) &&
+      (!state.q || [x.claim, x.finding, x.pages, x.category].join(" ").toLowerCase().includes(state.q)));
+    const parts = [];
+    c.categories.forEach(cat => {
+      const rs = rows.filter(x => x.category === cat);
+      if (rs.length) parts.push(h("h3", {}, cat), rs.map(x => claimCard(x, c, {anchor: true})));
+    });
+    box.replaceChildren(...(parts.length ? parts.flat() : [h("div", {class: "empty"}, "No claims match.")]));
+  }
+  out.push(h("div", {class: "filters"}, search, chips), box);
+  draw();
+  if (claimId) setTimeout(() => { const el = document.getElementById(`${slug}-${claimId}`); if (el) { el.scrollIntoView({block: "center"}); el.style.boxShadow = "0 0 0 2px var(--accent)"; } }, 0);
+  return out;
+}
+
+function viewCompare(a, b) {
+  const reviewed = Object.values(C).filter(c => c.status === "reviewed").sort((x, y) => x.race.localeCompare(y.race, undefined, {numeric: true}));
+  a = C[a] ? a : (reviewed[0] || {}).slug; b = C[b] ? b : (reviewed.find(x => x.slug !== a) || {}).slug;
+  const pick = (val, other, onch) => h("select", {"aria-label": "Candidate", onchange: e => onch(e.target.value)},
+    reviewed.map(c => h("option", {value: c.slug, selected: c.slug === val ? true : null, disabled: c.slug === other ? true : null}, `${c.race} · ${c.name} (${c.party})`)));
+  const out = [h("h1", {}, "Head to head"),
+    h("p", {class: "lede"}, "Pick any two reviewed candidates. Race opponents are the fairest comparison: their pages were written for the same voters. Pages differ in length and type, so compare the shares and the pattern of problems, not raw counts.")];
+  if (reviewed.length < 2) return out.concat(h("div", {class: "empty"}, "At least two reviews are needed."));
+  out.push(h("div", {class: "filters"}, pick(a, b, v => location.hash = `#/compare/${v}/${b}`), h("span", {class: "muted"}, "vs."), pick(b, a, v => location.hash = `#/compare/${a}/${v}`)));
+  const ca = C[a], cb = C[b];
+  // tallies chart
+  const chart = h("div", {class: "card"}, h("table", {class: "rank"}, h("thead", {}, h("tr", {}, h("th", {}, "Rating"), h("th", {class: "num"}, ca.name), h("th", {}, ""), h("th", {class: "num"}, cb.name), h("th", {}, ""))),
+    h("tbody", {}, R.map(k => {
+      const ta = tally(ca.claims)[k], tb = tally(cb.claims)[k];
+      const pct = (n, c) => c.claims.length ? Math.round(100 * n / c.claims.length) : 0;
+      const mini = (n, c) => h("div", {class: "bar", style: "background:transparent"}, h("span", {class: `s-${k}`, style: `width:${pct(n, c)}%`}));
+      return h("tr", {}, h("td", {}, `${k} ${RN[k]}`), h("td", {class: "num"}, `${ta} (${pct(ta, ca)}%)`), h("td", {class: "barcell"}, mini(ta, ca)),
+        h("td", {class: "num"}, `${tb} (${pct(tb, cb)}%)`), h("td", {class: "barcell"}, mini(tb, cb)));
+    }), h("tr", {}, h("td", {}, h("strong", {}, "Total")), h("td", {class: "num"}, h("strong", {}, ca.claims.length)), h("td"), h("td", {class: "num"}, h("strong", {}, cb.claims.length)), h("td")))));
+  out.push(chart);
+  const state = {rating: "flagged"};
+  const seg = h("div", {class: "seg", role: "group", "aria-label": "Which claims"});
+  const cols = h("div", {class: "side"});
+  function draw() {
+    seg.replaceChildren(...[["flagged", "🟡🟠❌ Problems"], ["all", "All"], ...R.map(k => [k, `${k} ${SHORT[k]}`])].map(([v, l]) =>
+      h("button", {"aria-pressed": String(state.rating === v), onclick: () => { state.rating = v; draw(); }}, l)));
+    const f = x => state.rating === "all" || (state.rating === "flagged" ? ["🟡", "🟠", "❌"].includes(x.rating) : x.rating === state.rating);
+    cols.replaceChildren(...[ca, cb].map(c => {
+      const rows = c.claims.filter(f);
+      return h("div", {}, h("h2", {}, candLabel(c)), h("p", {class: "small muted"}, c.bottom_line),
+        rows.length ? rows.map(x => claimCard(x, c)) : h("div", {class: "empty"}, "None in this category."));
+    }));
+  }
+  out.push(h("h2", {}, "Claims side by side"), h("div", {class: "filters"}, seg), cols);
+  draw();
+  return out;
+}
+
+function viewDashboard(q) {
+  const f = {chamber: q.get("chamber") || "", county: q.get("county") || "", party: q.get("party") || "", role: q.get("role") || ""};
+  const sort = q.get("sort") || "race";
+  const sel = (key, label, opts) => h("select", {"aria-label": label, onchange: e => { f[key] = e.target.value; setQuery("dashboard", {...f, sort}); render(); }},
+    h("option", {value: ""}, `${label}: all`), opts.map(([v, l]) => h("option", {value: v, selected: f[key] === v ? true : null}, l)));
+  const match = c => {
+    const r = RACE[c.race];
+    return (!f.chamber || r.chamber === f.chamber) && (!f.county || r.county.includes(f.county)) && (!f.party || c.party === f.party) &&
+      (!f.role || (f.role === "incumbent" ? c.incumbent : f.role === "open" ? r.open_seat : !c.incumbent && !r.open_seat));
+  };
+  const all = Object.values(C).filter(match), rev = all.filter(c => c.status === "reviewed");
+  const claims = rev.flatMap(c => c.claims), t = tally(claims);
+  const out = [h("h1", {}, "Dashboard"),
+    h("p", {class: "lede"}, "Ratings across every completed review. Filter to a slice, sort the table, then open any candidate."),
+    h("div", {class: "filters"},
+      sel("chamber", "Chamber", [["Senate", "Senate"], ["Assembly", "Assembly"]]),
+      sel("county", "County", [["Suffolk", "Suffolk"], ["Nassau", "Nassau"]]),
+      sel("party", "Party", [["D", "Democrat"], ["R", "Republican"]]),
+      sel("role", "Role", [["incumbent", "Incumbent"], ["challenger", "Challenger"], ["open", "Open-seat candidate"]]),
+      Object.values(f).some(Boolean) ? h("button", {class: "btn", onclick: () => { setQuery("dashboard", {}); render(); }}, "Clear") : null),
+    h("div", {class: "kpis"},
+      [[`${rev.length}/${all.length}`, "candidates reviewed"], [claims.length, "claims checked"],
+       [claims.length ? `${Math.round(100 * (t["✅"] + t["🟡"]) / claims.length)}%` : "—", "verified (with or without caveat)"],
+       [t["🟠"] + t["❌"], "overstated or false"], [t["⚪"], "no public record found"]]
+        .map(([v, l]) => h("div", {class: "card kpi"}, h("div", {class: "v"}, v), h("div", {class: "l"}, l)))),
+    h("div", {class: "card"}, h("strong", {}, "All claims in this slice"), h("div", {style: "margin:10px 0 4px"}, bar(claims, true)), legend())];
+  if (f.party) out.push(h("p", {class: "note"}, "Party filters show which reviews exist. With few reviews, and pages of very different kinds, a party-level total says little about either party."));
+  const cols = [["race", "Race"], ["name", "Candidate"], ["n", "Claims"], ["v", "Verified %"], ["p", "Problems"], ["u", "Unverified"]];
+  const raceOrder = c => (c.race.startsWith("SD") ? 0 : 100) + Number(c.race.slice(2));
+  const key = {race: raceOrder, name: c => c.name, n: c => -c.claims.length, v: c => -verifiedShare(c.claims),
+    p: c => -c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length, u: c => -c.claims.filter(x => x.rating === "⚪").length};
+  const rows = [...all].sort((x, y) => {
+    const a = key[sort](x), b = key[sort](y);
+    return a > b ? 1 : a < b ? -1 : raceOrder(x) - raceOrder(y);
+  });
+  out.push(h("h2", {}, "Candidates"), h("div", {class: "card", style: "overflow-x:auto"}, h("table", {class: "rank"},
+    h("thead", {}, h("tr", {}, cols.map(([k, l]) => h("th", {class: ["n", "v", "p", "u"].includes(k) ? "num" : null, "aria-sort": sort === k ? "descending" : null,
+      onclick: () => { setQuery("dashboard", {...f, sort: k}); render(); }}, l + (sort === k ? " ▾" : ""))), h("th", {}, "Ratings"))),
+    h("tbody", {}, rows.map(c => h("tr", {}, h("td", {}, link(`#/race/${c.race}`, c.race)), h("td", {}, candLabel(c)),
+      h("td", {class: "num"}, c.claims.length || "—"), h("td", {class: "num"}, c.claims.length ? `${Math.round(100 * verifiedShare(c.claims))}%` : "—"),
+      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => ["🟠", "❌"].includes(x.rating)).length : "—"),
+      h("td", {class: "num"}, c.claims.length ? c.claims.filter(x => x.rating === "⚪").length : "—"),
+      h("td", {class: "barcell"}, c.status === "reviewed" ? bar(c.claims) : h("span", {class: "small muted"}, c.status === "queued" ? "not yet reviewed" : "no site found"))))))));
+  return out;
+}
+
+function viewClaims(q) {
+  const state = {q: q.get("q") || "", rating: q.get("rating") || "", cat: q.get("cat") || ""};
+  const all = Object.values(C).filter(c => c.status === "reviewed").flatMap(c => c.claims.map(x => [x, c]));
+  const box = h("div", {}), meta = h("p", {class: "small muted"});
+  const input = h("input", {type: "search", value: state.q, placeholder: "Search every claim and finding (try “school aid”, “aquifer”, “grant”)…", "aria-label": "Search all claims",
+    oninput: e => { state.q = e.target.value; draw(); }});
+  const rsel = h("select", {"aria-label": "Rating", onchange: e => { state.rating = e.target.value; draw(); }},
+    h("option", {value: ""}, "Any rating"), R.map(k => h("option", {value: k, selected: state.rating === k ? true : null}, `${k} ${RN[k]}`)));
+  function draw() {
+    setQuery("claims", {q: state.q, rating: state.rating});
+    const ql = state.q.trim().toLowerCase();
+    const rows = all.filter(([x, c]) => (!state.rating || x.rating === state.rating) &&
+      (!ql || [x.claim, x.finding, x.pages, x.category, c.name, c.race].join(" ").toLowerCase().includes(ql)));
+    meta.textContent = `${rows.length} of ${all.length} claims`;
+    box.replaceChildren(...(rows.length ? rows.slice(0, 200).map(([x, c]) => claimCard(x, c, {who: true})) : [h("div", {class: "empty"}, "No claims match.")]));
+    if (rows.length > 200) box.append(h("p", {class: "muted small"}, "Showing the first 200. Narrow the search to see the rest."));
+  }
+  draw();
+  return [h("h1", {}, "Search every claim"), h("div", {class: "filters"}, input, rsel), meta, box];
+}
+
+function viewAbout() {
+  return [h("h1", {}, "Method"),
+    h("p", {class: "lede"}, "Every review follows the same steps and uses the same rating scale."),
+    h("ol", {class: "find"},
+      h("li", {}, "Inventory: every factual statement on the campaign pages in scope is extracted and deduplicated. Pure promises are not rated, but factual premises inside them are."),
+      h("li", {}, "Sources, in order of weight: official records (bills, agency decisions, budget and tax data, election results), the candidate's own official materials, independent news, then advocacy sources as weak corroboration."),
+      h("li", {}, "Rating: each claim is rated on whether the evidence supports it as worded on the page.")),
+    h("h2", {}, "Ratings"), h("ul", {class: "find"}, R.map(k => h("li", {}, `${k} ${RN[k]}`))),
+    h("p", {class: "note"}, "⚪ Unverified means no public record was found either way. It is not a finding that the claim is false. Pages differ a lot in length and type, so raw counts are not a like-for-like score of any candidate."),
+    h("p", {}, D.results_note), h("p", {}, "Full method: ", link("https://github.com/rike4545/LI-CandidateCheck/blob/main/METHODOLOGY.md", "METHODOLOGY.md"), ".")];
+}
+
+/* ---------- router ---------- */
+function render() {
+  const {parts, q} = parse();
+  const [v, a, b] = parts;
+  const view = v === "race" ? viewRace(a) : v === "c" ? viewCandidate(a, b) : v === "compare" ? viewCompare(a, b)
+    : v === "dashboard" ? viewDashboard(q) : v === "claims" ? viewClaims(q) : v === "about" ? viewAbout() : viewRaces(q);
+  $app.replaceChildren(...[view].flat(9));
+  const navKey = {race: "", c: "", compare: "compare", dashboard: "dashboard", claims: "claims", about: "about"}[v] ?? "";
+  document.querySelectorAll("nav a").forEach(n => n.setAttribute("aria-current", n.getAttribute("href") === `#/${navKey}` ? "page" : "false"));
+  const title = {race: a && `${a} race`, c: a && C[a] && C[a].name, compare: "Compare", dashboard: "Dashboard", claims: "Search claims", about: "Method"}[v];
+  document.title = `${title ? title + " · " : ""}LI-CandidateCheck`;
+}
+let lastPath = "";
+window.addEventListener("hashchange", () => {
+  const p = location.hash.split("?")[0];
+  render();
+  if (p !== lastPath) { window.scrollTo(0, 0); lastPath = p; }
+});
 render();
 </script>
 </body>

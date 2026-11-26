@@ -1,0 +1,38 @@
+{
+  "name": "Chris Murray",
+  "party": "D",
+  "lines": "D, WF",
+  "race": "SD1",
+  "incumbent": false,
+  "status": "reviewed",
+  "site": "https://chrismurrayforstatesenate.com/",
+  "site_label": "Home, About and Priorities pages",
+  "captured": "2026-11-26",
+  "categories": [
+    "Biography",
+    "Record",
+    "Election",
+    "Policy facts"
+  ],
+  "where_label": "Pages",
+  "bottom_line": "The site's core claims hold up and nothing tested was false. The problems are outdated titles and one inconsistent number.",
+  "findings": [
+    "Past roles read as current: \"Chair\" of the SCCC trustees and of Citizens Campaign for the Environment, and president of the Nassau Council of Chambers of Commerce, all listed without dates. SCCC now lists him as a trustee; news calls him a former CCE chair; the chambers presidency is documented for 2010.",
+    "The tax-swap math is unclear: the site says a 1% income tax increase on the \"top 8%\" pays for the sales-tax cut, but in interviews he described that group as people earning over $600,000, under 2% of filers.",
+    "\"$10 back on every $1,000\" holds only for taxable purchases; groceries, prescriptions and most clothing are already exempt.",
+    "Cap-and-invest is described as underway; it was drafted but never adopted, and the 2026 budget pushed the deadline to 2028.",
+    "Three bio roles have no public trail: Autism Legal Foundation, NYCLU volunteer work, Mental Health Association of Nassau presidency.",
+    "The Lloyd Aquifer case is accurate: the 2007 DEC denial is real and Murray was counsel of record, though the opponents were a coalition rather than one group."
+  ],
+  "page_issues": [
+    "Post-election headlines sit beside a \"Four weeks to go\" banner and a request to give \"before November 3.\"",
+    "Several items are dated \"2926\" instead of 2026.",
+    "The Home page calls him a CCE \"board leader\"; the About page says \"Chair.\"",
+    "The site cites no filings, decisions or reports."
+  ],
+  "follow_ups": [
+    "Search the NYS Charities Bureau and IRS Tax Exempt Organization Search for an \"Autism Legal Foundation.\"",
+    "Ask the campaign for the revenue estimate behind the 8% / $600,000 figure."
+  ],
+  "depth": "full"
+}
