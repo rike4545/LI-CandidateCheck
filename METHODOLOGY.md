@@ -39,11 +39,11 @@ The two pages are different kinds of documents. *Rebecca Delivers* is an incumbe
 
 ## Reproducing / updating
 
-Each folder's `claims.csv` is the source of truth. Regenerate the ledgers with:
+Each folder's `claims.csv` is the source of truth. Regenerate the ledgers and the live site (`docs/index.html`) with:
 
 ```bash
-python3 build.py            # both reviews
-python3 build.py murray     # one review
+python3 build.py            # both reviews + site
+python3 build.py murray     # one ledger only
 ```
 
 The script refuses to build if a row has a missing column, an unknown rating, or an unknown category.

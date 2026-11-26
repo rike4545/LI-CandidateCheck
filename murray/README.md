@@ -20,15 +20,15 @@ The site's **core claims hold up**. Nothing tested was found to be false. His le
 
 | Rating | Meaning | Count |
 |---|---|---|
-| ✅ Verified | Matches a primary or reliable secondary source | 14 |
-| 🟡 Verified with caveat | True or plausible, but missing context that changes how a reader would understand it | 5 |
+| ✅ Verified | Matches a primary or reliable secondary source | 13 |
+| 🟡 Verified with caveat | True or plausible, but missing context that changes how a reader would understand it | 6 |
 | 🟠 Overstated / partly accurate | Part of the claim is supported; part is inflated, conflated, or contradicted | 1 |
 | ⚪ Unverified | No public record found either way | 4 |
 | 🔵 Activity claim | Campaign or ongoing activity that can't be documented | 1 |
 | ❌ False | Contradicted by evidence | 0 |
 | **Total** | | **25** |
 
-Full ledger: [CLAIMS.md](CLAIMS.md) · machine-readable: [claims.csv](claims.csv) · method: [METHODOLOGY.md](../METHODOLOGY.md)
+Live site: <https://rike4545.github.io/LI-CandidateCheck/> · full ledger: [CLAIMS.md](CLAIMS.md) · machine-readable: [claims.csv](claims.csv) · method: [METHODOLOGY.md](../METHODOLOGY.md)
 
 ## Page-level issues
 

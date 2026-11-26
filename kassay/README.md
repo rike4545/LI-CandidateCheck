@@ -28,7 +28,7 @@ The page is **largely grounded in real, checkable events**, and none of the clai
 | ❌ False | Contradicted by evidence | 0 |
 | **Total** | | **64** |
 
-Full ledger: [CLAIMS.md](CLAIMS.md) · machine-readable: [claims.csv](claims.csv) · method: [METHODOLOGY.md](../METHODOLOGY.md)
+Live site: <https://rike4545.github.io/LI-CandidateCheck/> · full ledger: [CLAIMS.md](CLAIMS.md) · machine-readable: [claims.csv](claims.csv) · method: [METHODOLOGY.md](../METHODOLOGY.md)
 
 ## Page-level issues
 

@@ -5,6 +5,8 @@ Usage: python3 build.py            # all reviews
 """
 import collections
 import csv
+import json
+import os
 import sys
 
 RATINGS = ["✅", "🟡", "🟠", "⚪", "🔵", "❌"]
@@ -53,5 +55,34 @@ def build(name):
     open(f"{name}/CLAIMS.md", "w", encoding="utf-8").write("\n".join(out) + "\n")
 
 
+SITE_META = {
+    "kassay": {"name": "Rebecca Kassay (D)", "office": "NYS Assembly, District 4 (incumbent)",
+               "page": "https://www.kassayforassembly.com/rebecca-delivers", "page_label": "Rebecca Delivers page",
+               "captured": "October 24, 2026"},
+    "murray": {"name": "Chris Murray (D, WF)", "office": "NYS Senate, District 1 (Senator-elect)",
+               "page": "https://chrismurrayforstatesenate.com/", "page_label": "Home, About and Priorities pages",
+               "captured": "November 26, 2026"},
+}
+
+
+def build_site():
+    """Write docs/index.html: one self-contained page with every review's claims embedded."""
+    data = {}
+    for name, cfg in REVIEWS.items():
+        rows = list(csv.DictReader(open(f"{name}/claims.csv", encoding="utf-8")))
+        data[name] = {**SITE_META[name], "order": cfg["order"], "claims": [
+            {"id": r["id"], "category": r["category"], "where": r[cfg["where_col"]], "claim": r["claim"],
+             "rating": r["rating"], "finding": r["finding"],
+             "sources": [u.strip() for u in r["sources"].split("|") if u.strip()]} for r in rows]}
+    template = open("site/template.html", encoding="utf-8").read()
+    payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    os.makedirs("docs", exist_ok=True)
+    open("docs/index.html", "w", encoding="utf-8").write(template.replace("/*__DATA__*/null", payload))
+    open("docs/.nojekyll", "w").close()
+    print("site docs/index.html")
+
+
 for name in sys.argv[1:] or REVIEWS:
     build(name)
+if not sys.argv[1:]:
+    build_site()

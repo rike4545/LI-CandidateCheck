@@ -2,6 +2,8 @@
 
 Independent, source-by-source reviews of the claims Long Island candidates make on their own campaign websites. Every review uses the same method and rating scale.
 
+**🌐 Live site: [rike4545.github.io/LI-CandidateCheck](https://rike4545.github.io/LI-CandidateCheck/)**. Browse every claim, filter by rating, search findings, and follow each source.
+
 > Scope: these reviews test whether each claim is **verifiable** and **accurate as stated**. They do not rate candidates, endorse anyone, or judge policy positions.
 
 ## Reviews
@@ -9,7 +11,7 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 | Candidate | Office | Page reviewed | Captured | Claims | ✅ | 🟡 | 🟠 | ⚪ | 🔵 | ❌ |
 |---|---|---|---|---|---|---|---|---|---|---|
 | [Rebecca Kassay (D)](kassay/) | NYS Assembly, AD 4 (incumbent) | *Rebecca Delivers* | 2026-10-24 | 64 | 20 | 9 | 3 | 24 | 8 | 0 |
-| [Chris Murray (D, WF)](murray/) | NYS Senate, SD 1 (Senator-elect) | Home, About, Priorities | 2026-11-26 | 25 | 14 | 5 | 1 | 4 | 1 | 0 |
+| [Chris Murray (D, WF)](murray/) | NYS Senate, SD 1 (Senator-elect) | Home, About, Priorities | 2026-11-26 | 25 | 13 | 6 | 1 | 4 | 1 | 0 |
 
 ### What each review found
 
@@ -18,14 +20,22 @@ Independent, source-by-source reviews of the claims Long Island candidates make 
 
 The two pages are different kinds of documents: an incumbent's record versus a challenger's biography and platform. The counts are not a like-for-like score; see [METHODOLOGY.md](METHODOLOGY.md#comparing-the-two-reviews).
 
+## Ratings key
+
+✅ Verified · 🟡 Verified with caveat · 🟠 Overstated / partly accurate · ⚪ Unverified (no public record found, which is not a finding that the claim is false) · 🔵 Activity claim · ❌ False. Full definitions are in [METHODOLOGY.md](METHODOLOGY.md#ratings).
+
 ## Repo layout
 
 ```
-kassay/   README (summary + scorecard), CLAIMS.md (ledger), claims.csv (data)
-murray/   same structure
+kassay/          README (summary + scorecard), CLAIMS.md (ledger), claims.csv (data)
+murray/          same structure
+docs/            the live site (generated; served by GitHub Pages)
+site/            HTML template for the live site
 METHODOLOGY.md   shared process, source hierarchy, ratings key, limits
-build.py         regenerates each CLAIMS.md from its claims.csv
+build.py         regenerates each CLAIMS.md and docs/index.html from the claims.csv files
 ```
+
+To update a review, edit its `claims.csv` and run `python3 build.py`. Never edit `CLAIMS.md` or `docs/` by hand.
 
 Corrections are welcome. Open an issue with a source.
 
