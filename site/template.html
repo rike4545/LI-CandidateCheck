@@ -278,6 +278,7 @@
 <main class="wrap" id="app" tabindex="-1"></main>
 <footer>
   Data, method and corrections: <a href="https://github.com/rike4545/LI-CandidateCheck">github.com/rike4545/LI-CandidateCheck</a>. Open an issue with a source.
+  Related: <a href="https://rike4545.github.io/NY-Legislature-Expenditures/">NY Legislature Expenditures</a>, every line of the Assembly's and Senate's spending reports by district.
   These reviews test claims on candidates' own sites. They do not rate candidates or endorse anyone. Text and data licensed CC BY 4.0.
 </footer>
 <div id="tip" role="tooltip"></div>
@@ -514,6 +515,16 @@ function butterfly(a, b) {
   return h("div", {class: "card"}, g);
 }
 
+// Public-records companion site: district spending, donations and results for the same seat.
+const LEGIS = "https://rike4545.github.io/NY-Legislature-Expenditures/";
+function legisHref(r, view) { return `${LEGIS}#/${view}/${r.district}${r.chamber === "Senate" ? "?c=senate" : ""}`; }
+function recordsLine(r) {
+  const ext = (href, text) => h("a", {href, rel: "noopener", target: "_blank"}, text, " ", icon("ext", 12));
+  return h("p", {class: "small muted records"}, `Public records for ${r.id}: `,
+    ext(legisHref(r, "district"), "office spending and election results"), " · ",
+    ext(legisHref(r, "donations"), "campaign donations"), " (NY Legislature Expenditures)");
+}
+
 function viewRace(id) {
   const r = RACE[id];
   if (!r) return [h("h1", {}, "Race not found"), link("#/", "Back to all races")];
@@ -523,7 +534,8 @@ function viewRace(id) {
     h("div", {class: "head"}, h("h1", {}, `${raceName(r)}`),
       both ? h("a", {class: "btn primary", href: `#/compare/${cs[0].slug}/${cs[1].slug}`}, "Compare claims side by side", icon("arrow", 15)) : null),
     h("p", {class: "lede"}, `${r.id} · ${r.county === "Nassau/Suffolk" ? "Nassau and Suffolk counties" : r.county + " County"} · ${r.open_seat ? "Open seat" : "Incumbent ran"} · ` ,
-      r.winner ? [`Won by ${C[r.winner].name} (unofficial; `, h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "source"), ")"] : "Result not yet named by a cited source")];
+      r.winner ? [`Won by ${C[r.winner].name} (unofficial; `, h("a", {href: r.result_source, rel: "noopener", target: "_blank"}, "source"), ")"] : "Result not yet named by a cited source"),
+    recordsLine(r)];
   if (both) out.push(butterfly(cs[0], cs[1]));
   out.push(h("div", {class: "grid2", style: both ? "margin-top:18px" : null}, cs.map(c => candidatePanel(c))));
   return out;
@@ -550,12 +562,13 @@ function viewCandidate(slug, claimId, q) {
   const out = [h("p", {class: "crumb"}, h("a", {href: `#/race/${r.id}`}, icon("back", 14), ` ${raceName(r)}`)),
     h("div", {class: "head"}, h("div", {class: "idline"}, mono(c, 60), h("h1", {style: "margin:0"}, candLabel(c, {noLink: true}))),
       opp.status === "reviewed" && c.status === "reviewed" ? h("a", {class: "btn", href: `#/compare/${slug}/${opp.slug}`}, icon("vs", 15), `Compare with ${opp.name}`) : null)];
-  if (c.status !== "reviewed") return out.concat(candidatePanel(c));
+  if (c.status !== "reviewed") return out.concat(candidatePanel(c), recordsLine(r));
   out.push(h("p", {class: "lede"}, "Reviewed ", h("a", {href: c.site, rel: "noopener", target: "_blank"}, c.site_label, " ", icon("ext", 12)),
       ` · captured ${new Date(c.captured + "T12:00").toLocaleDateString("en-US", {month: "long", day: "numeric", year: "numeric"})}${c.depth ? ` · ${c.depth} review` : ""}`),
     h("div", {class: "card"}, bar(c.claims, {big: true, href: k => `#/c/${slug}?rating=${encodeURIComponent(k)}`}), legend(false),
       h("p", {style: "margin:16px 0 0"}, h("strong", {}, "Bottom line. "), c.bottom_line),
-      c.findings && c.findings.length ? h("ul", {class: "find"}, c.findings.map(f => h("li", {}, f))) : null));
+      c.findings && c.findings.length ? h("ul", {class: "find"}, c.findings.map(f => h("li", {}, f))) : null),
+    recordsLine(r));
   if (c.page_issues && c.page_issues.length) out.push(h("h2", {}, "Page-level issues"), h("ul", {class: "find"}, c.page_issues.map(f => h("li", {}, f))));
   out.push(h("h2", {id: "claims"}, "Every claim"));
   const box = h("div", {});
